@@ -1,0 +1,20 @@
+<div class="chat-container">
+  <div #messagesContainer class="messages-container">
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [ngClass]="{'user-message': message.type === 'user', 'bot-message': message.type === 'bot'}">
+      <div class="message-content" 
+           [innerHTML]="message.type === 'user' ? message.content : (message.formattedContent || message.content)">
+      </div>
+    </div>
+  </div>
+  <div class="input-container">
+    <textarea 
+      [(ngModel)]="userInput" 
+      placeholder="Message..." 
+      (keydown.enter)="$event.preventDefault(); sendMessage()"
+      rows="1"
+    ></textarea>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
