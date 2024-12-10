@@ -1,0 +1,62 @@
+# Template for AI Admin Portal CI Pipeline
+parameters:
+  - name: branchFilter
+    type: string
+    default: 'refs/heads/dev'
+  - name: artifactName
+    type: string
+    default: 'my-web-ui'
+  - name: workingDirectory
+    type: string
+    default: '$(System.DefaultWorkingDirectory)'
+
+trigger:
+  batch: false
+  branches:
+    include:
+      - ${{ parameters.branchFilter }}
+  
+pr:
+  branches:
+    include:
+      - ${{ parameters.branchFilter }}
+  autoCancel: true
+  forks:
+    enabled: true
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  - name: system.debug
+    value: false
+    allowOverride: true
+
+jobs:
+  - job: Build
+    displayName: 'Build and Package'
+    timeoutInMinutes: 60
+    cancelTimeoutInMinutes: 5
+
+    steps:
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          command: 'install'
+          verbose: false
+          customRegistry: 'useNpmrc'
+
+      - task: Npm@1
+        displayName: 'npm build'
+        inputs:
+          command: 'custom'
+          customCommand: 'run build'
+          verbose: false
+          customRegistry: 'useNpmrc'
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Build Artifacts'
+        inputs:
+          targetPath: '${{ parameters.workingDirectory }}/dist'
+          artifactName: ${{ parameters.artifactName }}
+          publishLocation: 'pipeline'

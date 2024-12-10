@@ -1,0 +1,55 @@
+parameters:
+  - name: apiUrl
+    type: string
+    default: 'https://api-dev.example.com'
+  - name: webAppName
+    type: string
+    default: 'my-web-app-dev'
+  - name: artifactName
+    type: string
+    default: 'my-web-ui'
+  - name: environment
+    type: string
+    default: 'dev'
+
+resources:
+  pipelines:
+  - pipeline: CI_Pipeline
+    source: $(Build.DefinitionName)-CI
+    trigger: 
+      branches:
+        include:
+        - dev
+
+variables:
+  API_URL: 
+
+stages:
+- stage: Deploy
+  displayName: 'Deploy to ${{ parameters.environment }}'
+  jobs:
+  - deployment: Deploy
+    environment: ${{ parameters.environment }}
+    pool:
+      vmImage: 'windows-2022'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: replacetokens@6
+            displayName: 'Replace tokens'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/$(artifactName)/browser'
+              targetFiles: '**/*.js'
+              tokenPattern: 'custom'
+              tokenPrefix: '#{{' 
+              tokenSuffix: '}}#'
+              enableTransforms: false
+              
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App'
+            inputs:
+              azureSubscription: 'Azure Service Connection'
+              appName: ${{ parameters.webAppName }}
+              package: '$(Pipeline.Workspace)/$(artifactName)'
+              deploymentMethod: 'auto' 

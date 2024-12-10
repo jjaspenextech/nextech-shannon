@@ -1,27 +1,87 @@
-# EnterpriseLlmChat
+# Enterprise LLM Chat Web UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.5.
+Angular frontend for the Enterprise LLM Chat application.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js 20+
+- Angular CLI 18+
+- Azure CLI installed and configured
+- Azure subscription
+- Azure DevOps account with appropriate permissions
 
-## Code scaffolding
+## Deployment Instructions
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 1. Deploy Azure Resources
 
-## Build
+The `infrastructure` folder contains scripts and templates for deploying to Azure:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```powershell
+# Navigate to the infrastructure folder
+cd frontend/enterprise-llm-chat/infrastructure
 
-## Running unit tests
+# Deploy Azure Web App resources (interactive mode)
+.\deploy-web-ui-azure-resources.ps1
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Or specify parameters directly
+.\deploy-web-ui-azure-resources.ps1 -siteName "your-web-ui-name"
+```
 
-## Running end-to-end tests
+### 2. Set Up Azure DevOps Project and Pipelines
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```powershell
+# Create ADO project and set up pipelines
+.\deploy-web-ui-ado-project.ps1 -siteName "your-ado-project" -repoName "your-repo-name"
+```
 
-## Further help
+The script will:
+1. Create a new ADO project
+2. Set up CI pipeline using `web-ui-build-pipeline.yml`
+3. Set up CD pipeline using `web-ui-release-pipeline.yml`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 3. Pipeline Configuration
+
+#### Build Pipeline Variables
+- `branchFilter`: Branch to trigger builds (default: 'refs/heads/dev')
+- `artifactName`: Name for your build artifact
+- `workingDirectory`: Path to your Angular project
+
+#### Release Pipeline Variables
+- `apiUrl`: URL of your backend API
+- `webAppName`: Name of your Azure Web App
+- `artifactName`: Name of the build artifact to deploy
+- `environment`: Deployment environment (dev/staging/prod)
+
+## Local Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Start development server:
+```bash
+ng serve
+```
+The application will be available at `http://localhost:4200`
+
+## Building for Production
+
+```bash
+ng build --configuration=production
+```
+Build artifacts will be stored in the `dist/` directory.
+
+## Running Tests
+
+```bash
+# Unit tests
+ng test
+
+# End-to-end tests
+ng e2e
+```
+
+## Further Help
+
+For more help on the Angular CLI use `ng help` or check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
