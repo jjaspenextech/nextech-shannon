@@ -19,6 +19,13 @@
             "metadata": {
                 "description": "SKU for App Service Plan"
             }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "East US",
+            "metadata": {
+                "description": "Location for all resources"
+            }
         }
     },
     "variables": {},
@@ -27,9 +34,10 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2023-12-01",
             "name": "[parameters('siteName')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "kind": "app",
             "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('planName'))]",
                 "enabled": true,
                 "hostNameSslStates": [
                     {
@@ -71,15 +79,14 @@
                 "redundancyMode": "None",
                 "publicNetworkAccess": "Enabled",
                 "storageAccountRequired": false,
-                "keyVaultReferenceIdentity": "SystemAssigned",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('planName'))]"
+                "keyVaultReferenceIdentity": "SystemAssigned"
             }
         },
         {
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2023-12-01",
             "name": "[concat(parameters('siteName'), '/ftp')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('siteName'))]"
             ],
@@ -91,7 +98,7 @@
             "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
             "apiVersion": "2023-12-01",
             "name": "[concat(parameters('siteName'), '/scm')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('siteName'))]"
             ],
@@ -103,7 +110,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2023-12-01",
             "name": "[concat(parameters('siteName'), '/web')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('siteName'))]"
             ],
@@ -185,7 +192,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2023-12-01",
             "name": "[concat(parameters('siteName'), '/', parameters('siteName'), '.azurewebsites.net')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('siteName'))]"
             ],

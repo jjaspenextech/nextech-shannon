@@ -6,7 +6,10 @@ param(
     [string]$resourceGroup,
 
     [Parameter(Mandatory=$false)]
-    [string]$sku = "F1"
+    [string]$sku = "F1",
+
+    [Parameter(Mandatory=$false)]
+    [string]$location = "East US"
 )
 
 # Import utility functions
@@ -25,8 +28,21 @@ $resourceGroup = Get-OrCreateResourceGroup -resourceGroupName $resourceGroup
 $planName = if ($env:CUSTOM_PLAN_NAME) { $env:CUSTOM_PLAN_NAME } else { "$($siteName)-plan" }
 $planName = Get-OrCreateAppServicePlan -planName $planName -resourceGroup $resourceGroup -sku $sku
 
+# Fetch and print the resource ID of the App Service Plan
+$planResourceId = az resource show --resource-group $resourceGroup --name $planName --resource-type "Microsoft.Web/serverfarms" --query "id" -o tsv
+
+Write-Host "App Service Plan Resource ID: $planResourceId"
+
+# Simulate the deployment to see the template with parameters
+Write-Host "Simulating deployment to see the template with parameters..."
+az deployment group what-if `
+    --resource-group $resourceGroup `
+    --template-file "$PSScriptRoot/web-ui-template.json" `
+    --parameters siteName=$siteName planName=$planName sku=$sku location=$location
+
+# Deploy the App Service
 Write-Host "Deploying App Service '$siteName'..."
 az deployment group create `
     --resource-group $resourceGroup `
     --template-file "$PSScriptRoot/web-ui-template.json" `
-    --parameters siteName=$siteName planName=$planName sku=$sku
+    --parameters siteName=$siteName planName=$planName sku=$sku location=$location

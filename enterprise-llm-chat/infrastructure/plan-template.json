@@ -15,6 +15,13 @@
             "metadata": {
                 "description": "SKU for the App Service Plan"
             }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "East US",
+            "metadata": {
+                "description": "Location for all resources"
+            }
         }
     },
     "resources": [
@@ -22,7 +29,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2023-12-01",
             "name": "[parameters('planName')]",
-            "location": "East US 2",
+            "location": "[parameters('location')]",
             "sku": {
                 "name": "[parameters('sku')]",
                 "tier": "Free"

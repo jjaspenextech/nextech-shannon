@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { marked } from 'marked';
 import * as Prism from 'prismjs';
+import 'prismjs/components/prism-python';
 import { ChatService, ChatMessage } from '../services/chat.service';
 
 @Component({
@@ -44,21 +45,23 @@ export class ChatComponent implements AfterViewChecked {
   }
 
   formatMessage(content: string): string {
-    // console.log('formatMessage called with:', content);
     const formatted = marked.parse(content, { async: false }) as string;
-    // console.log('formatMessage result:', formatted);
     return formatted;
   }
 
-  updateFormattedContent(index: number) {
-    if (this.messages[index]) {
+  updateMessageContent(index: number) {
+    if (this.messages[index] && this.messages[index].content) {
       this.messages[index].formattedContent = this.formatMessage(this.messages[index].content);
-      // Trigger Prism to highlight any new code blocks
-      setTimeout(() => {
-        Prism.highlightAll();
-        this.cdr.detectChanges();
-      }, 0);
+      console.log('Rendering code block:', { text: this.messages[index].content, lang: 'plaintext' });
+      this.updateFormattedContent();
     }
+  }
+
+  updateFormattedContent() {
+    setTimeout(() => {
+      Prism.highlightAll();
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   async sendMessage() {
@@ -71,7 +74,7 @@ export class ChatComponent implements AfterViewChecked {
       this.userInput = '';
       
       try {
-        const reader = await this.chatService.streamChatResponse(this.messages.slice(0, -1));  // Send all messages except the empty bot message
+        const reader = await this.chatService.streamChatResponse(this.messages.slice(0, -1));
         
         await this.chatService.processStreamResponse(
           reader,
@@ -82,7 +85,7 @@ export class ChatComponent implements AfterViewChecked {
             this.cdr.detectChanges();
           },
           () => {
-            this.updateFormattedContent(botMessageIndex);
+            this.updateMessageContent(botMessageIndex);
           }
         );
       } catch (error) {
@@ -91,7 +94,7 @@ export class ChatComponent implements AfterViewChecked {
           type: 'bot',
           content: 'Sorry, there was an error processing your request.'
         });
-        this.updateFormattedContent(this.messages.length - 1);
+        this.updateMessageContent(this.messages.length - 1);
       }
     }
   }
