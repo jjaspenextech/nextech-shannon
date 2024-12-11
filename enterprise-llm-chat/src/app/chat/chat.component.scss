@@ -44,6 +44,8 @@
     border-radius: 4px;
     overflow-x: auto;
     margin: 1rem 0;
+    
+    
   }
 
   :deep(code) {
@@ -54,6 +56,10 @@
   :deep(p) {
     margin: 0.5rem 0;
   }
+}
+
+.code-block {
+  display: flex;  // Add this line
 }
 
 .input-container {

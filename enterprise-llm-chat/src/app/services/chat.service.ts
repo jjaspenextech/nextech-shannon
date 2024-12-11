@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface ChatMessage {
   type: 'user' | 'bot';
@@ -17,6 +18,8 @@ interface ApiMessage {
 export class ChatService {
   private readonly API_URL = 'http://localhost:8000';
 
+  constructor(private cookieService: CookieService) {}
+
   async streamChatResponse(messages: ChatMessage[]): Promise<ReadableStreamDefaultReader<Uint8Array>> {
     // Convert our frontend messages to API format
     const apiMessages: ApiMessage[] = messages.map(msg => ({
@@ -24,9 +27,12 @@ export class ChatService {
       content: msg.content
     }));
 
+    const authToken = this.cookieService.get('authToken');
     const response = await fetch(`${this.API_URL}/llm-query/stream/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+        "Authorization": `Bearer ${authToken}`
+       },
       body: JSON.stringify({ messages: apiMessages })
     });
 
@@ -53,17 +59,16 @@ export class ChatService {
         }
 
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n\n').slice(0, -1);
+        const lines = chunk.split('\r');
 
         for (const line of lines) {
-          const data = line.replace('data: ', '');
-          if (data === '[DONE]') {
+          if (line === '[DONE]') {
             onDone();
             break;
-          } else if (data === '') {
-            onChunk('\n');
+          } else if (line === '') {
+            onChunk('');
           } else {
-            onChunk(data);
+            onChunk(line);
           }
         }
       }

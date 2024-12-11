@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { marked } from 'marked';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
@@ -7,7 +7,8 @@ import { ChatService, ChatMessage } from '../services/chat.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  encapsulation: ViewEncapsulation.None  // Add this line
 })
 export class ChatComponent implements AfterViewChecked {
   userInput: string = '';
@@ -22,9 +23,10 @@ export class ChatComponent implements AfterViewChecked {
     const renderer = new marked.Renderer();
     
     renderer.code = ({ text, lang }: { text: string; lang?: string; escaped?: boolean }) => {
+      text = text.trim();
       return `
         <pre>
-            <code class="language-${lang || 'plaintext'}">${text}</code>
+          <code class="language-${lang || 'plaintext'}">${text}</code>
         </pre>`;
     };
 

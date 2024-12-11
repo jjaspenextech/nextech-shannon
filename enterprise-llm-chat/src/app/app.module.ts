@@ -1,13 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+
 // import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 // import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './chat/chat.component';
-import { FormsModule } from '@angular/forms';
 import { ChatService } from './services/chat.service';
-
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { AppRoutingModule } from './app.routes';
+import { AuthInterceptor } from './services/auth-interceptor.service';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -21,12 +31,19 @@ import { ChatService } from './services/chat.service';
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    AppRoutingModule
     // MsalModule.forRoot({
     //   interactionType: InteractionType.Redirect,
     //   authRequest: {
@@ -40,7 +57,9 @@ import { ChatService } from './services/chat.service';
     //   useFactory: MSALInstanceFactory
     // },
     // MsalService
-    ChatService
+    ChatService,
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
