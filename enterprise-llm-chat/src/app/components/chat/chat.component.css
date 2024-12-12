@@ -1,0 +1,53 @@
+.chat-container {
+  @apply flex flex-col h-screen bg-gray-800 text-white m-2;
+}
+
+.messages-container {
+  @apply flex-1 overflow-y-auto p-5 flex flex-col gap-4 text-white;
+}
+
+.message {
+  @apply flex p-4 rounded-lg max-w-4xl border border-gray-600 text-white;
+}
+
+.user-message {
+  @apply bg-gray-800 self-end ml-auto;
+}
+
+.assistant-message {
+  @apply bg-gray-700 self-start mr-auto;
+}
+
+.input-container {
+  @apply p-5 bg-gray-800 border border-gray-600 flex gap-3 items-start w-1/2 mx-auto rounded-lg text-white;
+}
+
+textarea {
+  @apply flex-1 bg-gray-800 rounded-lg text-white p-3 resize-none text-sm leading-relaxed min-h-[44px] max-h-[200px] overflow-y-auto;
+  border: none;
+  margin-top: 0;
+
+  &:focus {
+    outline: none; /* Remove focus outline */
+  }
+}
+
+button {
+  @apply bg-indigo-600 text-white border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
+
+  &:hover {
+    @apply bg-indigo-500;
+  }
+
+  &:active {
+    @apply bg-indigo-400;
+  }
+}
+
+.message-content {
+  @apply prose text-white;
+}
+
+.message-content strong {
+  @apply text-white;
+} 

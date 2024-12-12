@@ -14,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
+  styleUrls: ['./chat.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
