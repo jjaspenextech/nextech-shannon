@@ -148,6 +148,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
       this.userInput = '';
 
+      // Reset textarea height
+      this.messageInput.nativeElement.style.height = 'auto';
+
       this.streamNewMessage(botMessageIndex);
     }
   }
