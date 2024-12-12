@@ -7,6 +7,7 @@ import { UserApiService } from '../../services/user-api.service';
 import { Conversation } from '../../models/conversation.model';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
+import { CommandRegistryService } from '../../services/command-registry.service';
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +27,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private userApiService: UserApiService,
     private cookieService: CookieService,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private commandRegistry: CommandRegistryService
   ) {
     const renderer = new marked.Renderer();
     
@@ -88,8 +90,26 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }, 0);
   }
 
+  async getContextsFromHandlers(text: string) {
+    // Process @ commands
+    const handlers = this.commandRegistry.getHandlers();
+    for (const [type, handler] of handlers) {
+      const match = this.userInput.match(handler.pattern);
+      if (match) {
+        try {
+          const result = await handler.execute(match);
+          console.log('Command result:', result); // For now, just log the result
+        } catch (error) {
+          console.error('Error processing command:', error);
+        }
+        return; // Exit after processing a command
+      }
+    }
+  }
+
   async sendMessage() {
     if (this.userInput.trim()) {
+      await this.getContextsFromHandlers(this.userInput);
       const userMessage: ChatMessage = { role: 'user', content: this.userInput };
       this.messages.push(userMessage);
       // Save conversation after user message
@@ -99,6 +119,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.messages.push({ role: 'assistant', content: this.currentStreamingMessage });
       this.userInput = '';
 
+      
 
       try {
         const reader = await this.chatService.streamChatResponse(this.messages.slice(0, -1));
