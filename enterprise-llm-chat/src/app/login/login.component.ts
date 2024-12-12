@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserApiService } from '../services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent {
   constructor(
     private userApiService: UserApiService,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private userService: UserService
   ) {}
 
   onSubmit() {
@@ -24,7 +26,13 @@ export class LoginComponent {
       response => {
         console.log('Login successful', response);
         this.cookieService.set('authToken', response.token, 1, '/');
-        this.router.navigate(['/chat']);
+        this.userService.setUser({
+          username: response.username,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          email: response.email
+        });
+        this.router.navigate(['/landing']);
       },
       error => {
         console.error('Login failed', error);

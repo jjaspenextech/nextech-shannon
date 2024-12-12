@@ -2,9 +2,9 @@
   <div #messagesContainer class="messages-container">
     <div *ngFor="let message of messages" 
          class="message" 
-         [ngClass]="{'user-message': message.type === 'user', 'bot-message': message.type === 'bot'}">
+         [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
       <div class="message-content" 
-           [innerHTML]="message.type === 'user' ? message.content : (message.formattedContent || message.content)">
+           [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
       </div>
     </div>
   </div>

@@ -4,6 +4,7 @@
   height: 100vh;
   background-color: #2D2D2D;
   color: #FFFFFF;
+  margin: 8px
 }
 
 .messages-container {
@@ -58,10 +59,6 @@
   }
 }
 
-.code-block {
-  display: flex;  // Add this line
-}
-
 .input-container {
   padding: 20px;
   background-color: #363636;
@@ -69,6 +66,9 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 8px;
 }
 
 textarea {

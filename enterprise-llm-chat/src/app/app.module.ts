@@ -16,6 +16,7 @@ import { ChatComponent } from './chat/chat.component';
 import { ChatService } from './services/chat.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { LandingComponent } from './landing/landing.component';
 import { AppRoutingModule } from './app.routes';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 // function MSALInstanceFactory() {
@@ -33,7 +34,8 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     AppComponent,
     ChatComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,

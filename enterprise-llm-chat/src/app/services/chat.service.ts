@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 export interface ChatMessage {
-  type: 'user' | 'bot';
+  role: 'user' | 'assistant';
   content: string;
   formattedContent?: string;
 }
@@ -17,13 +17,14 @@ interface ApiMessage {
 })
 export class ChatService {
   private readonly API_URL = 'http://localhost:8000';
+  private initialMessage: string | null = null;
 
   constructor(private cookieService: CookieService) {}
 
   async streamChatResponse(messages: ChatMessage[]): Promise<ReadableStreamDefaultReader<Uint8Array>> {
     // Convert our frontend messages to API format
     const apiMessages: ApiMessage[] = messages.map(msg => ({
-      role: msg.type === 'user' ? 'user' : 'assistant',
+      role: msg.role === 'user' ? 'user' : 'assistant',
       content: msg.content
     }));
 
@@ -76,5 +77,15 @@ export class ChatService {
       console.error('Error processing stream:', error);
       throw error;
     }
+  }
+
+  setInitialMessage(message: string) {
+    this.initialMessage = message;
+  }
+
+  getInitialMessage(): string | null {
+    const message = this.initialMessage;
+    this.initialMessage = null; // Clear it after retrieving
+    return message;
   }
 } 
