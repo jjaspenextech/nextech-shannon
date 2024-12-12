@@ -15,7 +15,8 @@ export class StreamingService {
     const apiMessages = messages.map(msg => ({
       role: msg.role === 'user' ? 'user' : 'assistant',
       content: msg.content,
-      sequence: msg.sequence
+      sequence: msg.sequence,
+      contexts: msg.contexts
     }));
 
     const authToken = this.cookieService.get('authToken');

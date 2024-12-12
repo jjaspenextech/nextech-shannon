@@ -5,10 +5,11 @@ import 'prismjs/components/prism-python';
 import { ChatService } from '../../services/chat.service';
 import { StreamingService } from '../../services/streaming.service';
 import { UserApiService } from '../../services/user-api.service';
-import { Conversation, Message } from '@models';
+import { CommandResult, Conversation, Message } from '@models';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -91,27 +92,34 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }, 0);
   }
 
-  async getContextsFromHandlers(text: string) {
+  async getContextsFromHandlers(text: string): Promise<CommandResult[]> {
     // Process @ commands
     const handlers = this.commandRegistry.getHandlers();
+    let contexts: CommandResult[] = [];
     for (const [type, handler] of handlers) {
       const match = this.userInput.match(handler.pattern);
       if (match) {
         try {
           const result = await handler.execute(match);
-          console.log('Command result:', result); // For now, just log the result
+          contexts.push(result);
+
         } catch (error) {
           console.error('Error processing command:', error);
         }
-        return; // Exit after processing a command
       }
     }
+    return contexts;
   }
 
   async sendMessage() {
     if (this.userInput.trim()) {
-      await this.getContextsFromHandlers(this.userInput);
-      const userMessage: Message = { role: 'user', content: this.userInput, sequence: this.conversation.messages.length + 1 };
+      const contexts = await this.getContextsFromHandlers(this.userInput);
+      const userMessage: Message = { 
+        role: 'user', 
+        content: this.userInput, 
+        sequence: this.conversation.messages.length + 1,
+        contexts: contexts && contexts.length > 0 ? contexts : undefined
+      };
       this.conversation.messages.push(userMessage);
       // Save conversation after user message
       this.saveConversation();
@@ -179,7 +187,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private async loadConversation(conversationId: string) {
     try {
       this.conversation.conversation_id = conversationId;
-      const conversation = await this.userApiService.getConversation(conversationId).toPromise();
+      const conversation = await firstValueFrom(this.userApiService.getConversation(conversationId));
       if (conversation) {
         this.conversation = conversation;
         // Format all messages

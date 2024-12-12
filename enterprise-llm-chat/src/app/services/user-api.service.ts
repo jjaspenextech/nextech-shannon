@@ -26,11 +26,11 @@ export class UserApiService {
   }
 
   saveConversation(conversation: Conversation): Observable<any> {
-    return this.http.post(`${this.API_URL}/save-conversation/`, conversation);
+    return this.http.post(`${this.API_URL}/conversation/`, conversation);
   }
 
-  getConversation(username: string): Observable<Conversation> {
-    return this.http.get<Conversation>(`${this.API_URL}/get-conversation/${username}`);
+  getConversation(conversationId: string): Observable<Conversation> {
+    return this.http.get<Conversation>(`${this.API_URL}/conversation/${conversationId}`);
   }
 
   getConversations(username: string): Observable<Conversation[]> {
