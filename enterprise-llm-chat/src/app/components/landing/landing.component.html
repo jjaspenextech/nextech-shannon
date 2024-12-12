@@ -29,7 +29,7 @@
         (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
       >
         <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>
-        <p>{{ conversation.messages[0] && conversation.messages[0].content.substring(0, 100) }}...</p>
+        <p>{{ conversation.messages[0].content?.substring(0, 100) || '' }}...</p>
       </div>
     </div>
   </div>

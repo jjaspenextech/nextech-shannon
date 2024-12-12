@@ -1,6 +1,6 @@
 <div class="chat-container">
   <div #messagesContainer class="messages-container">
-    <div *ngFor="let message of messages" 
+    <div *ngFor="let message of conversation.messages" 
          class="message" 
          [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
       <div class="message-content" 

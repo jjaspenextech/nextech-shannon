@@ -1,8 +1,8 @@
-import { ChatMessage } from '../services/chat.service';
+import { Message } from './message.model';
 
 export interface Conversation {
   conversation_id?: string;
   username: string;
-  messages: ChatMessage[];
+  messages: Message[];
   description?: string;
 } 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommandHandler, CommandResult } from './types';
+import { CommandHandler, CommandResult } from '@models';
 import { environment } from '../../environments/environment';
 
 @Injectable({

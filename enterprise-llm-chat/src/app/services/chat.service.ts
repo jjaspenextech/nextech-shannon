@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Conversation } from '@models';
 import { environment } from '../../environments/environment';
-
-export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-  formattedContent?: string;
-}
-
-interface ApiMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-}
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,73 +12,23 @@ export class ChatService {
   private readonly API_URL = environment.apiUrl;
   private initialMessage: string | null = null;
 
-  constructor(private cookieService: CookieService) {}
-
-  async streamChatResponse(messages: ChatMessage[]): Promise<ReadableStreamDefaultReader<Uint8Array>> {
-    // Convert our frontend messages to API format
-    const apiMessages: ApiMessage[] = messages.map(msg => ({
-      role: msg.role === 'user' ? 'user' : 'assistant',
-      content: msg.content
-    }));
-
-    const authToken = this.cookieService.get('authToken');
-    const response = await fetch(`${this.API_URL}/llm-query/stream/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json',
-        "Authorization": `Bearer ${authToken}`
-       },
-      body: JSON.stringify({ messages: apiMessages })
-    });
-
-    if (!response.body) {
-      throw new Error('No response body received');
-    }
-
-    return response.body.getReader();
-  }
-
-  async processStreamResponse(
-    reader: ReadableStreamDefaultReader<Uint8Array>,
-    onChunk: (chunk: string) => void,
-    onDone: () => void
-  ): Promise<void> {
-    const decoder = new TextDecoder();
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          onDone();
-          break;
-        }
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\r');
-
-        for (const line of lines) {
-          if (line === '[DONE]') {
-            onDone();
-            break;
-          } else if (line === '') {
-            onChunk('');
-          } else {
-            onChunk(line);
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error processing stream:', error);
-      throw error;
-    }
-  }
+  constructor(private cookieService: CookieService, private http: HttpClient) {}
 
   setInitialMessage(message: string) {
     this.initialMessage = message;
+  }
+
+  getConversation(conversationId: string): Observable<Conversation> {
+    return this.http.get<Conversation>(`${this.API_URL}/get-conversation/${conversationId}`);
   }
 
   getInitialMessage(): string | null {
     const message = this.initialMessage;
     this.initialMessage = null; // Clear it after retrieving
     return message;
+  }
+
+  saveConversation(conversation: Conversation): Observable<any> {
+    return this.http.post(`${this.API_URL}/save-conversation`, conversation);
   }
 } 
