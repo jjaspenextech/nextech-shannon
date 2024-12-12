@@ -26,47 +26,57 @@ export class CommandRegistryService {
   private registerDefaultHandlers() {
     // Jira Handler
     this.registerHandler('jira', {
-      pattern: /@jira:([A-Z]+-\d+)/,
-      execute: async (match: RegExpMatchArray) => {
-        const ticketId = match[1];
-        try {
-          const response = await firstValueFrom(
-            this.http.get(`${this.apiUrl}/jira/story/${ticketId}`)
-          );
-          return {
-            type: 'jira',
-            content: response,
-          };
-        } catch (error) {
-          return {
-            type: 'jira',
-            content: null,
-            error: 'Failed to fetch Jira ticket',
-          };
+      pattern: /@jira:([A-Z]+-\d+)/g,
+      execute: async (text: string) => {
+        const matches = text.matchAll(/@jira:([A-Z]+-\d+)/g);
+        const results: CommandResult[] = [];
+        for (const match of matches) {
+          const ticketId = match[1];
+          try {
+            const response = await firstValueFrom(
+              this.http.get(`${this.apiUrl}/jira/story/${ticketId}`)
+            );
+            results.push({
+              type: 'jira',
+              content: response,
+            });
+          } catch (error) {
+            results.push({
+              type: 'jira',
+              content: null,
+              error: 'Failed to fetch Jira ticket',
+            });
+          }
         }
+        return results;
       },
     });
 
     // Web Scraping Handler
     this.registerHandler('web', {
-      pattern: /@web:(https?:\/\/[^\s]+)/,
-      execute: async (match: RegExpMatchArray) => {
-        const url = match[1];
-        try {
-          const response = await firstValueFrom(
-            this.http.get<{ content: string }>(`${this.apiUrl}/web/scrape/`, { params: { url } })
-          );
-          return {
-            type: 'web',
-            content: response?.content || 'Failed to scrape web content',
-          };
-        } catch (error) {
-          return {
-            type: 'web',
-            content: null,
-            error: 'Failed to scrape web content',
-          };
+      pattern: /@web:(https?:\/\/[^\s]+)/g,
+      execute: async (text: string) => {
+        const matches = text.matchAll(/@web:(https?:\/\/[^\s]+)/g);
+        const results: CommandResult[] = [];
+        for (const match of matches) {
+          const url = match[1];
+          try {
+            const response = await firstValueFrom(
+              this.http.get<{ content: string }>(`${this.apiUrl}/web/scrape/`, { params: { url } })
+            );
+            results.push({
+              type: 'web',
+              content: response?.content || 'Failed to scrape web content',
+            });
+          } catch (error) {
+            results.push({
+              type: 'web',
+              content: null,
+              error: 'Failed to scrape web content',
+            });
+          }
         }
+        return results;
       },
     });
   }

@@ -23,12 +23,15 @@
 }
 
 textarea {
-  @apply flex-1 bg-gray-800 rounded-lg text-white p-3 resize-none text-sm leading-relaxed min-h-[44px] max-h-[200px] overflow-y-auto;
+  @apply flex-1 bg-gray-800 rounded-lg text-white p-3 resize-none text-sm leading-relaxed overflow-hidden;
   border: none;
   margin-top: 0;
+  min-height: 44px;
+  max-height: 200px;
+  transition: height 0.1s ease-out;
 
   &:focus {
-    outline: none; /* Remove focus outline */
+    outline: none;
   }
 }
 

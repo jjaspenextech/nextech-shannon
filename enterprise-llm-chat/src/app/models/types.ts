@@ -6,6 +6,5 @@ export interface CommandResult {
 
 export interface CommandHandler {
   pattern: RegExp;
-  execute: (match: RegExpMatchArray) => Promise<CommandResult>;
-  previewComponent?: any; // Optional: Component type for custom preview
+  execute: (text: string) => Promise<CommandResult[]>;
 } 
