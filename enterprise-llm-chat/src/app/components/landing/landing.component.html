@@ -1,4 +1,7 @@
 <div class="landing-container">
+  <button mat-icon-button class="settings-button" (click)="openApiKeyModal()">
+    {{ getUserInitials() }}
+  </button>
   <div class="greeting-section">
     <h1>Good {{ getTimeOfDay() }}, {{ firstName }}</h1>
     <p class="subtitle">How can I help you today?</p>

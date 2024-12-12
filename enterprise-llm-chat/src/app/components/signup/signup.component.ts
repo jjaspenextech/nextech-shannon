@@ -9,15 +9,15 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
-  username: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  email: string = '';
-  firstName: string = '';
-  lastName: string = '';
-  errorMessage: string = '';
-  usernameError: string = '';
-  passwordError: string = '';
+  public username: string = '';
+  public password: string = '';
+  public confirmPassword: string = '';
+  public email: string = '';
+  public firstName: string = '';
+  public lastName: string = '';
+  public errorMessage: string = '';
+  public usernameError: string = '';
+  public passwordError: string = '';
 
   constructor(
     private userApiService: UserApiService,

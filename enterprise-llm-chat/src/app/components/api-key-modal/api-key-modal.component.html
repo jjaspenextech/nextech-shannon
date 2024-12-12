@@ -1,0 +1,20 @@
+<div class="api-key-modal">
+  <h2>API Keys</h2>
+  <div class="api-key-row">
+    <span class="api-key-name">JIRA</span>
+    <mat-form-field appearance="outline" class="api-key-value">
+      <mat-label>API Key</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="apiKey" placeholder="Enter your Jira API key">
+      <button mat-icon-button matSuffix (click)="toggleVisibility()">
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+  <div class="button-container">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="isLoading">
+      {{ isLoading ? 'Saving...' : 'Save' }}
+    </button>
+  </div>
+</div> 

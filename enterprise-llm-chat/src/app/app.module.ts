@@ -8,6 +8,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 // import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
@@ -19,6 +22,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { AppRoutingModule } from './app.routes';
 import { AuthInterceptor } from './services/auth-interceptor.service';
+import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -35,7 +39,8 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     ChatComponent,
     LoginComponent,
     SignupComponent,
-    LandingComponent
+    LandingComponent,
+    ApiKeyModalComponent  
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,11 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatFormFieldModule,
     // MsalModule.forRoot({
     //   interactionType: InteractionType.Redirect,
     //   authRequest: {

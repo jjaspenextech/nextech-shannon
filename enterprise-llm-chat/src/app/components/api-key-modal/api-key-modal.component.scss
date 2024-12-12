@@ -1,0 +1,42 @@
+.api-key-modal {
+  padding: 24px;
+  min-width: 400px;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    margin: 0 0 16px 0;
+    font-size: 1.5rem;
+  }
+
+  .api-key-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .api-key-name {
+    flex: 1;
+    font-weight: bold;
+  }
+
+  .api-key-value {
+    flex: 2;
+    display: flex;
+    align-items: center;
+  }
+
+  .error-message {
+    color: #f44336;
+    margin: 8px 0;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 24px;
+  }
+} 

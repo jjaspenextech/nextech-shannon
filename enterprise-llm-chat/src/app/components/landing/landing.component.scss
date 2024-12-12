@@ -1,4 +1,5 @@
 .landing-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,4 +111,43 @@
       -webkit-box-orient: vertical;
     }
   }
+}
+
+.settings-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #5457FF;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #4547CC;
+  }
+}
+
+::ng-deep .custom-dialog-container {
+  .mat-dialog-container {
+    position: relative;
+    z-index: 1000;
+  }
+}
+
+::ng-deep .cdk-overlay-pane {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+::ng-deep .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
 } 

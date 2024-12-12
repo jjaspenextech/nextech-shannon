@@ -4,6 +4,8 @@ import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/user.service';
 import { UserApiService } from '../../services/user-api.service';
 import { Conversation } from '../../models/conversation.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
 
 @Component({
   selector: 'app-landing',
@@ -20,7 +22,8 @@ export class LandingComponent implements OnInit {
     private router: Router,
     private chatService: ChatService,
     private userService: UserService,
-    private userApiService: UserApiService
+    private userApiService: UserApiService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -60,5 +63,26 @@ export class LandingComponent implements OnInit {
     if (hour < 12) return 'morning';
     if (hour < 18) return 'afternoon';
     return 'evening';
+  }
+
+  openApiKeyModal() {
+    this.userApiService.getApiKeys().subscribe(
+      apiKeys => {
+        this.dialog.open(ApiKeyModalComponent, {
+          data: { currentKey: apiKeys.jira },
+          width: '500px',
+          panelClass: 'custom-dialog-container'
+        });
+      }
+    );
+  }
+
+  getUserInitials(): string {
+    const user = this.userService.getUser();
+    if (user) {
+      const initials = user.firstName.charAt(0) + user.lastName.charAt(0);
+      return initials.toUpperCase();
+    }
+    return '';
   }
 } 

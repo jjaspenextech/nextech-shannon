@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { Conversation } from '../models/conversation.model';
 import { environment } from '../../environments/environment';
 
+export interface ApiKeyUpdate {
+  service: 'jira';
+  key: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,5 +35,13 @@ export class UserApiService {
 
   getConversations(username: string): Observable<Conversation[]> {
     return this.http.get<Conversation[]>(`${this.API_URL}/conversations/${username}`);
+  }
+
+  updateApiKey(service: string, key: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/api-keys/update`, { service, key });
+  }
+
+  getApiKeys(): Observable<any> {
+    return this.http.get(`${this.API_URL}/api-keys`);
   }
 } 

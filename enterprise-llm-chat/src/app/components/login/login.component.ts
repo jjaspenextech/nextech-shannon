@@ -10,9 +10,9 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
-  errorMessage: string = '';
+  public username: string = '';
+  public password: string = '';
+  public errorMessage: string = '';
 
   constructor(
     private userApiService: UserApiService,
