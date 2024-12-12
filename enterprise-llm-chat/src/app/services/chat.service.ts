@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../environments/environment';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -16,7 +17,7 @@ interface ApiMessage {
   providedIn: 'root'
 })
 export class ChatService {
-  private readonly API_URL = 'http://localhost:8000';
+  private readonly API_URL = environment.apiUrl;
   private initialMessage: string | null = null;
 
   constructor(private cookieService: CookieService) {}

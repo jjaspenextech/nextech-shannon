@@ -68,6 +68,17 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -80,6 +91,9 @@
             },
             "development": {
               "buildTarget": "enterprise-llm-chat:build:development"
+            },
+            "local": {
+              "buildTarget": "enterprise-llm-chat:build:local"
             }
           },
           "defaultConfiguration": "development"

@@ -71,3 +71,4 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/enterprise-llm-chat/src/environments/environment.local.ts
