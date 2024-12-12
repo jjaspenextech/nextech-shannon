@@ -2,10 +2,11 @@ import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef, 
 import { marked } from 'marked';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
-import { ChatService, ChatMessage } from '../services/chat.service';
-import { UserApiService } from '../services/user-api.service';
-import { Conversation } from '../models/conversation.model';
+import { ChatService, ChatMessage } from '../../services/chat.service';
+import { UserApiService } from '../../services/user-api.service';
+import { Conversation } from '../../models/conversation.model';
 import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -24,7 +25,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private chatService: ChatService,
     private userApiService: UserApiService,
     private cookieService: CookieService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     const renderer = new marked.Renderer();
     
@@ -49,11 +51,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    const initialMessage = this.chatService.getInitialMessage();
-    if (initialMessage) {
-      this.userInput = initialMessage;
-      this.sendMessage();
-    }
+    this.route.queryParams.subscribe(params => {
+      const conversationId = params['id'];
+      if (conversationId) {
+        this.loadConversation(conversationId);
+      } else {
+        const initialMessage = this.chatService.getInitialMessage();
+        if (initialMessage) {
+          this.userInput = initialMessage;
+          this.sendMessage();
+        }
+      }
+    });
   }
 
   ngAfterViewChecked() {
@@ -144,5 +153,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     try {
       this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
     } catch(err) {}
+  }
+
+  private async loadConversation(conversationId: string) {
+    try {
+      this.conversationId = conversationId;
+      const conversation = await this.userApiService.getConversation(conversationId).toPromise();
+      if (conversation) {
+        this.messages = conversation.messages;
+        // Format all messages
+        this.messages.forEach((_, index) => {
+          this.updateMessageContent(index);
+        });
+      }
+    } catch (error) {
+      console.error('Error loading conversation:', error);
+    }
   }
 }

@@ -1,0 +1,33 @@
+<div class="landing-container">
+  <div class="greeting-section">
+    <h1>Good {{ getTimeOfDay() }}, {{ firstName }}</h1>
+    <p class="subtitle">How can I help you today?</p>
+  </div>
+
+  <div class="chat-input-section">
+    <textarea 
+      [(ngModel)]="userInput" 
+      placeholder="Message..." 
+      (keydown.enter)="$event.preventDefault(); onSubmit()"
+      rows="1"
+      class="landing-input"
+    ></textarea>
+    <button (click)="onSubmit()" class="submit-button">
+      <span class="material-icons">send</span>
+    </button>
+  </div>
+
+  <div class="recent-conversations" *ngIf="!isLoading">
+    <h2 *ngIf="recentConversations.length > 0">Recent Conversations</h2>
+    <div class="conversation-grid">
+      <div 
+        *ngFor="let conversation of recentConversations" 
+        class="conversation-card"
+        (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
+      >
+        <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>
+        <p>{{ conversation.messages[0] && conversation.messages[0].content.substring(0, 100) }}...</p>
+      </div>
+    </div>
+  </div>
+</div> 

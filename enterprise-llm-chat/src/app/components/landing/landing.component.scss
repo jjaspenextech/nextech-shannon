@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
   padding: 2rem;
   background-color: #1a1a1a;
@@ -32,8 +32,7 @@
   background: #2d2d2d;
   border-radius: 8px;
   padding: 1rem;
-  margin-top: 2rem; 
-  border-radius: 8px;
+  margin-bottom: 2rem;
 
   .landing-input {
     flex: 1;
@@ -60,6 +59,55 @@
 
     &:hover {
       color: #ffffff;
+    }
+  }
+}
+
+.recent-conversations {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 2rem;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .conversation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .conversation-card {
+    background: #2d2d2d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      background-color: #383838;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    p {
+      color: #888;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
   }
 } 

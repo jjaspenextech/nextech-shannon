@@ -4,4 +4,5 @@ export interface Conversation {
   conversation_id?: string;
   username: string;
   messages: ChatMessage[];
+  description?: string;
 } 

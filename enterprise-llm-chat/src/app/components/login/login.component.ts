@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserApiService } from '../services/user-api.service';
+import { UserApiService } from '../../services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',

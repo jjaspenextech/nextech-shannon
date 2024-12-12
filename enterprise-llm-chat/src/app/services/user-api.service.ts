@@ -27,4 +27,8 @@ export class UserApiService {
   getConversation(username: string): Observable<Conversation> {
     return this.http.get<Conversation>(`${this.API_URL}/get-conversation/${username}`);
   }
+
+  getConversations(username: string): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.API_URL}/conversations/${username}`);
+  }
 } 

@@ -11,12 +11,12 @@ import { CookieService } from 'ngx-cookie-service';
 
 // import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 // import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
-import { AppComponent } from './app.component';
-import { ChatComponent } from './chat/chat.component';
+import { AppComponent } from './components/app.component';
+import { ChatComponent } from './components/chat/chat.component';
 import { ChatService } from './services/chat.service';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { LandingComponent } from './landing/landing.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { LandingComponent } from './components/landing/landing.component';
 import { AppRoutingModule } from './app.routes';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 // function MSALInstanceFactory() {
