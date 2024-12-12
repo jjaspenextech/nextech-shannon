@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    body {
+      @apply antialiased text-gray-900;
+    }
+  }
+
+  @layer components {
+    .prose {
+      @apply text-[15px] leading-relaxed;
+    }
+    
+    .prose p {
+      @apply my-4 first:mt-0 last:mb-0;
+    }
+    
+    .prose ul {
+      @apply my-4 list-disc list-outside pl-5 space-y-2;
+    }
+    
+    .prose ol {
+      @apply my-4 list-decimal list-outside pl-5 space-y-2;
+    }
+    
+    .prose pre {
+      @apply my-4 p-4 bg-gray-50 rounded-lg overflow-x-auto;
+    }
+    
+    .prose code {
+      @apply font-mono text-sm;
+    }
+    
+    .prose h1 {
+      @apply text-2xl font-semibold my-6 first:mt-0;
+    }
+    
+    .prose h2 {
+      @apply text-xl font-semibold my-5 first:mt-0;
+    }
+    
+    .prose h3 {
+      @apply text-lg font-semibold my-4 first:mt-0;
+    }
+
+    /* Prism.js theme overrides */
+    .prose pre[class*="language-"] {
+      @apply bg-gray-50 text-gray-800;
+    }
+
+    .prose code[class*="language-"] {
+      @apply text-gray-800;
+    }
+  }
