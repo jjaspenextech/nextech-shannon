@@ -36,9 +36,12 @@ export class CommandRegistryService {
             const response = await firstValueFrom(
               this.http.get(`${this.apiUrl}/jira/story/${ticketId}`)
             );
+            // if the response is a string, just use it as the content
+            // otherwise, stringify the response
+            const content = typeof response === 'string' ? response : JSON.stringify(response);
             results.push({
               type: 'jira',
-              content: response,
+              content: content,
             });
           } catch (error) {
             results.push({

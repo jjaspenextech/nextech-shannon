@@ -9,7 +9,7 @@ import { CommandResult, Conversation, Message } from '@models';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -143,7 +143,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       };
       this.conversation.messages.push(userMessage);
       // Save conversation after user message
-      this.saveConversation();
+      await this.saveConversation();
       const botMessageIndex = this.conversation.messages.length;
       this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
       this.userInput = '';
@@ -185,21 +185,23 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  private saveConversation() {
+  private async saveConversation() {
     const username = this.cookieService.get('username'); // Assuming username is stored in cookies
     this.conversation.username = username;
 
-    this.userApiService.saveConversation(this.conversation).subscribe(
-      response => {
-        if (!this.conversation.conversation_id) {
-          this.conversation.conversation_id = response.conversation_id; // Capture the generated conversation ID
-        }
-        console.log('Conversation saved successfully');
-      },
-      error => {
-        console.error('Error saving conversation:', error);
-      }
+    await firstValueFrom(
+      this.userApiService.saveConversation(this.conversation)
+      .pipe(
+        tap(response => {
+          this.conversation.conversation_id = response.conversation.conversation_id;
+          this.conversation.description = response.conversation.description;
+          // update the id of last message
+          this.conversation.messages[this.conversation.messages.length - 1].message_id 
+            = response.conversation.messages[this.conversation.messages.length - 1].message_id;
+        })
+      )
     );
+    console.log('Conversation saved successfully');
   }
 
   private scrollToBottom(): void {
