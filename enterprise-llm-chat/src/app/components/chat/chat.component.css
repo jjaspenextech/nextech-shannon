@@ -170,4 +170,57 @@ button {
 .file-label mat-icon {
   font-size: 24px;
 }
+
+.drag-drop-zone {
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+  padding: 1rem;
+  text-align: center;
+  border: 2px dashed #4D4D4D;
+  margin: 1rem 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.floating-drop-zone {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 8rem;
+  border: 2px dashed #4D4D4D;
+  background-color: rgba(45, 45, 45, 0.95);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: dropZoneAppear 0.2s ease-out;
+}
+
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #4D4D4D;
+}
+
+.drop-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes dropZoneAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
   
