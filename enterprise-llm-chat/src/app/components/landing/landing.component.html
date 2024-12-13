@@ -9,9 +9,11 @@
 
   <div class="chat-input-section">
     <textarea 
+      #messageInput
       [(ngModel)]="userInput" 
       placeholder="Message..." 
       (keydown.enter)="$event.preventDefault(); onSubmit()"
+      (input)="adjustTextareaHeight(messageInput)"
       rows="1"
       class="landing-input"
     ></textarea>

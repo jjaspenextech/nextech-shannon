@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/user.service';
@@ -6,6 +6,7 @@ import { UserApiService } from '../../services/user-api.service';
 import { Conversation } from '../../models/conversation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-landing',
@@ -17,6 +18,7 @@ export class LandingComponent implements OnInit {
   firstName: string = '';
   recentConversations: Conversation[] = [];
   isLoading: boolean = true;
+  @ViewChild('landingInput') landingInput!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
     private router: Router,
@@ -36,7 +38,7 @@ export class LandingComponent implements OnInit {
 
   async loadRecentConversations(username: string) {
     try {
-      const conversations = await this.userApiService.getConversations(username).toPromise();
+      const conversations = await firstValueFrom(this.userApiService.getConversations(username));
       this.recentConversations = conversations?.slice(0, 5) || [];
     } catch (error) {
       console.error('Error loading conversations:', error);
@@ -84,5 +86,10 @@ export class LandingComponent implements OnInit {
       return initials.toUpperCase();
     }
     return '';
+  }
+
+  adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
   }
 } 

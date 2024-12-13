@@ -10,9 +10,11 @@
   </div>
   <div class="input-container">
     <textarea 
+      #messageInput
       [(ngModel)]="userInput" 
       placeholder="Reply..." 
       (keydown.enter)="$event.preventDefault(); sendMessage()"
+      (input)="adjustTextareaHeight(messageInput)"
       rows="1"
     ></textarea>
     <button (click)="sendMessage()">Send</button>

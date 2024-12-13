@@ -58,7 +58,6 @@ export class StreamingService {
 
         for (const line of lines) {
           if (line === '[DONE]') {
-            onDone();
             break;
           } else if (line === '') {
             onChunk('');
