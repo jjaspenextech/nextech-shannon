@@ -119,12 +119,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   async getContextsFromHandlers(text: string): Promise<CommandResult[]> {
+    const currentMessage = this.conversation.messages[this.conversation.messages.length - 1];
+    let existingContexts: CommandResult[] = [];
+    if (currentMessage && currentMessage.contexts) {
+      existingContexts = currentMessage.contexts;
+    }
     const handlers = this.commandRegistry.getHandlers();
-    let contexts: CommandResult[] = [];
+    let contexts: CommandResult[] = existingContexts;
     for (const [type, handler] of handlers) {
       try {
-        const results = await handler.execute(text);
-        contexts = contexts.concat(results);
+        const new_matches = handler.getMatches(text)
+          .filter(match => !contexts.some(context => context.match === match));
+        for (const match of new_matches) {
+          const results = await handler.execute(match);
+          results.match = match;
+          contexts = contexts.concat(results);
+        }
       } catch (error) {
         console.error('Error processing command:', error);
       }
@@ -224,6 +234,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     } catch (error) {
       console.error('Error loading conversation:', error);
     }
+  }
+
+  onInput(textarea: HTMLTextAreaElement): void {
+    this.adjustTextareaHeight(textarea);
   }
 
   adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
