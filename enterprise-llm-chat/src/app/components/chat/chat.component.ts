@@ -149,13 +149,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (this.userInput.trim()) {
       this.scrollEnabled = true; // Enable scrolling for new messages
       const contexts = await this.getContextsFromHandlers(this.userInput);
-      const userMessage: Message = { 
-        role: 'user', 
-        content: this.userInput, 
-        sequence: this.conversation.messages.length + 1,
-        contexts: contexts && contexts.length > 0 ? contexts : undefined
-      };
-      this.conversation.messages.push(userMessage);
+      // check if the last message is a user message set to pending
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user' && lastMessage.pending) {
+        lastMessage.pending = false;
+        lastMessage.content = this.userInput;
+      } else {
+        const userMessage: Message = { 
+          role: 'user', 
+          content: this.userInput, 
+          sequence: this.conversation.messages.length + 1,
+          contexts: contexts && contexts.length > 0 ? contexts : undefined
+        };
+        this.conversation.messages.push(userMessage);
+      }
       await this.saveConversation();
       const botMessageIndex = this.conversation.messages.length;
       this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
@@ -270,6 +277,51 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.conversation.messages.pop(); // Remove the last user message
         this.sendMessage();
       }
+    }
+  }
+
+  handleFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        this.addFileContext(content);
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  addFileContext(content: string): void {
+    const context: CommandResult = {
+      type: 'text',
+      content: content
+    };
+  
+    if (this.conversation.messages.length > 0) {
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user') {
+        lastMessage.contexts = lastMessage.contexts || [];
+        lastMessage.contexts.push(context);
+        lastMessage.pending = true; // Mark as pending
+      } else {
+        this.conversation.messages.push({
+          role: 'user',
+          content: this.userInput,
+          sequence: this.conversation.messages.length + 1,
+          contexts: [context],
+          pending: true // Mark as pending
+        });
+      }
+    } else {
+      this.conversation.messages.push({
+        role: 'user',
+        content: this.userInput,
+        sequence: 1,
+        contexts: [context],
+        pending: true // Mark as pending
+      });
     }
   }
 }

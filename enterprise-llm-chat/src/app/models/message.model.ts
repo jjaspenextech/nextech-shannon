@@ -9,4 +9,5 @@ export interface Message {
   formattedContent?: string;
   role: string;
   description?: string;
+  pending?: boolean;
 } 

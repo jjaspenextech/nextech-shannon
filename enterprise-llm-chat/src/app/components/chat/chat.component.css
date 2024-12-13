@@ -95,6 +95,8 @@ button {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  max-height: 33vh;
+  overflow-y: auto;
 }
 
 .popup-content {
@@ -152,5 +154,20 @@ button {
 
 .resend-icon:hover {
   color: #FF4C4C;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  color: #FFFFFF;
+}
+
+.file-label mat-icon {
+  font-size: 24px;
 }
   
