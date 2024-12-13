@@ -29,7 +29,7 @@ export class CommandRegistryService {
       getMatches: (text: string) => {
         const pattern = /@jira:([A-Z]+-\d+)/g;
         const matches = text.matchAll(pattern);
-        return Array.from(matches, (match) => match[0]);
+        return Array.from(matches, (match) => match[1]);
       },
       execute: async (text: string) => {
         try {
@@ -59,13 +59,13 @@ export class CommandRegistryService {
       getMatches: (text: string) => {
         const pattern = /@web:(https?:\/\/[^\s]+)/g;
         const matches = text.matchAll(pattern);
-        return Array.from(matches, (match) => match[0]);
+        return Array.from(matches, (match) => match[1]);
       },
       execute: async (text: string) => {
         try {
           const response = await firstValueFrom(
             this.http.get<{ content: string }>(`${this.apiUrl}/web/scrape/`, {
-              params: { text },
+              params: { url:text },
             })
           );
           return {

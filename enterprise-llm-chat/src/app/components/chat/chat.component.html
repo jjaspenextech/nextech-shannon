@@ -1,10 +1,22 @@
 <div class="chat-container">
   <div #messagesContainer class="messages-container">
-    <div *ngFor="let message of conversation.messages" 
-         class="message" 
-         [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
-      <div class="message-content" 
-           [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
+    <div *ngFor="let message of conversation.messages; let isLast = last" 
+         class="message-container">
+      <div class="message" 
+           [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
+        <div class="message-content" 
+             [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
+        </div>
+        <!-- Resend Button -->
+        <button *ngIf="isLast && message.role === 'user'" class="resend-icon" (click)="resendLastMessage()">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <!-- Context Pills -->
+      <div class="context-pills" *ngIf="message.contexts">
+        <span *ngFor="let context of message.contexts" class="context-pill" (click)="togglePopup(context, $event)">
+          <i class="fas fa-file-alt"></i> {{ context.type }}
+        </span>
       </div>
     </div>
   </div>
@@ -14,9 +26,18 @@
       [(ngModel)]="userInput" 
       placeholder="Reply..." 
       (keydown.enter)="$event.preventDefault(); sendMessage()"
-      (input)="adjustTextareaHeight(messageInput)"
+      (input)="onInput(messageInput)"
       rows="1"
     ></textarea>
     <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Popup -->
+<div *ngIf="selectedContext" class="context-popup">
+  <div class="popup-content">
+    <h3>{{ selectedContext.type }}</h3>
+    <p>{{ selectedContext.content }}</p>
+    <button (click)="closePopup()">Close</button>
   </div>
 </div>

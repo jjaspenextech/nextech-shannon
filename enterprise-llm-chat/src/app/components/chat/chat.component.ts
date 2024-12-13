@@ -46,6 +46,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
 
+  selectedContext: CommandResult | null = null;
+  scrollEnabled: boolean = true;
+  showResendButton: boolean = false;
+
   constructor(
     private chatService: ChatService,
     private streamingService: StreamingService,
@@ -104,7 +108,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   updateMessageContent(index: number) {
-    console.log(this.conversation.messages);
     if (this.conversation.messages[index] && this.conversation.messages[index].content) {
       this.conversation.messages[index].formattedContent = this.formatMessage(this.conversation.messages[index].content);      
       this.updateFormattedContent();
@@ -144,6 +147,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   async sendMessage() {
     if (this.userInput.trim()) {
+      this.scrollEnabled = true; // Enable scrolling for new messages
       const contexts = await this.getContextsFromHandlers(this.userInput);
       const userMessage: Message = { 
         role: 'user', 
@@ -152,13 +156,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         contexts: contexts && contexts.length > 0 ? contexts : undefined
       };
       this.conversation.messages.push(userMessage);
-      // Save conversation after user message
       await this.saveConversation();
       const botMessageIndex = this.conversation.messages.length;
       this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
       this.userInput = '';
 
-      // Reset textarea height
       this.messageInput.nativeElement.style.height = 'auto';
 
       this.streamNewMessage(botMessageIndex);
@@ -215,9 +217,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   private scrollToBottom(): void {
-    try {
-      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
-    } catch(err) {}
+    if (this.scrollEnabled) {
+      try {
+        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+      } catch (err) {}
+    }
   }
 
   private async loadConversation(conversationId: string) {
@@ -226,7 +230,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       const conversation = await firstValueFrom(this.userApiService.getConversation(conversationId));
       if (conversation) {
         this.conversation = conversation;
-        // Format all messages
+        this.showResendButton = this.conversation.messages.length > 0 &&
+                                this.conversation.messages[this.conversation.messages.length - 1].role === 'user';
         this.conversation.messages.forEach((_, index) => {
           this.updateMessageContent(index);
         });
@@ -243,5 +248,28 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
+  }
+
+  togglePopup(context: CommandResult, event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.scrollEnabled = false; // Disable scrolling
+    this.selectedContext = context;
+  }
+
+  closePopup(): void {
+    this.selectedContext = null;
+    // Do not enable scrolling here
+  }
+
+  resendLastMessage(): void {
+    if (this.conversation.messages.length > 0) {
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user') {
+        this.userInput = lastMessage.content || '';
+        this.conversation.messages.pop(); // Remove the last user message
+        this.sendMessage();
+      }
+    }
   }
 }

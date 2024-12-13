@@ -8,6 +8,7 @@
 
 .message {
   @apply flex p-4 rounded-lg max-w-4xl border border-gray-600 text-white;
+  position: relative;
 }
 
 .user-message {
@@ -53,4 +54,103 @@ button {
 
 .message-content strong {
   @apply text-white;
-} 
+}
+
+.context-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.context-pill {
+  display: flex;
+  align-items: center;
+  background-color: #4D4D4D;
+  color: #FFFFFF;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.context-pill .fa-file-alt {
+  margin-right: 0.25rem;
+}
+
+.message-container {
+  margin-bottom: 1rem;
+}
+
+.context-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-content h3 {
+  margin-bottom: 0.5rem;
+}
+
+.popup-content p {
+  margin-bottom: 1rem;
+}
+
+.popup-content button {
+  background-color: #5457FF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #4547CC;
+}
+
+.resend-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #FF6B6B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.resend-button:hover {
+  background-color: #FF4C4C;
+}
+
+.resend-icon {
+  background: none;
+  border: none;
+  color: #FF6B6B;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.resend-icon:hover {
+  color: #FF4C4C;
+}
+  
