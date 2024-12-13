@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef, ViewEncapsulation, OnInit, HostListener } from '@angular/core';
 import { marked } from 'marked';
 import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   selectedContext: CommandResult | null = null;
   scrollEnabled: boolean = true;
   showResendButton: boolean = false;
+  isDragging = false;
 
   constructor(
     private chatService: ChatService,
@@ -149,13 +150,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (this.userInput.trim()) {
       this.scrollEnabled = true; // Enable scrolling for new messages
       const contexts = await this.getContextsFromHandlers(this.userInput);
-      const userMessage: Message = { 
-        role: 'user', 
-        content: this.userInput, 
-        sequence: this.conversation.messages.length + 1,
-        contexts: contexts && contexts.length > 0 ? contexts : undefined
-      };
-      this.conversation.messages.push(userMessage);
+      // check if the last message is a user message set to pending
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user' && lastMessage.pending) {
+        lastMessage.pending = false;
+        lastMessage.content = this.userInput;
+      } else {
+        const userMessage: Message = { 
+          role: 'user', 
+          content: this.userInput, 
+          sequence: this.conversation.messages.length + 1,
+          contexts: contexts && contexts.length > 0 ? contexts : undefined
+        };
+        this.conversation.messages.push(userMessage);
+      }
       await this.saveConversation();
       const botMessageIndex = this.conversation.messages.length;
       this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
@@ -271,5 +279,106 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.sendMessage();
       }
     }
+  }
+
+  handleFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        this.addFileContext(content);
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  addFileContext(content: string): void {
+    const context: CommandResult = {
+      type: 'text',
+      content: content
+    };
+  
+    if (this.conversation.messages.length > 0) {
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user') {
+        lastMessage.contexts = lastMessage.contexts || [];
+        lastMessage.contexts.push(context);
+        lastMessage.pending = true; // Mark as pending
+      } else {
+        this.conversation.messages.push({
+          role: 'user',
+          content: this.userInput,
+          sequence: this.conversation.messages.length + 1,
+          contexts: [context],
+          pending: true // Mark as pending
+        });
+      }
+    } else {
+      this.conversation.messages.push({
+        role: 'user',
+        content: this.userInput,
+        sequence: 1,
+        contexts: [context],
+        pending: true // Mark as pending
+      });
+    }
+  }
+
+  @HostListener('dragenter', ['$event'])
+  @HostListener('dragover', ['$event'])
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = true;
+  }
+
+  @HostListener('dragleave', ['$event'])
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const rect = this.messagesContainer.nativeElement.getBoundingClientRect();
+    const x = event.clientX;
+    const y = event.clientY;
+
+    if (x <= rect.left || x >= rect.right || y <= rect.top || y >= rect.bottom) {
+      this.isDragging = false;
+    }
+  }
+
+  @HostListener('drop', ['$event'])
+  async onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      // Convert FileList to array to make it iterable
+      const filesArray = Array.from(files);
+      for (const file of filesArray) {
+        if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+          try {
+            const content = await this.readFileContent(file);
+            this.addFileContext(content);
+          } catch (error) {
+            console.error('Error reading file:', error);
+          }
+        }
+      }
+    }
+  }
+
+  private readFileContent(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        resolve(content);
+      };
+      reader.onerror = (e) => reject(e);
+      reader.readAsText(file);
+    });
   }
 }
