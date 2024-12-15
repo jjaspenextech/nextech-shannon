@@ -27,7 +27,7 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectService } from './services/project.service';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { SideDashboardComponent } from './components/side-dashboard/side-dashboard.component';
-
+import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -48,7 +48,8 @@ import { SideDashboardComponent } from './components/side-dashboard/side-dashboa
     ApiKeyModalComponent,
     ProjectListComponent,
     ProjectCreateComponent,
-    SideDashboardComponent
+    SideDashboardComponent,
+    ProjectEditComponent
   ],
   imports: [
     BrowserModule,

@@ -1,39 +1,43 @@
-.project-create {
-  padding: 20px;
+.project-create-container {
+  @apply min-h-screen bg-gray-900 text-white p-8;
+}
+
+.create-form {
+  @apply max-w-3xl mx-auto mt-8;
+}
+
+.title {
+  @apply text-3xl font-semibold mb-8;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  @apply mb-8;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.form-group label {
+  @apply block text-lg mb-2;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+.form-group input,
+.form-group textarea {
+  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
+         focus:ring-2 focus:ring-orange-600 focus:outline-none;
+}
+
+.form-group textarea {
+  @apply h-32 resize-none;
 }
 
 .button-group {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  @apply flex justify-end gap-4 mt-8;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.cancel-button {
+  @apply px-6 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg 
+         transition-colors duration-200;
 }
 
-button:hover {
-  background-color: #ddd;
+.create-button {
+  @apply px-6 py-2 bg-orange-700 hover:bg-orange-600 text-white rounded-lg 
+         transition-colors duration-200;
 } 

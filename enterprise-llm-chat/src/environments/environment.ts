@@ -2,6 +2,7 @@
 
 export const environment = {
     production: true,
-    apiUrl: '#{{API_URL}}#'
+    apiUrl: '#{{API_URL}}#',
+    tokenDuration: '#{{TOKEN_DURATION}}#'
   };
   

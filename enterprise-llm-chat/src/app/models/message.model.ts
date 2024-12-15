@@ -1,10 +1,10 @@
-import { CommandResult } from "@models";
+import { ContextResult } from "@models";
 
 export interface Message {
   message_id?: string;
   conversation_id?: string;
   content?: string;
-  contexts?: CommandResult[];
+  contexts?: ContextResult[];
   sequence: number;
   formattedContent?: string;
   role: string;

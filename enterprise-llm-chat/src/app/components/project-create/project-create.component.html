@@ -1,15 +1,28 @@
-<div class="project-create">
-  <h2>Create New Project</h2>
-  <div class="form-group">
-    <label for="projectName">Project Name</label>
-    <input id="projectName" [(ngModel)]="projectName" placeholder="Enter project name" />
-  </div>
-  <div class="form-group">
-    <label for="projectDescription">Project Description</label>
-    <textarea id="projectDescription" [(ngModel)]="projectDescription" placeholder="Enter project description"></textarea>
-  </div>
-  <div class="button-group">
-    <button (click)="cancel()">Cancel</button>
-    <button (click)="createProject()">Create Project</button>
+<div class="project-create-container">
+  <div class="create-form">
+    <h1 class="title">Create a personal project</h1>
+    
+    <div class="form-group">
+      <label for="projectName">What are you working on?</label>
+      <input 
+        id="projectName" 
+        [(ngModel)]="projectName" 
+        placeholder="Name your project"
+        class="text-lg" />
+    </div>
+
+    <div class="form-group">
+      <label for="projectDescription">What are you trying to achieve?</label>
+      <textarea 
+        id="projectDescription" 
+        [(ngModel)]="projectDescription" 
+        placeholder="Describe your project, goals, subject, etc..."
+        class="text-lg"></textarea>
+    </div>
+
+    <div class="button-group">
+      <button class="cancel-button" (click)="cancel()">Cancel</button>
+      <button class="create-button" (click)="createProject()">Create Project</button>
+    </div>
   </div>
 </div> 

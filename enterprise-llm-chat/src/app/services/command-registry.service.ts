@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommandHandler, CommandResult } from '@models';
+import { CommandHandler, ContextResult } from '@models';
 import { environment } from '../../environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -43,13 +43,13 @@ export class CommandRegistryService {
           return {
             type: 'jira',
             content: content
-          } as CommandResult;
+          } as ContextResult;
         } catch (error) {
           return {
             type: 'jira',
             content: null,
             error: 'Failed to fetch Jira ticket'
-          } as CommandResult;
+          } as ContextResult;
         }
       },
     });
@@ -71,13 +71,13 @@ export class CommandRegistryService {
           return {
             type: 'web',
             content: response?.content || 'Failed to scrape web content',
-          } as CommandResult;
+          } as ContextResult;
         } catch (error) {
           return {
             type: 'web',
             content: null,
             error: 'Failed to scrape web content',
-          } as CommandResult;
+          } as ContextResult;
         }
       },
     });

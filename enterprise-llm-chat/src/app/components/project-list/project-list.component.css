@@ -42,7 +42,8 @@
 
 .project-card {
   @apply bg-gray-800 rounded-lg p-6 hover:bg-gray-700 
-         transition-colors duration-200 cursor-pointer;
+         cursor-pointer transform hover:scale-[1.02]
+         transition-all duration-200;
 }
 
 .project-card h2 {

@@ -1,0 +1,109 @@
+.project-edit-container {
+  @apply min-h-screen bg-gray-900 text-white;
+}
+
+.header {
+  @apply flex items-center justify-between px-8 py-4 border-b border-gray-800;
+}
+
+.back-button {
+  @apply flex items-center text-gray-400 hover:text-white transition-colors duration-200;
+}
+
+.back-icon {
+  @apply h-5 w-5 mr-2;
+}
+
+.actions {
+  @apply flex items-center gap-4;
+}
+
+.star-button {
+  @apply text-gray-400 hover:text-white transition-colors duration-200;
+}
+
+.menu-button {
+  @apply text-gray-400 hover:text-white transition-colors duration-200;
+}
+
+.main-content {
+  @apply flex h-[calc(100vh-4rem)];
+}
+
+.project-details {
+  @apply flex-1 p-8;
+}
+
+.project-header {
+  @apply flex items-center gap-4 mb-4;
+}
+
+.project-icon {
+  @apply h-6 w-6 text-gray-400;
+}
+
+.project-privacy {
+  @apply flex items-center px-3 py-1 bg-gray-800 rounded-full text-sm;
+}
+
+.privacy-icon {
+  @apply h-4 w-4 mr-2;
+}
+
+.project-form {
+  @apply space-y-6 max-w-3xl;
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-group input,
+.form-group textarea {
+  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
+         focus:ring-2 focus:ring-orange-600 focus:outline-none text-lg;
+}
+
+.form-group textarea {
+  @apply h-32 resize-none;
+}
+
+.sidebar {
+  @apply w-96 border-l border-gray-800 p-6 bg-gray-900;
+}
+
+.sidebar-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.sidebar-title {
+  @apply text-lg font-semibold flex items-center gap-2;
+}
+
+.add-content-button {
+  @apply text-blue-400 hover:text-blue-300 transition-colors duration-200;
+}
+
+.knowledge-list {
+  @apply space-y-4;
+}
+
+.knowledge-item {
+  @apply flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 cursor-pointer;
+}
+
+.knowledge-icon {
+  @apply h-8 w-8 bg-white rounded-lg flex items-center justify-center text-gray-900 font-medium;
+}
+
+.knowledge-details {
+  @apply flex-1;
+}
+
+.knowledge-title {
+  @apply font-medium;
+}
+
+.knowledge-date {
+  @apply text-sm text-gray-400;
+}

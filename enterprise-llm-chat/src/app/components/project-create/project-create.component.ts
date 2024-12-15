@@ -11,13 +11,19 @@ import { Project } from '@models';
 export class ProjectCreateComponent {
   projectName: string = '';
   projectDescription: string = '';
+  error: string | null = null;
 
   constructor(private projectService: ProjectService, private router: Router) {}
 
   createProject(): void {
+    if (!this.projectName.trim() || !this.projectDescription.trim()) {
+      this.error = 'Please fill in all fields';
+      return;
+    }
+
     const newProject: Project = {
-      name: this.projectName,
-      description: this.projectDescription,
+      name: this.projectName.trim(),
+      description: this.projectDescription.trim(),
       contexts: [],
       conversations: [],
       is_public: false,
@@ -26,7 +32,10 @@ export class ProjectCreateComponent {
 
     this.projectService.createProject(newProject).subscribe({
       next: () => this.router.navigate(['/projects']),
-      error: (err) => console.error('Failed to create project', err)
+      error: (err) => {
+        console.error('Failed to create project', err);
+        this.error = 'Failed to create project. Please try again.';
+      }
     });
   }
 

@@ -1,11 +1,6 @@
-export interface CommandResult {
-  type: string;
-  content: any;
-  error?: string;
-  match?: string;
-}
+import { ContextResult } from "./context.model";
 
 export interface CommandHandler {
   getMatches: (text: string) => string[];
-  execute: (text: string) => Promise<CommandResult>;
+  execute: (text: string) => Promise<ContextResult>;
 } 

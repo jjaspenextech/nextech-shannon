@@ -5,7 +5,7 @@ import 'prismjs/components/prism-python';
 import { ChatService } from '../../services/chat.service';
 import { StreamingService } from '../../services/streaming.service';
 import { UserApiService } from '../../services/user-api.service';
-import { CommandResult, Conversation, Message } from '@models';
+import { ContextResult, Conversation, Message } from '@models';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
 
-  selectedContext: CommandResult | null = null;
+  selectedContext: ContextResult | null = null;
   scrollEnabled: boolean = true;
   showResendButton: boolean = false;
   isDragging = false;
@@ -122,14 +122,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }, 0);
   }
 
-  async getContextsFromHandlers(text: string): Promise<CommandResult[]> {
+  async getContextsFromHandlers(text: string): Promise<ContextResult[]> {
     const currentMessage = this.conversation.messages[this.conversation.messages.length - 1];
-    let existingContexts: CommandResult[] = [];
+    let existingContexts: ContextResult[] = [];
     if (currentMessage && currentMessage.contexts) {
       existingContexts = currentMessage.contexts;
     }
     const handlers = this.commandRegistry.getHandlers();
-    let contexts: CommandResult[] = existingContexts;
+    let contexts: ContextResult[] = existingContexts;
     for (const [type, handler] of handlers) {
       try {
         const new_matches = handler.getMatches(text)
@@ -258,7 +258,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 
-  togglePopup(context: CommandResult, event: MouseEvent): void {
+  togglePopup(context: ContextResult, event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.scrollEnabled = false; // Disable scrolling
@@ -295,7 +295,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   addFileContext(content: string): void {
-    const context: CommandResult = {
+    const context: ContextResult = {
       type: 'text',
       content: content
     };
