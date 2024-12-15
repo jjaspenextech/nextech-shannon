@@ -5,9 +5,11 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { AuthGuard } from './services/auth.guard';
 import { LandingComponent } from './components/landing/landing.component';
+import { ProjectListComponent } from './components/project-list/project-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'projects', component: ProjectListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuard] },

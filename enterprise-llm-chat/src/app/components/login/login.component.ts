@@ -25,7 +25,7 @@ export class LoginComponent {
     this.userApiService.login({ username: this.username, password: this.password }).subscribe(
       response => {
         console.log('Login successful', response);
-        this.cookieService.set('authToken', response.token, 1, '/');
+        this.cookieService.set('authToken', response.token, 15, '/');
         this.userService.setUser({
           username: response.username,
           firstName: response.firstName,

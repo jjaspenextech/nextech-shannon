@@ -10,6 +10,23 @@
   color: #ffffff;
 }
 
+.shannon-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #5457FF;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #4547CC;
+  }
+}
+
 .greeting-section {
   text-align: center;
   margin-bottom: 2rem;

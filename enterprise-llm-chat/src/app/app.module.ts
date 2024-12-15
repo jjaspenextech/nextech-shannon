@@ -23,6 +23,11 @@ import { LandingComponent } from './components/landing/landing.component';
 import { AppRoutingModule } from './app.routes';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.component';
+import { ProjectListComponent } from './components/project-list/project-list.component';
+import { ProjectService } from './services/project.service';
+import { ProjectCreateComponent } from './components/project-create/project-create.component';
+import { SideDashboardComponent } from './components/side-dashboard/side-dashboard.component';
+
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -40,7 +45,10 @@ import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.c
     LoginComponent,
     SignupComponent,
     LandingComponent,
-    ApiKeyModalComponent  
+    ApiKeyModalComponent,
+    ProjectListComponent,
+    ProjectCreateComponent,
+    SideDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +78,8 @@ import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.c
     // MsalService
     ChatService,
     CookieService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ProjectService
   ],
   bootstrap: [AppComponent]
 })

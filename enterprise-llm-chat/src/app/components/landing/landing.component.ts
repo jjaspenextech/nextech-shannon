@@ -6,6 +6,7 @@ import { UserApiService } from '../../services/user-api.service';
 import { Conversation } from '../../models/conversation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -18,6 +19,7 @@ export class LandingComponent implements OnInit {
   firstName: string = '';
   recentConversations: Conversation[] = [];
   isLoading: boolean = true;
+  isDashboardOpen: boolean = false;
   @ViewChild('landingInput') landingInput!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -91,5 +93,9 @@ export class LandingComponent implements OnInit {
   adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
     textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
+  }
+
+  toggleDashboard(open: boolean) {
+    this.isDashboardOpen = open;
   }
 } 

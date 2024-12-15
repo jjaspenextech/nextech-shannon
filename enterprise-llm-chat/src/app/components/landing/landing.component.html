@@ -1,7 +1,15 @@
 <div class="landing-container">
-  <button mat-icon-button class="settings-button" (click)="openApiKeyModal()">
-    {{ getUserInitials() }}
+  <button mat-button class="shannon-button" 
+    (mouseenter)="toggleDashboard(true)" 
+    (mouseleave)="toggleDashboard(false)">
+    Shannon
   </button>
+  <app-side-dashboard 
+    [isOpen]="isDashboardOpen" 
+    [class.active]="isDashboardOpen"
+    (closePanel)="toggleDashboard(false)"
+    (openPanel)="toggleDashboard(true)">
+  </app-side-dashboard>
   <div class="greeting-section">
     <h1>Good {{ getTimeOfDay() }}, {{ firstName }}</h1>
     <p class="subtitle">How can I help you today?</p>

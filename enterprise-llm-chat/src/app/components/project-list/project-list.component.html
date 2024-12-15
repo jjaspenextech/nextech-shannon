@@ -1,0 +1,14 @@
+<div class="project-list">
+  <h2>Your Projects</h2>
+  <button class="create-project-button" (click)="navigateToCreateProject()">Create New Project</button>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+  <div *ngIf="projects.length === 0 && !error" class="no-projects">
+    No projects found.
+  </div>
+  <div class="project-cards">
+    <div *ngFor="let project of projects" class="project-card">
+      <h3>{{ project.name }}</h3>
+      <p>{{ project.description }}</p>
+    </div>
+  </div>
+</div> 
