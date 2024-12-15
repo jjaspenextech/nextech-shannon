@@ -1,14 +1,36 @@
-<div class="project-list">
-  <h2>Your Projects</h2>
-  <button class="create-project-button" (click)="navigateToCreateProject()">Create New Project</button>
-  <div *ngIf="error" class="error-message">{{ error }}</div>
-  <div *ngIf="projects.length === 0 && !error" class="no-projects">
-    No projects found.
+<div class="project-list-container">
+  <div class="header">
+    <h1 class="title">Projects</h1>
+    <button class="create-project-button" (click)="navigateToCreateProject()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Create Project
+    </button>
   </div>
-  <div class="project-cards">
+
+  <div class="search-container">
+    <div class="search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input type="text" placeholder="Search projects..." />
+    </div>
+    <button class="recent-activity">
+      Recent activity
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="projects-grid">
     <div *ngFor="let project of projects" class="project-card">
-      <h3>{{ project.name }}</h3>
+      <h2>{{ project.name }}</h2>
       <p>{{ project.description }}</p>
+      <div class="card-footer">
+        <span class="updated-text">Updated {{ project.updated_at || '5 days ago' }}</span>
+      </div>
     </div>
   </div>
 </div> 

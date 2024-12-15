@@ -1,27 +1,62 @@
-.project-list {
-  padding: 20px;
+.project-list-container {
+  @apply min-h-screen bg-gray-900 text-white p-8;
 }
 
-.error-message {
-  color: red;
-  margin-bottom: 10px;
+.header {
+  @apply flex justify-between items-center mb-8;
 }
 
-.no-projects {
-  color: gray;
-  margin-bottom: 10px;
+.title {
+  @apply text-3xl font-semibold;
 }
 
-.project-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+.create-project-button {
+  @apply flex items-center px-6 py-2 bg-orange-700 hover:bg-orange-600 
+         text-white rounded-lg transition-colors duration-200 whitespace-nowrap;
+}
+
+.search-container {
+  @apply flex justify-between items-center mb-8 h-10;
+}
+
+.search-box {
+  @apply flex items-center gap-2 px-4 bg-gray-800 rounded-lg w-[600px] h-10;
+}
+
+.search-box svg {
+  @apply text-gray-400 h-5 w-5 flex-shrink-0;
+}
+
+.search-box input {
+  @apply bg-transparent border-none outline-none w-full text-white placeholder-gray-400 h-full;
+}
+
+.recent-activity {
+  @apply flex items-center px-6 py-2 bg-gray-800 hover:bg-gray-700 
+         rounded-lg transition-colors duration-200 whitespace-nowrap;
+}
+
+.projects-grid {
+  @apply grid grid-cols-2 gap-4;
 }
 
 .project-card {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 200px;
+  @apply bg-gray-800 rounded-lg p-6 hover:bg-gray-700 
+         transition-colors duration-200 cursor-pointer;
+}
+
+.project-card h2 {
+  @apply text-xl font-semibold mb-2;
+}
+
+.project-card p {
+  @apply text-gray-400 mb-4;
+}
+
+.card-footer {
+  @apply flex justify-between items-center mt-4;
+}
+
+.updated-text {
+  @apply text-sm text-gray-500;
 } 

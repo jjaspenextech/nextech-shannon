@@ -20,7 +20,8 @@ export class ProjectCreateComponent {
       description: this.projectDescription,
       contexts: [],
       conversations: [],
-      is_public: false
+      is_public: false,
+      updated_at: new Date().toISOString()
     };
 
     this.projectService.createProject(newProject).subscribe({
