@@ -240,7 +240,7 @@ export class ProjectEditComponent implements OnInit {
 
   private loadProjectConversations(projectId: string) {
     this.isLoadingConversations = true;
-    this.conversationService.getProjectConversations(projectId).subscribe({
+    this.conversationService.getProjectConversationSummaries(projectId).subscribe({
       next: (conversations: Conversation[]) => {
         this.conversations = conversations;
         this.isLoadingConversations = false;
@@ -253,10 +253,7 @@ export class ProjectEditComponent implements OnInit {
   }
 
   getConversationPreview(conversation: Conversation): string {
-    const lastMessage = conversation.messages
-      .filter(m => m.content)
-      .sort((a, b) => b.sequence - a.sequence)[0];
-    return lastMessage?.content?.slice(0, 100) + '...' || 'No messages';
+    return conversation.messages[0]?.content?.slice(0, 100) + '...' || 'No messages';
   }
 
   onEnter(event: any): void {
@@ -275,7 +272,9 @@ export class ProjectEditComponent implements OnInit {
 
   openConversation(conversation: Conversation): void {
     if (conversation.conversation_id) {
-      this.router.navigate(['/chat'], { queryParams: { id: conversation.conversation_id } });
+      this.router.navigate(['/chat'], { 
+        queryParams: { id: conversation.conversation_id } 
+      });
     }
   }
 

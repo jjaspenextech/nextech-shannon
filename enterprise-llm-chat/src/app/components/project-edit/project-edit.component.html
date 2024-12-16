@@ -87,10 +87,7 @@
                  (click)="openConversation(conversation)">
               <div class="conversation-header">
                 <span class="conversation-title">{{ conversation.description || 'Untitled Conversation' }}</span>
-                <span class="conversation-date" *ngIf="conversation.messages.length > 0">{{ conversation.messages[0].timestamp | date }}</span>
-              </div>
-              <div class="conversation-preview">
-                {{ getConversationPreview(conversation) }}
+                <span class="conversation-date">{{ conversation.updated_at | date }}</span>
               </div>
             </div>
           </div>

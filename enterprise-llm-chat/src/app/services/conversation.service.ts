@@ -22,4 +22,10 @@ export class ConversationService {
       message: firstMessage
     });
   }
+
+  getProjectConversationSummaries(projectId: string): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(
+      `${this.apiUrl}/projects/${projectId}/conversation-summaries`
+    );
+  }
 } 

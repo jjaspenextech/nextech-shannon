@@ -6,4 +6,5 @@ export interface Conversation {
   messages: Message[];
   description?: string;
   project_id?: string;
+  updated_at?: string;
 } 
