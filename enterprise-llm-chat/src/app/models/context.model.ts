@@ -3,4 +3,6 @@ export interface ContextResult {
     content: any;
     error?: string;
     match?: string;
+    project_id?: string;
+    message_id?: string;
   }
