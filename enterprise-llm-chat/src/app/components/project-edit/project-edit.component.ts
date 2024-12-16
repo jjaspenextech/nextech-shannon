@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { ContextResult, Project } from '@models';
+import { MatDialog } from '@angular/material/dialog';
+import { TextContentDialogComponent } from '../text-content-dialog/text-content-dialog.component';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 interface KnowledgeItem {
   icon: string;
@@ -17,6 +20,7 @@ interface KnowledgeItem {
 })
 export class ProjectEditComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
   
   project: Project = {
     name: '',
@@ -33,7 +37,8 @@ export class ProjectEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -88,18 +93,17 @@ export class ProjectEditComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       Array.from(input.files).forEach(async file => {
-        try {
-          const content = await this.readFileContent(file);
-          const newContext: ContextResult = {
-            type: 'text',
-            content: content,
-            project_id: this.project.project_id
-          };
-          
-          this.project.contexts = [...(this.project.contexts || []), newContext];
-          this.saveProject();
-        } catch (error) {
-          console.error('Error reading file:', error);
+        if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+          try {
+            const content = await this.readFileContent(file);
+            this.addContext({
+              type: 'text',
+              content: content,
+              title: file.name
+            });
+          } catch (error) {
+            console.error('Error reading file:', error);
+          }
         }
       });
       input.value = '';
@@ -137,7 +141,8 @@ export class ProjectEditComponent implements OnInit {
     const newContext: ContextResult = {
       type: context.type,
       content: context.content,
-      project_id: this.project.project_id
+      project_id: this.project.project_id,
+      name: context.title
     };
 
     this.project.contexts = [...(this.project.contexts || []), newContext];
@@ -174,7 +179,7 @@ export class ProjectEditComponent implements OnInit {
         this.project = project;
         this.knowledgeItems = project.contexts.map((context: ContextResult) => ({
           icon: context.type,
-          title: context.content.slice(0, 100),
+          title: context.name || context.content.slice(0, 100),
           content: context.content,
           type: context.type
         }));
@@ -200,5 +205,23 @@ export class ProjectEditComponent implements OnInit {
 
   navigateBack() {
     this.router.navigate(['/projects']);
+  }
+
+  openTextContentDialog(): void {
+    const dialogRef = this.dialog.open(TextContentDialogComponent, {
+      width: '600px',
+      position: { top: '100px' },
+      panelClass: ['dark-theme-dialog', 'center-dialog']
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addContext({
+          type: 'text',
+          content: result.content,
+          title: result.title
+        });
+      }
+    });
   }
 }

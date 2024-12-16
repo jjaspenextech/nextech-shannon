@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 // import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 // import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
@@ -28,6 +29,7 @@ import { ProjectService } from './services/project.service';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { SideDashboardComponent } from './components/side-dashboard/side-dashboard.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
+import { TextContentDialogComponent } from './components/text-content-dialog/text-content-dialog.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -49,7 +51,8 @@ import { ProjectEditComponent } from './components/project-edit/project-edit.com
     ProjectListComponent,
     ProjectCreateComponent,
     SideDashboardComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    TextContentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { ProjectEditComponent } from './components/project-edit/project-edit.com
     MatInputModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatMenuModule,
     // MsalModule.forRoot({
     //   interactionType: InteractionType.Redirect,
     //   authRequest: {

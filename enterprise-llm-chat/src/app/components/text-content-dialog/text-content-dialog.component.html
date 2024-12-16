@@ -1,0 +1,23 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Add Text Content</h2>
+  <mat-dialog-content>
+    <div class="form-field">
+      <mat-form-field appearance="fill" class="title-field">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" placeholder="Enter title">
+      </mat-form-field>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>Content</mat-label>
+        <textarea matInput [(ngModel)]="content" placeholder="Enter content" rows="10"></textarea>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onAdd()" [disabled]="!title.trim() || !content.trim()">
+      Add Content
+    </button>
+  </mat-dialog-actions>
+</div> 

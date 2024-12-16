@@ -59,10 +59,28 @@
             (change)="handleFileInput($event)" 
             class="file-input" 
             id="fileInput" />
-          <label for="fileInput" class="file-label">
+          <button 
+            class="add-content-button" 
+            [matMenuTriggerFor]="addContentMenu">
             <mat-icon>add</mat-icon>
             Add Content
-          </label>
+          </button>
+          <mat-menu 
+            #addContentMenu="matMenu" 
+            class="dark-theme-menu"
+            [xPosition]="'after'"
+            [yPosition]="'below'"
+            [hasBackdrop]="true"
+            [overlapTrigger]="false">
+            <label for="fileInput" mat-menu-item>
+              <mat-icon>upload_file</mat-icon>
+              <span>Upload File Content</span>
+            </label>
+            <button mat-menu-item (click)="openTextContentDialog()">
+              <mat-icon>edit_note</mat-icon>
+              <span>Add Text Content</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
       

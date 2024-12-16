@@ -83,6 +83,7 @@
 
 .sidebar-header {
   @apply flex items-center justify-between mb-6;
+  position: relative;
 }
 
 .sidebar-title {
@@ -214,4 +215,79 @@
   font-size: 18px;
   height: 18px;
   width: 18px;
+}
+
+::ng-deep .dark-theme-menu {
+  background-color: rgb(17, 24, 39) !important;
+  border: 1px solid rgb(55, 65, 81) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  margin-top: 8px !important;
+  transform-origin: top right !important;
+  position: absolute !important;
+}
+
+::ng-deep .mat-mdc-menu-panel.dark-theme-menu {
+  position: fixed !important;
+  min-width: max-content !important;
+  z-index: 50 !important;
+  transform-origin: 100% 0 !important;
+  background-color: rgb(17, 24, 39) !important;
+  border: 1px solid rgb(55, 65, 81) !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  right: 24px !important;
+}
+
+/* Override Material's overlay positioning */
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+  position: fixed !important;
+}
+
+::ng-deep .dark-theme-menu .mat-mdc-menu-content {
+  padding: 0 !important;
+  min-width: max-content !important;
+}
+
+/* Optional: Add a slight offset from the button */
+::ng-deep .cdk-overlay-pane {
+  margin-top: 4px !important;
+}
+
+/* Keep existing menu item styles */
+::ng-deep .dark-theme-menu .mat-mdc-menu-item {
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 14px !important;
+  color: rgb(229, 231, 235) !important;
+  padding: 0 12px !important;
+}
+
+::ng-deep .dark-theme-menu .mat-mdc-menu-item .mat-icon {
+  color: rgb(156, 163, 175) !important;
+  margin-right: 8px !important;
+  font-size: 18px !important;
+  height: 18px !important;
+  width: 18px !important;
+}
+
+::ng-deep .dark-theme-menu .mat-mdc-menu-item:hover {
+  background-color: rgb(31, 41, 55) !important;
+}
+
+/* Dialog positioning and styling */
+::ng-deep .center-dialog {
+  margin: 0 auto !important;
+}
+
+::ng-deep .dark-theme-dialog {
+  position: relative !important;
+}
+
+::ng-deep .dark-theme-dialog .mat-mdc-dialog-container {
+  position: fixed !important;
+  top: 100px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }
