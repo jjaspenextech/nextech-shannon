@@ -90,9 +90,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       if (conversationId) {
         this.loadConversation(conversationId);
       } else {
+        const projectId = this.chatService.getProjectId() || '';
+        this.conversation.project_id = projectId;
         const initialMessage = this.chatService.getInitialMessage();
         if (initialMessage) {
           this.userInput = initialMessage;
+          this.conversation.messages.push({
+            role: 'user',
+            sequence: 1,
+            pending: true
+          });
           this.sendMessage();
         }
       }
@@ -171,7 +178,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
       this.messageInput.nativeElement.style.height = 'auto';
 
-      this.streamNewMessage(botMessageIndex);
+      await this.streamNewMessage(botMessageIndex);
     }
   }
 

@@ -17,32 +17,77 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <!-- Project Details -->
-    <div class="project-details">
-      <div class="project-header">
-        <mat-icon class="project-icon">folder</mat-icon>
-        <div class="project-privacy">
-          <mat-icon class="privacy-icon">lock</mat-icon>
-          Private
+    <div class="content-wrapper">
+      <!-- Project Details -->
+      <div class="project-details">
+        <div class="project-header">
+          <mat-icon class="project-icon">folder</mat-icon>
+          <div class="project-privacy">
+            <mat-icon class="privacy-icon">lock</mat-icon>
+            Private
+          </div>
+        </div>
+
+        <form class="project-form" (ngSubmit)="saveProject()">
+          <div class="form-group">
+            <input 
+              type="text" 
+              [(ngModel)]="project.name" 
+              name="projectName"
+              placeholder="Project name" 
+              class="text-2xl font-semibold" />
+          </div>
+          <div class="form-group">
+            <textarea 
+              [(ngModel)]="project.description" 
+              name="projectDescription"
+              placeholder="Project description"></textarea>
+          </div>
+        </form>
+
+        <!-- Project Conversations -->
+        <div class="project-conversations">
+            <!-- New conversation input -->
+            <div class="new-conversation">
+              <div class="input-container">
+                <textarea 
+                  #chatInput
+                  [(ngModel)]="newMessage"
+                  (keydown.enter)="onEnter($event)"
+                  placeholder="Type a message to start a new conversation..."
+                  class="chat-input"
+                  rows="1"
+                ></textarea>
+                <button 
+                  class="send-button"
+                  [disabled]="!newMessage.trim()"
+                  (click)="startNewConversation()">
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+            
+          <h2 class="conversations-title">
+            <mat-icon>chat</mat-icon>
+            Project Conversations
+          </h2>
+
+          <!-- List of existing conversations -->
+          <div class="conversation-list">
+            <div *ngFor="let conversation of conversations" 
+                 class="conversation-item"
+                 (click)="openConversation(conversation)">
+              <div class="conversation-header">
+                <span class="conversation-title">{{ conversation.description || 'Untitled Conversation' }}</span>
+                <span class="conversation-date" *ngIf="conversation.messages.length > 0">{{ conversation.messages[0].timestamp | date }}</span>
+              </div>
+              <div class="conversation-preview">
+                {{ getConversationPreview(conversation) }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <form class="project-form" (ngSubmit)="saveProject()">
-        <div class="form-group">
-          <input 
-            type="text" 
-            [(ngModel)]="project.name" 
-            name="projectName"
-            placeholder="Project name" 
-            class="text-2xl font-semibold" />
-        </div>
-        <div class="form-group">
-          <textarea 
-            [(ngModel)]="project.description" 
-            name="projectDescription"
-            placeholder="Project description"></textarea>
-        </div>
-      </form>
     </div>
 
     <!-- Sidebar -->

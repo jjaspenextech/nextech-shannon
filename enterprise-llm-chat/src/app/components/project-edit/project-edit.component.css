@@ -33,8 +33,12 @@
   @apply flex h-[calc(100vh-4rem)];
 }
 
+.content-wrapper {
+  @apply flex-1 overflow-y-auto;
+}
+
 .project-details {
-  @apply flex-1 p-8;
+  @apply p-8;
 }
 
 .project-header {
@@ -60,7 +64,7 @@
 }
 
 .project-form {
-  @apply space-y-6 max-w-3xl;
+  @apply space-y-6 max-w-3xl mb-8;
 }
 
 .form-group {
@@ -290,4 +294,61 @@
   top: 100px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
+}
+
+.project-conversations {
+  @apply mt-12 max-w-3xl;
+}
+
+.conversations-title {
+  @apply text-xl font-semibold flex items-center gap-2 mb-6 text-gray-200;
+}
+
+.conversation-list {
+  @apply space-y-4;
+}
+
+.conversation-item {
+  @apply bg-gray-800 rounded-lg p-4 hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
+}
+
+.conversation-header {
+  @apply flex justify-between items-center mb-2;
+}
+
+.conversation-title {
+  @apply font-medium text-gray-200;
+}
+
+.conversation-date {
+  @apply text-sm text-gray-400;
+}
+
+.conversation-preview {
+  @apply text-sm text-gray-400 line-clamp-2;
+}
+
+.new-conversation {
+  @apply mb-6;
+}
+
+.input-container {
+  @apply relative flex items-end gap-2;
+}
+
+.chat-input {
+  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
+         focus:ring-2 focus:ring-orange-600 focus:outline-none resize-none;
+  min-height: 60px;
+}
+
+.send-button {
+  @apply flex items-center justify-center p-3 bg-orange-600 text-white rounded-lg
+         hover:bg-orange-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.send-button mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
 }

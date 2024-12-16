@@ -5,4 +5,5 @@ export interface Conversation {
   username: string;
   messages: Message[];
   description?: string;
+  project_id?: string;
 } 

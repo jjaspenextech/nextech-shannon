@@ -5,6 +5,9 @@ import { ContextResult, Project } from '@models';
 import { MatDialog } from '@angular/material/dialog';
 import { TextContentDialogComponent } from '../text-content-dialog/text-content-dialog.component';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ConversationService } from '../../services/conversation.service';
+import { Conversation, Message } from '@models';
+import { ChatService } from '../../services/chat.service';
 
 interface KnowledgeItem {
   icon: string;
@@ -21,6 +24,7 @@ interface KnowledgeItem {
 export class ProjectEditComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
+  @ViewChild('chatInput') chatInput!: ElementRef<HTMLTextAreaElement>;
   
   project: Project = {
     name: '',
@@ -33,18 +37,23 @@ export class ProjectEditComponent implements OnInit {
 
   isDragging = false;
   knowledgeItems: KnowledgeItem[] = [];
+  conversations: Conversation[] = [];
+  newMessage: string = '';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private dialog: MatDialog
+    private conversationService: ConversationService,
+    private dialog: MatDialog,
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
     const projectId = this.route.snapshot.paramMap.get('id');
     if (projectId) {
       this.loadProject(projectId);
+      this.loadProjectConversations(projectId);
     }
   }
 
@@ -223,5 +232,43 @@ export class ProjectEditComponent implements OnInit {
         });
       }
     });
+  }
+
+  private loadProjectConversations(projectId: string) {
+    this.conversationService.getProjectConversations(projectId).subscribe({
+      next: (conversations: Conversation[]) => {
+        this.conversations = conversations;
+      },
+      error: (error: any) => {
+        console.error('Error loading conversations:', error);
+      }
+    });
+  }
+
+  getConversationPreview(conversation: Conversation): string {
+    const lastMessage = conversation.messages
+      .filter(m => m.content)
+      .sort((a, b) => b.sequence - a.sequence)[0];
+    return lastMessage?.content?.slice(0, 100) + '...' || 'No messages';
+  }
+
+  onEnter(event: any): void {
+    if (event.shiftKey) return;
+    event.preventDefault();
+    this.startNewConversation();
+  }
+
+  startNewConversation() {
+    if (!this.newMessage.trim() || !this.project.project_id) return;
+    
+    this.chatService.setInitialMessage(this.newMessage);
+    this.chatService.setProjectId(this.project.project_id);
+    this.router.navigate(['/chat']);
+  }
+
+  openConversation(conversation: Conversation): void {
+    if (conversation.conversation_id) {
+      this.router.navigate(['/chat'], { queryParams: { id: conversation.conversation_id } });
+    }
   }
 }
