@@ -18,6 +18,8 @@ export class SignupComponent {
   public errorMessage: string = '';
   public usernameError: string = '';
   public passwordError: string = '';
+  public signupCode: string = '';
+  public signupCodeError: string = '';
 
   constructor(
     private userApiService: UserApiService,
@@ -38,7 +40,8 @@ export class SignupComponent {
       password: this.password,
       email: this.email,
       firstName: this.firstName,
-      lastName: this.lastName
+      lastName: this.lastName,
+      signupCode: this.signupCode
     };
 
     this.userApiService.signup(userData).subscribe(
@@ -49,7 +52,10 @@ export class SignupComponent {
       },
       error => {
         console.error('Signup failed', error);
-        if (error.status === 400 && error.error.detail === 'User already exists') {
+        if (error.status === 401) {
+          this.signupCodeError = 'Invalid signup code';
+          this.errorMessage = '';
+        } else if (error.status === 400 && error.error.detail === 'User already exists') {
           this.usernameError = 'Username already exists. Please choose another one.';
           this.errorMessage = '';
         } else {

@@ -9,6 +9,15 @@ export interface ApiKeyUpdate {
   key: string;
 }
 
+export interface SignupData {
+  username: string;
+  password: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  signupCode: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +30,7 @@ export class UserApiService {
     return this.http.post(`${this.API_URL}/login/`, credentials);
   }
 
-  signup(userData: { username: string; password: string; email: string; firstName: string; lastName: string }): Observable<any> {
+  signup(userData: SignupData): Observable<any> {
     return this.http.post(`${this.API_URL}/signup/`, userData);
   }
 

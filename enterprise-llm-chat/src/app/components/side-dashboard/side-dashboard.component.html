@@ -11,9 +11,9 @@
     </div>
 
     <div class="dashboard-content">
-        <button class="setting-button" (click)="navigateToProjects()">
-            <span>Projects</span>
-        </button>
+      <button class="setting-button" (click)="navigateToProjects()">
+        <span>Projects</span>
+      </button>
       <div class="section">
         <h3 class="section-title">Recent Chats</h3>
         <div class="chat-list">
@@ -31,6 +31,23 @@
             <span>Integrations</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <div class="dashboard-footer">
+      <div class="footer-buttons">
+        <button 
+          class="icon-button user-initials" 
+          (click)="openUserSettings()" 
+          matTooltip="API Keys">
+          {{ userInitials }}
+        </button>
+        <button 
+          class="icon-button logout-button" 
+          (click)="logout()" 
+          matTooltip="Log out">
+          <mat-icon>logout</mat-icon>
+        </button>
       </div>
     </div>
   </div>

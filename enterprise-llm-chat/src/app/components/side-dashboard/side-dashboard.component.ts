@@ -1,9 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { UserApiService } from '../../services/user-api.service';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-side-dashboard',
@@ -26,16 +28,26 @@ import { Router } from '@angular/router';
     ])
   ]
 })
-export class SideDashboardComponent {
+export class SideDashboardComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closePanel = new EventEmitter<void>();
   @Output() openPanel = new EventEmitter<void>();
+  userInitials: string = '';
 
   constructor(
     private dialog: MatDialog,
     private userApiService: UserApiService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService,
+    private userService: UserService
   ) {}
+
+  ngOnInit() {
+    const user = this.userService.getUser();
+    if (user) {
+      this.userInitials = (user.firstName[0] + user.lastName[0]).toUpperCase();
+    }
+  }
 
   onMouseEnter() {
     this.openPanel.emit();
@@ -63,5 +75,15 @@ export class SideDashboardComponent {
 
   navigateToProjects() {
     this.router.navigate(['/projects']);
+  }
+
+  logout(): void {
+    this.cookieService.delete('authToken', '/');
+    this.router.navigate(['/login']);
+    this.closePanel.emit();
+  }
+
+  openUserSettings(): void {
+    this.openApiKeyModal();
   }
 } 
