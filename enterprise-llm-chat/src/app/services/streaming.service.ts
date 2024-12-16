@@ -11,7 +11,7 @@ export class StreamingService {
 
   constructor(private cookieService: CookieService) {}
 
-  async streamChatResponse(messages: Message[]): Promise<ReadableStreamDefaultReader<Uint8Array>> {
+  async streamChatResponse(messages: Message[], projectId?: string): Promise<ReadableStreamDefaultReader<Uint8Array>> {
     const apiMessages = messages.map(msg => ({
       role: msg.role === 'user' ? 'user' : 'assistant',
       content: msg.content,
@@ -23,7 +23,10 @@ export class StreamingService {
     const response = await fetch(`${this.API_URL}/llm-query/stream/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
-      body: JSON.stringify({ messages: apiMessages })
+      body: JSON.stringify({ 
+        messages: apiMessages,
+        project_id: projectId
+      })
     });
 
     if (!response.body) {

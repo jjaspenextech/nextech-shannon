@@ -39,6 +39,8 @@ export class ProjectEditComponent implements OnInit {
   knowledgeItems: KnowledgeItem[] = [];
   conversations: Conversation[] = [];
   newMessage: string = '';
+  isLoadingConversations: boolean = false;
+  isLoadingProject: boolean = false;
 
   constructor(
     private router: Router,
@@ -183,6 +185,7 @@ export class ProjectEditComponent implements OnInit {
   }
 
   loadProject(projectId: string) {
+    this.isLoadingProject = true;
     this.projectService.getProject(projectId).subscribe({
       next: (project) => {
         this.project = project;
@@ -192,10 +195,11 @@ export class ProjectEditComponent implements OnInit {
           content: context.content,
           type: context.type
         }));
+        this.isLoadingProject = false;
       },
       error: (error) => {
         console.error('Error loading project:', error);
-        // Handle error (show message, redirect, etc.)
+        this.isLoadingProject = false;
       }
     });
   }
@@ -235,12 +239,15 @@ export class ProjectEditComponent implements OnInit {
   }
 
   private loadProjectConversations(projectId: string) {
+    this.isLoadingConversations = true;
     this.conversationService.getProjectConversations(projectId).subscribe({
       next: (conversations: Conversation[]) => {
         this.conversations = conversations;
+        this.isLoadingConversations = false;
       },
       error: (error: any) => {
         console.error('Error loading conversations:', error);
+        this.isLoadingConversations = false;
       }
     });
   }
@@ -270,5 +277,18 @@ export class ProjectEditComponent implements OnInit {
     if (conversation.conversation_id) {
       this.router.navigate(['/chat'], { queryParams: { id: conversation.conversation_id } });
     }
+  }
+
+  viewContext(item: KnowledgeItem): void {
+    this.dialog.open(TextContentDialogComponent, {
+      width: '600px',
+      position: { top: '100px' },
+      panelClass: ['dark-theme-dialog', 'center-dialog'],
+      data: {
+        title: item.title,
+        content: item.content,
+        readOnly: true
+      }
+    });
   }
 }

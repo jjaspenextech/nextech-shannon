@@ -72,8 +72,16 @@
             Project Conversations
           </h2>
 
+          <!-- Add loading spinner -->
+          <div *ngIf="isLoadingConversations" class="loading-spinner">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+
           <!-- List of existing conversations -->
-          <div class="conversation-list">
+          <div *ngIf="!isLoadingConversations" class="conversation-list">
+            <div *ngIf="conversations.length === 0" class="no-conversations">
+              <p class="text-gray-400">No conversations yet</p>
+            </div>
             <div *ngFor="let conversation of conversations" 
                  class="conversation-item"
                  (click)="openConversation(conversation)">
@@ -129,29 +137,43 @@
         </div>
       </div>
       
-      <div class="drag-drop-zone" 
-           [class.dragging]="isDragging"
-           (dragenter)="onDragOver($event)"
-           (dragover)="onDragOver($event)"
-           (dragleave)="onDragLeave($event)"
-           (drop)="onDrop($event)">
-        <div class="drop-zone-content">
-          <mat-icon class="drop-icon">upload_file</mat-icon>
-          <span>Drop files to add as context</span>
-        </div>
+      <!-- Add loading spinner -->
+      <div *ngIf="isLoadingProject" class="loading-spinner">
+        <mat-spinner diameter="40"></mat-spinner>
       </div>
-      
-      <div class="knowledge-list">
-        <div *ngFor="let item of knowledgeItems; let i = index" class="knowledge-item">
-          <mat-icon class="knowledge-icon">description</mat-icon>
-          <div class="knowledge-details">
-            <div class="knowledge-title">{{ item.title }}</div>
+
+      <!-- Only show drag-drop zone and knowledge list when not loading -->
+      <ng-container *ngIf="!isLoadingProject">
+        <div class="drag-drop-zone" 
+             [class.dragging]="isDragging"
+             (dragenter)="onDragOver($event)"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+          <div class="drop-zone-content">
+            <mat-icon class="drop-icon">upload_file</mat-icon>
+            <span>Drop files to add as context</span>
           </div>
-          <button class="delete-button" (click)="removeContext(i)">
-            <mat-icon>close</mat-icon>
-          </button>
         </div>
-      </div>
+        
+        <div class="knowledge-list">
+          <div *ngIf="knowledgeItems.length === 0" class="no-contexts">
+            <p class="text-gray-400">No project knowledge added yet</p>
+          </div>
+          <div *ngFor="let item of knowledgeItems; let i = index" 
+               class="knowledge-item"
+               (click)="viewContext(item)">
+            <mat-icon class="knowledge-icon">description</mat-icon>
+            <div class="knowledge-details">
+              <div class="knowledge-title">{{ item.title }}</div>
+            </div>
+            <button class="delete-button" 
+                    (click)="$event.stopPropagation(); removeContext(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

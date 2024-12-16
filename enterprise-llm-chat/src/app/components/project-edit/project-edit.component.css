@@ -352,3 +352,23 @@
   height: 20px;
   width: 20px;
 }
+
+.loading-spinner {
+  @apply flex justify-center items-center py-8;
+}
+
+::ng-deep .loading-spinner .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: rgb(234, 88, 12) !important;
+}
+
+.no-conversations {
+  @apply text-center py-8;
+}
+
+.no-contexts {
+  @apply text-center py-8 text-gray-400;
+}
+
+.knowledge-list {
+  @apply min-h-[200px];
+}

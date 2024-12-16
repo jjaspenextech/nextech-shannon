@@ -110,4 +110,16 @@ mat-form-field {
 
 ::ng-deep .mat-mdc-dialog-container .mat-focused .mdc-text-field {
   @apply ring-2 ring-orange-600;
+}
+
+::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mat-mdc-input-element {
+  color: rgb(156, 163, 175) !important; /* text-gray-400 */
+}
+
+::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mdc-text-field {
+  background-color: rgb(24, 31, 41) !important; /* slightly darker than normal */
+}
+
+::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mat-mdc-form-field-label {
+  color: rgb(107, 114, 128) !important; /* text-gray-500 */
 } 

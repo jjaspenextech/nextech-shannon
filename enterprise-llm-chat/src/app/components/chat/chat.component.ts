@@ -185,7 +185,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   async streamNewMessage(botMessageIndex: number) {
     try {
       this.currentStreamingMessage = '';
-      const reader = await this.streamingService.streamChatResponse(this.conversation.messages.slice(0, -1));
+      const reader = await this.streamingService.streamChatResponse(
+        this.conversation.messages.slice(0, -1),
+        this.conversation.project_id
+      );
       
       await this.streamingService.processStreamResponse(
         reader,

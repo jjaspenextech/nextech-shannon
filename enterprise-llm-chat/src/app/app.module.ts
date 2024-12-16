@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 // import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
@@ -68,6 +69,7 @@ import { TextContentDialogComponent } from './components/text-content-dialog/tex
     MatDialogModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     // MsalModule.forRoot({
     //   interactionType: InteractionType.Redirect,
     //   authRequest: {
