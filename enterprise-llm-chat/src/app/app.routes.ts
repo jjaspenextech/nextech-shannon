@@ -9,7 +9,7 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'projects', component: ProjectListComponent },
   { path: 'login', component: LoginComponent },

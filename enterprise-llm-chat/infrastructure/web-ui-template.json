@@ -22,9 +22,16 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "East US",
+            "defaultValue": "eastus2",
             "metadata": {
                 "description": "Location for all resources"
+            }
+        },
+        "physicalPath": {
+            "type": "string",
+            "defaultValue": "site\\wwwroot\\my-site\\browser",
+            "metadata": {
+                "description": "Physical path for the site"
             }
         }
     },
@@ -64,7 +71,12 @@
                     "alwaysOn": false,
                     "http20Enabled": true,
                     "functionAppScaleLimit": 0,
-                    "minimumElasticInstanceCount": 1
+                    "minimumElasticInstanceCount": 1,
+                    "appSettings": [
+                        { "name": "WEBSITE_ENABLE_SYNC_UPDATE_SITE", "value": "true" },
+                        { "name": "WEBSITE_NODE_DEFAULT_VERSION", "value": "~20" },
+                        { "name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1" }
+                    ]
                 },
                 "scmSiteAlsoStopped": false,
                 "clientAffinityEnabled": true,
@@ -145,7 +157,7 @@
                 "virtualApplications": [
                     {
                         "virtualPath": "/",
-                        "physicalPath": "site\\wwwroot\\[parameters('siteName')]\\browser",
+                        "physicalPath": "[parameters('physicalPath')]",
                         "preloadEnabled": false
                     }
                 ],
