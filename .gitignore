@@ -72,3 +72,4 @@ testem.log
 .DS_Store
 Thumbs.db
 /enterprise-llm-chat/src/environments/environment.local.ts
+/enterprise-llm-chat/src/environments/environment.dev.ts

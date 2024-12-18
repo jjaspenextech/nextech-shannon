@@ -117,6 +117,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   updateMessageContent(index: number) {
     if (this.conversation.messages[index] && this.conversation.messages[index].content) {
+      // if the message ends with [DONE] then we need to remove it. This is a hack to get rid of the [DONE] 
+      // that the streaming service adds to the end of the message when the backend is very slow.
+      if (this.conversation.messages[index].content.endsWith('[DONE]')) {
+        this.conversation.messages[index].content = this.conversation.messages[index].content.slice(0, -6);
+      }
       this.conversation.messages[index].formattedContent = this.formatMessage(this.conversation.messages[index].content);      
       this.updateFormattedContent();
     }

@@ -36,6 +36,13 @@ export class LandingComponent implements OnInit {
       this.firstName = user.firstName;
       this.loadRecentConversations(user.username);
     }
+    this.focusInput();
+  }
+
+  focusInput() {
+    setTimeout(() => {
+      this.landingInput.nativeElement.focus();
+    }, 0);
   }
 
   async loadRecentConversations(username: string) {

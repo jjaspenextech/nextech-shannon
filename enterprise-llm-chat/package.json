@@ -5,9 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "start:local": "ng serve --configuration=local --open",
+    "start:dev": "ng serve --configuration=development --open",
     "build": "ng build",
     "build:local": "ng build --configuration=local",
+    "build:dev": "ng build --configuration=development",
     "watch": "ng build --watch --configuration development",
+    "watch:dev": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
