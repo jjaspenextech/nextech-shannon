@@ -7,9 +7,9 @@
           <div class="message-content" 
                [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
           </div>
-          <button *ngIf="isLast && message.role === 'user'" class="resend-icon" (click)="resendLastMessage()">
+          <!-- <button *ngIf="isLast && message.role === 'user'" class="resend-icon" (click)="resendLastMessage()">
             <i class="fas fa-redo"></i>
-          </button>
+          </button> -->
         </div>
         <div class="context-pills" *ngIf="message.contexts">
           <span *ngFor="let context of message.contexts" class="context-pill" (click)="togglePopup(context, $event)">

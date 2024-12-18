@@ -159,7 +159,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       const contexts = await this.getContextsFromHandlers(this.userInput);
       // check if the last message is a user message set to pending
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-      if (lastMessage.role === 'user' && lastMessage.pending) {
+      if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
         lastMessage.pending = false;
         lastMessage.content = this.userInput;
       } else {
