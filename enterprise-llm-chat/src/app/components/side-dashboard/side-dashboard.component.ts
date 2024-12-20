@@ -45,7 +45,7 @@ export class SideDashboardComponent implements OnInit {
   ngOnInit() {
     const user = this.userService.getUser();
     if (user) {
-      this.userInitials = (user.firstName[0] + user.lastName[0]).toUpperCase();
+      this.userInitials = (user.firstName[0] + (user.lastName.length > 0 ? user.lastName[0] : '')).toUpperCase();
     }
   }
 

@@ -32,7 +32,7 @@ export class ProjectEditComponent implements OnInit {
     contexts: [],
     conversations: [],
     is_public: false,
-    updated_at: new Date().toISOString()
+    updated_at: new Date()
   };
 
   isDragging = false;
