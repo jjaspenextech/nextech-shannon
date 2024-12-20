@@ -7,7 +7,7 @@ import { StreamingService } from '../../services/streaming.service';
 import { UserApiService } from '../../services/user-api.service';
 import { ContextResult, Conversation, Message } from '@models';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
 import { firstValueFrom, tap } from 'rxjs';
 
@@ -50,6 +50,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   scrollEnabled: boolean = true;
   showResendButton: boolean = false;
   isDragging = false;
+  isSaving: boolean = false;
+  isDashboardOpen: boolean = false;
 
   constructor(
     private chatService: ChatService,
@@ -58,7 +60,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private cookieService: CookieService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private commandRegistry: CommandRegistryService
+    private commandRegistry: CommandRegistryService,
+    private router: Router
   ) {
     const renderer = new marked.Renderer();
     
@@ -159,40 +162,48 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   async sendMessage() {
-    if (this.userInput.trim()) {
+    if (this.userInput.trim() && !this.isSaving) {
+      this.isSaving = true;
       this.scrollEnabled = true;
-      const contexts = await this.getContextsFromHandlers(this.userInput);
       
-      // Handle user message
-      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-      if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
-        lastMessage.pending = false;
-        lastMessage.content = this.userInput;
-      } else {
-        const userMessage: Message = { 
-          role: 'user', 
-          content: this.userInput, 
-          sequence: this.conversation.messages.length + 1,
-          contexts: contexts && contexts.length > 0 ? contexts : undefined
-        };
-        this.conversation.messages.push(userMessage);
+      try {
+        const contexts = await this.getContextsFromHandlers(this.userInput);
+        
+        // Handle user message
+        const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+        if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
+          lastMessage.pending = false;
+          lastMessage.content = this.userInput;
+        } else {
+          const userMessage: Message = { 
+            role: 'user', 
+            content: this.userInput, 
+            sequence: this.conversation.messages.length + 1,
+            contexts: contexts && contexts.length > 0 ? contexts : undefined
+          };
+          this.conversation.messages.push(userMessage);
+        }
+        
+        await this.saveConversation();
+        
+        // Add pending assistant message with loading animation
+        const botMessageIndex = this.conversation.messages.length;
+        this.conversation.messages.push({ 
+          role: 'assistant', 
+          content: '',
+          sequence: botMessageIndex + 1,
+          pending: true
+        });
+        
+        this.userInput = '';
+        this.messageInput.nativeElement.style.height = 'auto';
+        
+        this.isSaving = false; // Remove loading state before starting to stream
+        await this.streamNewMessage(botMessageIndex);
+      } catch (error) {
+        console.error('Error in send message:', error);
+        this.isSaving = false;
       }
-      
-      await this.saveConversation();
-      
-      // Add pending assistant message with loading animation
-      const botMessageIndex = this.conversation.messages.length;
-      this.conversation.messages.push({ 
-        role: 'assistant', 
-        content: '',
-        sequence: botMessageIndex + 1,
-        pending: true
-      });
-      
-      this.userInput = '';
-      this.messageInput.nativeElement.style.height = 'auto';
-      
-      await this.streamNewMessage(botMessageIndex);
     }
   }
 
@@ -404,5 +415,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       reader.onerror = (e) => reject(e);
       reader.readAsText(file);
     });
+  }
+
+  toggleDashboard(open: boolean) {
+    this.isDashboardOpen = open;
   }
 }

@@ -77,6 +77,11 @@ export class SideDashboardComponent implements OnInit {
     this.router.navigate(['/projects']);
   }
 
+  navigateToLanding(): void {
+    this.router.navigate(['/landing']);
+    this.closePanel.emit();
+  }
+
   logout(): void {
     this.cookieService.delete('authToken', '/');
     this.router.navigate(['/login']);

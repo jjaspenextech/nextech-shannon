@@ -10,5 +10,5 @@ export interface Message {
   role: string;
   description?: string;
   pending?: boolean;
-  timestamp?: string;
+  timestamp?: string | Date;
 } 

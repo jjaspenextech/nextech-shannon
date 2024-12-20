@@ -109,3 +109,7 @@
 .logout-button {
   @apply text-red-400 hover:text-red-300;
 }
+
+.dashboard-title.clickable {
+  @apply cursor-pointer hover:text-gray-300 transition-colors duration-200;
+}

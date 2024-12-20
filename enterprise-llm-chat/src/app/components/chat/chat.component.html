@@ -1,4 +1,17 @@
 <div class="chat-container">
+  <button mat-button class="shannon-button" 
+    (mouseenter)="toggleDashboard(true)" 
+    (mouseleave)="toggleDashboard(false)">
+    Shannon
+  </button>
+
+  <app-side-dashboard 
+    [isOpen]="isDashboardOpen" 
+    [class.active]="isDashboardOpen"
+    (closePanel)="toggleDashboard(false)"
+    (openPanel)="toggleDashboard(true)">
+  </app-side-dashboard>
+
   <div #messagesContainer class="messages-container">
     <ng-container *ngFor="let message of conversation.messages; let isLast = last">
       <div *ngIf="message.pending && message.role === 'assistant'" class="message assistant-message">
@@ -38,7 +51,7 @@
     </div>
   </div>
 
-  <div class="input-container">
+  <div class="input-container" [class.is-loading]="isSaving">
     <textarea 
       #messageInput
       [(ngModel)]="userInput" 
@@ -46,12 +59,16 @@
       (keydown.enter)="$event.preventDefault(); sendMessage()"
       (input)="onInput(messageInput)"
       rows="1"
+      [disabled]="isSaving"
     ></textarea>
     <input type="file" accept=".txt,.doc" (change)="handleFileInput($event)" class="file-input" id="fileInput" />
-    <label for="fileInput" class="file-label">
+    <label for="fileInput" class="file-label" [class.disabled]="isSaving">
       <mat-icon>attach_file</mat-icon>
     </label>
-    <button (click)="sendMessage()">Send</button>
+    <button (click)="sendMessage()" [disabled]="isSaving">
+      <span *ngIf="!isSaving">Send</span>
+      <mat-spinner *ngIf="isSaving" diameter="20"></mat-spinner>
+    </button>
   </div>
 </div>
 

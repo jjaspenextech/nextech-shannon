@@ -1,3 +1,7 @@
+.shannon-button {
+  @apply fixed top-5 left-5 bg-[#5457FF] text-white text-base px-4 py-2 rounded hover:bg-[#4547CC] transition-colors duration-200;
+}
+
 .chat-container {
   @apply flex flex-col h-screen bg-gray-800 text-white m-2;
 }
@@ -250,5 +254,29 @@ button {
     transform: scale(1.1);
     opacity: 1;
   }
+}
+
+.input-container.is-loading textarea {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.input-container.is-loading .file-label {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.input-container button {
+  @apply min-w-[70px] flex items-center justify-center;
+}
+
+.input-container button mat-spinner {
+  @apply mx-auto;
+}
+
+::ng-deep .input-container button mat-spinner circle {
+  stroke: #ffffff !important;
+}
+
+.file-label.disabled {
+  @apply pointer-events-none;
 }
   
