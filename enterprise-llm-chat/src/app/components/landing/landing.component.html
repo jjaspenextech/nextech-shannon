@@ -30,16 +30,22 @@
     </button>
   </div>
 
-  <div class="recent-conversations" *ngIf="!isLoading">
-    <h2 *ngIf="recentConversations.length > 0">Recent Conversations</h2>
-    <div class="conversation-grid">
-      <div 
-        *ngFor="let conversation of recentConversations" 
-        class="conversation-card"
-        (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
-      >
-        <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>
-        <p *ngIf="conversation.messages && conversation.messages.length > 0">{{ conversation.messages[0].content?.substring(0, 100) || '' }}...</p>
+  <div class="recent-conversations">
+    <div *ngIf="isLoading" class="loading-spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <h2 *ngIf="recentConversations.length > 0">Recent Conversations</h2>
+      <div class="conversation-grid">
+        <div 
+          *ngFor="let conversation of recentConversations" 
+          class="conversation-card"
+          (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
+        >
+          <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>
+          <p *ngIf="conversation.messages && conversation.messages.length > 0">{{ conversation.messages[0].content?.substring(0, 100) || '' }}...</p>
+        </div>
       </div>
     </div>
   </div>

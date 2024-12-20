@@ -168,4 +168,12 @@
 
 ::ng-deep .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loading-spinner-container {
+  @apply flex justify-center items-center py-12;
+}
+
+::ng-deep .loading-spinner-container .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #5457FF !important;
 } 

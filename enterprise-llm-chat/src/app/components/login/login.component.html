@@ -9,8 +9,13 @@
       <label for="password">Password</label>
       <input type="password" id="password" [(ngModel)]="password" name="password" autocomplete="current-password" required>
     </div>
-    <button mat-button type="submit">Login</button>
+    <button mat-button type="submit" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Login</span>
+      <div *ngIf="isLoading" class="loading-spinner-container">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </button>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </form>
-  <button mat-button (click)="navigateToSignup()" class="signup-button">Sign Up</button>
+  <button mat-button (click)="navigateToSignup()" class="signup-button" [disabled]="isLoading">Sign Up</button>
 </div> 

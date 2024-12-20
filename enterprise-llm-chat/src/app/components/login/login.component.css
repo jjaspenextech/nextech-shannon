@@ -26,3 +26,19 @@ button {
 .error-message {
   @apply mt-4 text-red-500 text-center;
 }
+
+.loading-spinner-container {
+  @apply flex justify-center items-center;
+}
+
+::ng-deep .loading-spinner-container .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: white !important;
+}
+
+button[type="submit"] {
+  @apply w-full relative min-h-[40px] flex items-center justify-center;
+}
+
+button[disabled] {
+  @apply opacity-70 cursor-not-allowed;
+}

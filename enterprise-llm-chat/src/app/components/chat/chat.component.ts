@@ -160,9 +160,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   async sendMessage() {
     if (this.userInput.trim()) {
-      this.scrollEnabled = true; // Enable scrolling for new messages
+      this.scrollEnabled = true;
       const contexts = await this.getContextsFromHandlers(this.userInput);
-      // check if the last message is a user message set to pending
+      
+      // Handle user message
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
       if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
         lastMessage.pending = false;
@@ -176,13 +177,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         };
         this.conversation.messages.push(userMessage);
       }
+      
       await this.saveConversation();
+      
+      // Add pending assistant message with loading animation
       const botMessageIndex = this.conversation.messages.length;
-      this.conversation.messages.push({ role: 'assistant', content:'', sequence: botMessageIndex + 1 });
+      this.conversation.messages.push({ 
+        role: 'assistant', 
+        content: '',
+        sequence: botMessageIndex + 1,
+        pending: true
+      });
+      
       this.userInput = '';
-
       this.messageInput.nativeElement.style.height = 'auto';
-
+      
       await this.streamNewMessage(botMessageIndex);
     }
   }
@@ -195,6 +204,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.conversation.project_id
       );
       
+      // Remove pending state when we start getting the response
+      this.conversation.messages[botMessageIndex].pending = false;
+      
       await this.streamingService.processStreamResponse(
         reader,
         (chunk: string) => {
@@ -205,18 +217,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         },
         () => {
           this.updateMessageContent(botMessageIndex);
-          // Save conversation after bot response
           this.saveConversation();
         }
       );
     } catch (error) {
       console.error('Error:', error);
-      this.conversation.messages.push({
-        role: 'assistant',
-        content: 'Sorry, there was an error processing your request.',
-        sequence: this.conversation.messages.length + 1
-      });
-      this.updateMessageContent(this.conversation.messages.length - 1);
+      // Update the pending message to show error
+      this.conversation.messages[botMessageIndex].pending = false;
+      this.conversation.messages[botMessageIndex].content = 'Sorry, there was an error processing your request.';
+      this.updateMessageContent(botMessageIndex);
     }
   }
 

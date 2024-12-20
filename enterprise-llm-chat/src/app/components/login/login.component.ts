@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserApiService } from '../../services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ export class LoginComponent {
   public username: string = '';
   public password: string = '';
   public errorMessage: string = '';
+  public isLoading: boolean = false;
 
   constructor(
     private userApiService: UserApiService,
@@ -22,6 +24,9 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.userApiService.login({ username: this.username, password: this.password }).subscribe(
       response => {
         console.log('Login successful', response);
@@ -35,6 +40,7 @@ export class LoginComponent {
         this.router.navigate(['/landing']);
       },
       error => {
+        this.isLoading = false;
         console.error('Login failed', error);
         if (error.status === 401) {
           this.errorMessage = 'Invalid username or password. Please try again.';

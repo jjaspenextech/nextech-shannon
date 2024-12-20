@@ -1,6 +1,13 @@
 <div class="chat-container">
   <div #messagesContainer class="messages-container">
     <ng-container *ngFor="let message of conversation.messages; let isLast = last">
+      <div *ngIf="message.pending && message.role === 'assistant'" class="message assistant-message">
+        <div class="loading-dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
       <div *ngIf="!message.pending" class="message-container">
         <div class="message" 
              [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
