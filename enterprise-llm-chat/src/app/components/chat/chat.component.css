@@ -1,5 +1,7 @@
 .shannon-button {
   @apply fixed top-5 left-5 bg-[#5457FF] text-white text-base px-4 py-2 rounded hover:bg-[#4547CC] transition-colors duration-200;
+  width: fit-content;
+  z-index: 999;
 }
 
 .chat-container {
@@ -278,5 +280,10 @@ button {
 
 .file-label.disabled {
   @apply pointer-events-none;
+}
+
+.chat-content {
+  @apply flex flex-col h-screen;
+  margin-left: 0;
 }
   

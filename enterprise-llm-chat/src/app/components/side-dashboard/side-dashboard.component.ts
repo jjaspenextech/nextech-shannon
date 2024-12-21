@@ -84,6 +84,10 @@ export class SideDashboardComponent implements OnInit {
 
   logout(): void {
     this.cookieService.delete('authToken', '/');
+    this.cookieService.delete('username', '/');
+    this.cookieService.delete('firstName', '/');
+    this.cookieService.delete('lastName', '/');
+    this.cookieService.delete('email', '/');
     this.router.navigate(['/login']);
     this.closePanel.emit();
   }

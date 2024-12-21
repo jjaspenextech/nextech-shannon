@@ -12,63 +12,65 @@
     (openPanel)="toggleDashboard(true)">
   </app-side-dashboard>
 
-  <div #messagesContainer class="messages-container">
-    <ng-container *ngFor="let message of conversation.messages; let isLast = last">
-      <div *ngIf="message.pending && message.role === 'assistant'" class="message assistant-message">
-        <div class="loading-dots">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-      </div>
-      <div *ngIf="!message.pending" class="message-container">
-        <div class="message" 
-             [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
-          <div class="message-content" 
-               [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
+  <div class="chat-content">
+    <div #messagesContainer class="messages-container">
+      <ng-container *ngFor="let message of conversation.messages; let isLast = last">
+        <div *ngIf="message.pending && message.role === 'assistant'" class="message assistant-message">
+          <div class="loading-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
           </div>
-          <!-- <button *ngIf="isLast && message.role === 'user'" class="resend-icon" (click)="resendLastMessage()">
-            <i class="fas fa-redo"></i>
-          </button> -->
         </div>
-        <div class="context-pills" *ngIf="message.contexts">
-          <span *ngFor="let context of message.contexts" class="context-pill" (click)="togglePopup(context, $event)">
-            <i class="fas fa-file-alt"></i> {{ context.type }}
-          </span>
+        <div *ngIf="!message.pending" class="message-container">
+          <div class="message" 
+               [ngClass]="{'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant'}">
+            <div class="message-content" 
+                 [innerHTML]="message.role === 'user' ? message.content : (message.formattedContent || message.content)">
+            </div>
+            <!-- <button *ngIf="isLast && message.role === 'user'" class="resend-icon" (click)="resendLastMessage()">
+              <i class="fas fa-redo"></i>
+            </button> -->
+          </div>
+          <div class="context-pills" *ngIf="message.contexts">
+            <span *ngFor="let context of message.contexts" class="context-pill" (click)="togglePopup(context, $event)">
+              <i class="fas fa-file-alt"></i> {{ context.type }}
+            </span>
+          </div>
         </div>
-      </div>
-    </ng-container>
-  </div>
-
-  <div *ngIf="isDragging" class="floating-drop-zone">
-    <div class="drop-zone-content">
-      <svg xmlns="http://www.w3.org/2000/svg" class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="17 8 12 3 7 8"/>
-        <line x1="12" y1="3" x2="12" y2="15"/>
-      </svg>
-      <span>Drop files to add as context</span>
+      </ng-container>
     </div>
-  </div>
 
-  <div class="input-container" [class.is-loading]="isSaving">
-    <textarea 
-      #messageInput
-      [(ngModel)]="userInput" 
-      placeholder="Reply..." 
-      (keydown.enter)="$event.preventDefault(); sendMessage()"
-      (input)="onInput(messageInput)"
-      rows="1"
-      [disabled]="isSaving"
-    ></textarea>
-    <input type="file" accept=".txt,.doc" (change)="handleFileInput($event)" class="file-input" id="fileInput" />
-    <label for="fileInput" class="file-label" [class.disabled]="isSaving">
-      <mat-icon>attach_file</mat-icon>
-    </label>
-    <button (click)="sendMessage()" [disabled]="isSaving">
-      <span *ngIf="!isSaving">Send</span>
-      <mat-spinner *ngIf="isSaving" diameter="20"></mat-spinner>
-    </button>
+    <div *ngIf="isDragging" class="floating-drop-zone">
+      <div class="drop-zone-content">
+        <svg xmlns="http://www.w3.org/2000/svg" class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span>Drop files to add as context</span>
+      </div>
+    </div>
+
+    <div class="input-container" [class.is-loading]="isSaving">
+      <textarea 
+        #messageInput
+        [(ngModel)]="userInput" 
+        placeholder="Reply..." 
+        (keydown.enter)="$event.preventDefault(); sendMessage()"
+        (input)="onInput(messageInput)"
+        rows="1"
+        [disabled]="isSaving"
+      ></textarea>
+      <input type="file" accept=".txt,.doc" (change)="handleFileInput($event)" class="file-input" id="fileInput" />
+      <label for="fileInput" class="file-label" [class.disabled]="isSaving">
+        <mat-icon>attach_file</mat-icon>
+      </label>
+      <button (click)="sendMessage()" [disabled]="isSaving">
+        <span *ngIf="!isSaving">Send</span>
+        <mat-spinner *ngIf="isSaving" diameter="20"></mat-spinner>
+      </button>
+    </div>
   </div>
 </div>
 

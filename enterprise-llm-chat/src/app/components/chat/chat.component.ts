@@ -234,8 +234,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     } catch (error) {
       console.error('Error:', error);
       // Update the pending message to show error
+      this.conversation.messages[botMessageIndex].content += '\n\nSorry, there was an error processing your request.';
       this.conversation.messages[botMessageIndex].pending = false;
-      this.conversation.messages[botMessageIndex].content = 'Sorry, there was an error processing your request.';
       this.updateMessageContent(botMessageIndex);
     }
   }
