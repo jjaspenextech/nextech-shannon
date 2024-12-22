@@ -1,0 +1,100 @@
+import { test, expect } from '@playwright/test';
+import dotenv from 'dotenv';
+import { Page } from '@playwright/test';
+
+// Load environment variables from .env file
+dotenv.config();
+
+test.describe('Landing Page', () => {
+  // Perform login before each test
+  test.beforeEach(async ({ page }: { page: Page }) => {
+    // Navigate to the login page
+    await page.goto('http://localhost:4200/login');
+
+    // Fill out the login form
+    await page.fill('input[name="username"]', 'johndoe');
+    await page.fill(
+      'input[name="password"]',
+      process.env['USER_PASSWORD'] || ''
+    );
+
+    // Submit the form
+    await page.click('button[type="submit"]');
+
+    // Verify successful login
+    await expect(page).toHaveURL(/.*\/landing/, { timeout: 30000 });
+  });
+
+  test('should display the correct greeting message based on the time of day', async ({
+    page,
+  }: {
+    page: Page;
+  }) => {
+    // Verify the greeting message
+    const currentTime = new Date().getHours();
+    if (currentTime < 12) {
+      await expect(page.locator('text=Good morning')).toBeVisible();
+    } else if (currentTime < 18) {
+      await expect(page.locator('text=Good afternoon')).toBeVisible();
+    } else {
+      await expect(page.locator('text=Good evening')).toBeVisible();
+    }
+  });
+
+  test('should start a new conversation when we start a chat', async ({
+    page,
+  }: {
+    page: Page;
+  }) => {
+    // Type in the chat input
+    await page.fill('.landing-input', 'Hello, how are you?');
+    // Click the send button
+    await page.click('.submit-button');
+    // Wait until you see a response from the bot
+    await expect(page.locator('.assistant-message')).toBeVisible({
+        timeout: 30000
+    });
+    // Go back to the landing page
+    await page.goto('http://localhost:4200/landing');
+    // Verify the conversation is displayed
+    await expect(page.locator('.conversation-card')).toBeVisible();
+  });
+
+  test.describe('Recent Conversations', () => {
+    test('should display recent conversations section', async ({
+      page,
+    }: {
+      page: Page;
+    }) => {
+      // Check if recent conversations are visible
+      await expect(page.locator('.recent-conversations')).toBeVisible();
+      // Check that there is at least one conversation card
+      await expect(page.locator('.conversation-card')).toBeVisible();
+      const count = await page.locator('.conversation-card').count();
+      console.log('count', count);
+      expect(count).toBeGreaterThan(0);
+    });
+
+    test('should navigate to chat page when a conversation is clicked', async ({
+      page,
+    }: {
+      page: Page;
+    }) => {
+      // Click on the first conversation card
+      await page.click('.conversation-card:first-child');
+      // Verify navigation to chat page
+      await expect(page).toHaveURL(/.*\/chat/);
+    });
+  });
+
+  test('should toggle the dashboard', async ({ page }: { page: Page }) => {
+    // Hover over the Shannon button to open the dashboard
+    await page.hover('.shannon-button');
+    // Verify dashboard is open
+    await expect(page.locator('app-side-dashboard')).toHaveClass(/active/);
+    // Move mouse away to close the dashboard
+    await page.mouse.move(0, 0);
+    // Verify dashboard is closed
+    await expect(page.locator('app-side-dashboard')).not.toHaveClass(/active/);
+  });
+});
