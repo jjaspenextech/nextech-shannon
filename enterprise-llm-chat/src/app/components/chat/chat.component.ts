@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
 import { firstValueFrom, tap } from 'rxjs';
+import { LLMService } from 'app/services/llm.service';
 
 @Component({
   selector: 'app-chat',
@@ -61,7 +62,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private commandRegistry: CommandRegistryService,
-    private router: Router
+    private router: Router,
+    private llmService: LLMService
   ) {
     const renderer = new marked.Renderer();
     
@@ -103,7 +105,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             sequence: 1,
             pending: true
           });
-          this.sendMessage();
+          this.updateConversation();
         }
       }
     });
@@ -116,6 +118,27 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   formatMessage(content: string): string {
     const formatted = marked.parse(content, { async: false }) as string;
     return formatted;
+  }
+
+  async updateConversation(){
+    // if conversation doesn't have a description, then get the description and the bot response in parallel
+    // and update the conversation with the description and the bot response.
+    const promises : Promise<any>[] = [
+      this.updateConversationDescription(),
+      this.updateConversationMessages()
+    ]
+    await Promise.all(promises);
+    this.saveConversation();
+  }
+
+  async updateConversationDescription() {
+    if (!this.conversation.description) {
+      this.conversation.description 
+        = await this.llmService.getDescription(this.conversation.messages[0].content || '');
+      await this.saveConversation();
+    } else {
+      return Promise.resolve();
+    }
   }
 
   updateMessageContent(index: number) {
@@ -161,50 +184,57 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     return contexts;
   }
 
-  async sendMessage() {
+  addOrUpdateLastUserMessage(message: string, contexts: ContextResult[]) {
+    // Check if we need to add new message to conversation or update the last user message
+    // to not be pending.
+    const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+    if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
+      lastMessage.pending = false;
+      lastMessage.content = message;
+    } else {
+      const userMessage: Message = { 
+        role: 'user', 
+        content: message, 
+        sequence: this.conversation.messages.length + 1,
+        contexts: contexts && contexts.length > 0 ? contexts : undefined
+      };
+      this.conversation.messages.push(userMessage);
+    }        
+  }
+
+  async updateConversationMessages() {
     if (this.userInput.trim() && !this.isSaving) {
       this.isSaving = true;
       this.scrollEnabled = true;
-      
+      const message = this.userInput;
+      this.userInput = '';
       try {
-        const contexts = await this.getContextsFromHandlers(this.userInput);
-        
-        // Handle user message
-        const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-        if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
-          lastMessage.pending = false;
-          lastMessage.content = this.userInput;
-        } else {
-          const userMessage: Message = { 
-            role: 'user', 
-            content: this.userInput, 
-            sequence: this.conversation.messages.length + 1,
-            contexts: contexts && contexts.length > 0 ? contexts : undefined
-          };
-          this.conversation.messages.push(userMessage);
-        }
-        
-        await this.saveConversation();
-        
-        // Add pending assistant message with loading animation
-        const botMessageIndex = this.conversation.messages.length;
-        this.conversation.messages.push({ 
-          role: 'assistant', 
-          content: '',
-          sequence: botMessageIndex + 1,
-          pending: true
-        });
-        
-        this.userInput = '';
+        await this.sendMessage(message);    
         this.messageInput.nativeElement.style.height = 'auto';
-        
-        this.isSaving = false; // Remove loading state before starting to stream
-        await this.streamNewMessage(botMessageIndex);
       } catch (error) {
-        console.error('Error in send message:', error);
+        console.error('Error in updateConversationMessages:', error);
         this.isSaving = false;
       }
+    } else {
+      return Promise.resolve();
     }
+  }
+
+  async sendMessage(message: string) {
+    const contexts = await this.getContextsFromHandlers(message);
+    this.addOrUpdateLastUserMessage(message, contexts);
+    
+    // Add pending assistant message with loading animation
+    const botMessageIndex = this.conversation.messages.length;
+    this.conversation.messages.push({ 
+      role: 'assistant', 
+      content: '',
+      sequence: botMessageIndex + 1,
+      pending: true
+    });
+    
+    this.isSaving = false; // Remove loading state before starting to stream
+    await this.streamNewMessage(botMessageIndex);
   }
 
   async streamNewMessage(botMessageIndex: number) {
@@ -228,7 +258,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         },
         () => {
           this.updateMessageContent(botMessageIndex);
-          this.saveConversation();
         }
       );
     } catch (error) {
@@ -305,13 +334,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     // Do not enable scrolling here
   }
 
-  resendLastMessage(): void {
+  async resendLastMessage(): Promise<void> {
     if (this.conversation.messages.length > 0) {
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
       if (lastMessage.role === 'user') {
         this.userInput = lastMessage.content || '';
         this.conversation.messages.pop(); // Remove the last user message
-        this.sendMessage();
+        await this.updateConversation();
       }
     }
   }
