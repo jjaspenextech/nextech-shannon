@@ -73,3 +73,5 @@ testem.log
 Thumbs.db
 /enterprise-llm-chat/src/environments/environment.local.ts
 /enterprise-llm-chat/src/environments/environment.dev.ts
+/enterprise-llm-chat/test-results/
+/enterprise-llm-chat/.env

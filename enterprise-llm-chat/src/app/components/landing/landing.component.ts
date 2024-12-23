@@ -6,7 +6,6 @@ import { UserApiService } from '../../services/user-api.service';
 import { Conversation } from '../../models/conversation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
-import { DashboardComponent } from '../dashboard/dashboard.component';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

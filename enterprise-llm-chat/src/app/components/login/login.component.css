@@ -36,7 +36,7 @@ button {
 }
 
 button[type="submit"] {
-  @apply w-full relative min-h-[40px] flex items-center justify-center;
+  @apply relative min-h-[40px] flex items-center justify-center;
 }
 
 button[disabled] {
