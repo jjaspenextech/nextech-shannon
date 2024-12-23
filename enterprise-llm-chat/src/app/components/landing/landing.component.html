@@ -1,5 +1,6 @@
 <div class="landing-container">
   <button mat-button class="shannon-button" 
+    data-qa="shannon-button"
     (mouseenter)="toggleDashboard(true)" 
     (mouseleave)="toggleDashboard(false)">
     Shannon
@@ -8,7 +9,9 @@
     [isOpen]="isDashboardOpen" 
     [class.active]="isDashboardOpen"
     (closePanel)="toggleDashboard(false)"
-    (openPanel)="toggleDashboard(true)">
+    (openPanel)="toggleDashboard(true)"
+    data-qa="side-dashboard"
+    >
   </app-side-dashboard>
   <div class="greeting-section">
     <h1>Good {{ getTimeOfDay() }}, {{ firstName }}</h1>
@@ -32,7 +35,7 @@
 
   <div class="recent-conversations">
     <div *ngIf="isLoading" class="loading-spinner-container">
-      <mat-spinner diameter="40"></mat-spinner>
+      <mat-spinner diameter="40" data-qa="conversation-loading-spinner"></mat-spinner>
     </div>
 
     <div *ngIf="!isLoading">
@@ -41,6 +44,7 @@
         <div 
           *ngFor="let conversation of recentConversations" 
           class="conversation-card"
+          data-qa="conversation-card"
           (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
         >
           <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>

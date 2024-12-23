@@ -134,7 +134,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   async updateConversationDescription() {
     if (!this.conversation.description) {
       this.conversation.description 
-        = await this.llmService.getDescription(this.conversation.messages[0].content || '');
+        = await this.llmService.getDescription(this.userInput || '');
       await this.saveConversation();
     } else {
       return Promise.resolve();
