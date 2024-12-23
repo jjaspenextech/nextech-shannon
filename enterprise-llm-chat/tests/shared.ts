@@ -11,3 +11,22 @@ export async function login(page: Page) {
   await page.click('button[type="submit"]');
   await page.waitForLoadState('networkidle');
 }
+
+
+// Reusable function to open the dashboard
+export async function openDashboard(page: Page) {
+    await page.hover('[data-qa="shannon-button"]', { force: true });
+    await page.waitForFunction(() => {
+      const dashboard = document.querySelector('[data-qa="side-dashboard"]');
+      return dashboard && dashboard.classList.contains('active');
+    }, { timeout: 5000 });
+  }
+  
+  // Reusable function to close the dashboard
+  export async function closeDashboard(page: Page) {
+    await page.mouse.move(1000, 1000);
+    await page.waitForFunction(() => {
+      const dashboard = document.querySelector('[data-qa="side-dashboard"]');
+      return dashboard && !dashboard.classList.contains('active');
+    }, { timeout: 5000 });
+  }

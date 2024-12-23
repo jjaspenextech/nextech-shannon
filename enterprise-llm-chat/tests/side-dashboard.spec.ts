@@ -1,30 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { Page } from '@playwright/test';
-import { login } from './shared';
+import { login, openDashboard, closeDashboard } from './shared';
 
 test.describe('Side Dashboard', () => {
-    // Perform login before each test
+  // Perform login before each test
   test.beforeEach(async ({ page }: { page: Page }) => {
     await login(page);
   });
-
-  // Reusable function to open the dashboard
-  async function openDashboard(page: Page) {
-    await page.hover('[data-qa="shannon-button"]', { force: true });
-    await page.waitForFunction(() => {
-      const dashboard = document.querySelector('[data-qa="side-dashboard"]');
-      return dashboard && dashboard.classList.contains('active');
-    }, { timeout: 5000 });
-  }
-
-  // Reusable function to close the dashboard
-  async function closeDashboard(page: Page) {
-    await page.mouse.move(1000, 1000);
-    await page.waitForFunction(() => {
-      const dashboard = document.querySelector('[data-qa="side-dashboard"]');
-      return dashboard && !dashboard.classList.contains('active');
-    }, { timeout: 5000 });
-  }
 
   // Perform setup before each test
   test.beforeEach(async ({ page }: { page: Page }) => {
