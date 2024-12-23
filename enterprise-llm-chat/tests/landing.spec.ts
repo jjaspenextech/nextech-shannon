@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
-import dotenv from 'dotenv';
 import { Page } from '@playwright/test';
+import { login } from './shared';
 
-// Load environment variables from .env file
-dotenv.config();
-
+  
 test.describe('Landing Page', () => {
   // this function assumes we're on the landing page
   // and checks whether there is at least one conversation card
@@ -35,25 +33,10 @@ test.describe('Landing Page', () => {
     // Wait for the landing page to load
     await page.waitForLoadState('networkidle');
   }
-
+  
   // Perform login before each test
   test.beforeEach(async ({ page }: { page: Page }) => {
-    // Navigate to the login page
-    await page.goto('http://localhost:4200/login');
-
-    // Fill out the login form
-    await page.fill('input[name="username"]', 'johndoe');
-    await page.fill(
-      'input[name="password"]',
-      process.env['USER_PASSWORD'] || ''
-    );
-
-    // Submit the form
-    await page.click('button[type="submit"]');
-
-    // Verify successful login
-    await expect(page).toHaveURL(/.*\/landing/, { timeout: 30000 });
-    await page.waitForLoadState('networkidle');
+    await login(page);
   });
 
   test('should display the correct greeting message based on the time of day', async ({

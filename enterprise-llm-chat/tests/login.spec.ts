@@ -1,21 +1,10 @@
 import { test, expect } from '@playwright/test';
-import dotenv from 'dotenv';
 import { Page } from '@playwright/test';
-
-// Load environment variables from .env file
-dotenv.config();
+import { login } from './shared';
 
 test.describe('Login Flow', () => {
   test('should log in an existing user successfully', async ({ page }: { page: Page }) => {
-    // Navigate to the login page
-    await page.goto('http://localhost:4200/login');
-
-    // Fill out the login form
-    await page.fill('input[name="username"]', 'johndoe');
-    await page.fill('input[name="password"]', process.env['USER_PASSWORD'] || '');
-
-    // Submit the form
-    await page.click('button[type="submit"]');
+    await login(page);
 
     // Verify successful login
     await expect(page).toHaveURL(/.*\/landing/);
