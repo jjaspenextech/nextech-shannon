@@ -41,8 +41,12 @@
             <textarea 
               [(ngModel)]="project.description" 
               name="projectDescription"
-              placeholder="Project description"></textarea>
+              placeholder="Project description"
+              (ngModelChange)="onDescriptionChange()"></textarea>
           </div>
+          <button *ngIf="isDescriptionChanged" (click)="saveDescription()" class="save-button">
+            Save
+          </button>
         </form>
 
         <!-- Project Conversations -->

@@ -41,6 +41,7 @@ export class ProjectEditComponent implements OnInit {
   newMessage: string = '';
   isLoadingConversations: boolean = false;
   isLoadingProject: boolean = false;
+  isDescriptionChanged: boolean = false;
 
   constructor(
     private router: Router,
@@ -287,6 +288,28 @@ export class ProjectEditComponent implements OnInit {
         title: item.title,
         content: item.content,
         readOnly: true
+      }
+    });
+  }
+
+  onDescriptionChange() {
+    this.isDescriptionChanged = true;
+  }
+
+  saveDescription() {
+    if (!this.project.project_id) {
+      console.error('No project ID available');
+      return;
+    }
+
+    this.projectService.updateProject(this.project).subscribe({
+      next: () => {
+        this.isDescriptionChanged = false;
+        // Optionally show a success message
+      },
+      error: (error) => {
+        console.error('Error saving project description:', error);
+        // Handle error (show message)
       }
     });
   }
