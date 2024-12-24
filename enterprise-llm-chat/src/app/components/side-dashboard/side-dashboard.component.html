@@ -17,10 +17,13 @@
       <div class="section">
         <h3 class="section-title">Recent Chats</h3>
         <div class="chat-list">
-          <!-- <div *ngFor="let chat of recentChats" class="chat-item">
-            <h4>{{chat.title}}</h4>
-            <p>{{chat.preview}}</p>
-          </div> -->
+          <app-conversation-card
+            *ngFor="let chat of recentChats"
+            [conversation]="chat"
+            [messagePreviewLength]="20"
+            (cardClick)="onChatClick(chat.conversation_id || '')"
+            data-qa="conversation-card">
+          </app-conversation-card>
         </div>
       </div>
 

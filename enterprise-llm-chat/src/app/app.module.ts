@@ -31,6 +31,7 @@ import { ProjectCreateComponent } from './components/project-create/project-crea
 import { SideDashboardComponent } from './components/side-dashboard/side-dashboard.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 import { TextContentDialogComponent } from './components/text-content-dialog/text-content-dialog.component';
+import { ConversationCardComponent } from './components/conversation-card/conversation-card.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -53,7 +54,8 @@ import { TextContentDialogComponent } from './components/text-content-dialog/tex
     ProjectCreateComponent,
     SideDashboardComponent,
     ProjectEditComponent,
-    TextContentDialogComponent
+    TextContentDialogComponent,
+    ConversationCardComponent
   ],
   imports: [
     BrowserModule,

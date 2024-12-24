@@ -243,7 +243,9 @@ export class ProjectEditComponent implements OnInit {
     this.isLoadingConversations = true;
     this.conversationService.getProjectConversationSummaries(projectId).subscribe({
       next: (conversations: Conversation[]) => {
-        this.conversations = conversations;
+        // get top 6 sorted by updated_at descending
+        this.conversations = conversations.sort((a, b) => new Date(b.updated_at || '').getTime() 
+          - new Date(a.updated_at || '').getTime()).slice(0, 6);
         this.isLoadingConversations = false;
       },
       error: (error: any) => {

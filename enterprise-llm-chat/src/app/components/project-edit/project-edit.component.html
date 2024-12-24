@@ -86,18 +86,13 @@
 
           <!-- List of existing conversations -->
           <div *ngIf="!isLoadingConversations" class="conversation-list" data-qa="conversation-list">
-            <div *ngIf="conversations.length === 0" class="no-conversations" data-qa="no-conversations">
-              <p class="text-gray-400">No conversations yet</p>
-            </div>
-            <div *ngFor="let conversation of conversations" 
-                 class="conversation-item"
-                 (click)="openConversation(conversation)"
-                 data-qa="conversation-item">
-              <div class="conversation-header">
-                <span class="conversation-title">{{ conversation.description || 'Untitled Conversation' }}</span>
-                <span class="conversation-date">{{ conversation.updated_at | date }}</span>
-              </div>
-            </div>
+            <app-conversation-card
+              *ngFor="let conversation of conversations"
+              [conversation]="conversation"
+              [messagePreviewLength]="100"
+              (cardClick)="openConversation(conversation)"
+              data-qa="conversation-item">
+            </app-conversation-card>
           </div>
         </div>
       </div>
