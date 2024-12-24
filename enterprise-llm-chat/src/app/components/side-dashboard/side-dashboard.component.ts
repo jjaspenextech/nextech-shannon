@@ -6,6 +6,7 @@ import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
+import { Conversation } from '../../models/conversation.model';
 
 @Component({
   selector: 'app-side-dashboard',
@@ -33,6 +34,7 @@ export class SideDashboardComponent implements OnInit {
   @Output() closePanel = new EventEmitter<void>();
   @Output() openPanel = new EventEmitter<void>();
   userInitials: string = '';
+  recentChats: Conversation[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -46,7 +48,21 @@ export class SideDashboardComponent implements OnInit {
     const user = this.userService.getUser();
     if (user) {
       this.userInitials = (user.firstName[0] + (user.lastName.length > 0 ? user.lastName[0] : '')).toUpperCase();
+      this.loadRecentChats(user.username);
     }
+  }
+
+  loadRecentChats(username: string) {
+    this.userApiService.getConversations(username).subscribe(
+      (chats: Conversation[]) => {
+        // get top 6 sorted by updated_at descending
+        this.recentChats = chats.sort((a, b) => new Date(b.updated_at || '').getTime() 
+          - new Date(a.updated_at || '').getTime()).slice(0, 6);
+      },
+      error => {
+        console.error('Error loading recent chats:', error);
+      }
+    );
   }
 
   onMouseEnter() {
@@ -94,5 +110,13 @@ export class SideDashboardComponent implements OnInit {
 
   openUserSettings(): void {
     this.openApiKeyModal();
+  }
+
+  onChatClick(conversationId: string) {
+    if (conversationId) {
+      // Handle the click event, e.g., navigate to the chat or perform another action
+      console.log(`Navigating to conversation with ID: ${conversationId}`);
+      // Example: this.router.navigate(['/chat'], { queryParams: { id: conversationId } });
+    }
   }
 } 

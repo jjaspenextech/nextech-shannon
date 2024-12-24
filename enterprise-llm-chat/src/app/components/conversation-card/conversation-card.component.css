@@ -1,0 +1,15 @@
+.conversation-card {
+  @apply bg-gray-800 rounded-lg p-6 cursor-pointer transition-transform transform hover:translate-y-[-2px] hover:bg-gray-700;
+}
+
+.conversation-title {
+  @apply text-white text-lg mb-2;
+}
+
+.conversation-preview {
+  @apply text-gray-400 text-sm line-clamp-3;
+}
+
+.conversation-date {
+  @apply text-gray-500 text-xs mt-2;
+} 

@@ -1,15 +1,15 @@
-<div class="project-edit-container">
+<div class="project-edit-container" data-qa="project-edit-container">
   <!-- Header -->
   <header class="header">
-    <button class="back-button" (click)="navigateBack()">
+    <button class="back-button" (click)="navigateBack()" data-qa="back-button">
       <mat-icon class="back-icon">arrow_back</mat-icon>
       All projects
     </button>
     <div class="actions">
-      <button class="star-button">
+      <button class="star-button" data-qa="star-button">
         <mat-icon>star_outline</mat-icon>
       </button>
-      <button class="menu-button">
+      <button class="menu-button" data-qa="menu-button">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
@@ -19,34 +19,40 @@
   <div class="main-content">
     <div class="content-wrapper">
       <!-- Project Details -->
-      <div class="project-details">
+      <div class="project-details" data-qa="project-details">
         <div class="project-header">
           <mat-icon class="project-icon">folder</mat-icon>
-          <div class="project-privacy">
+          <div class="project-privacy" data-qa="project-privacy">
             <mat-icon class="privacy-icon">lock</mat-icon>
             Private
           </div>
         </div>
 
-        <form class="project-form" (ngSubmit)="saveProject()">
+        <form class="project-form" (ngSubmit)="saveProject()" data-qa="project-form">
           <div class="form-group">
             <input 
               type="text" 
               [(ngModel)]="project.name" 
               name="projectName"
               placeholder="Project name" 
-              class="text-2xl font-semibold" />
+              class="text-2xl font-semibold"
+              data-qa="project-name-input" />
           </div>
           <div class="form-group">
             <textarea 
               [(ngModel)]="project.description" 
               name="projectDescription"
-              placeholder="Project description"></textarea>
+              placeholder="Project description"
+              (ngModelChange)="onDescriptionChange()"
+              data-qa="project-description-textarea"></textarea>
           </div>
+          <button *ngIf="isDescriptionChanged" (click)="saveDescription()" class="save-button" data-qa="save-description-button">
+            Save
+          </button>
         </form>
 
         <!-- Project Conversations -->
-        <div class="project-conversations">
+        <div class="project-conversations" data-qa="project-conversations">
             <!-- New conversation input -->
             <div class="new-conversation">
               <div class="input-container">
@@ -57,11 +63,12 @@
                   placeholder="Type a message to start a new conversation..."
                   class="chat-input"
                   rows="1"
-                ></textarea>
+                  data-qa="new-conversation-input"></textarea>
                 <button 
                   class="send-button"
                   [disabled]="!newMessage.trim()"
-                  (click)="startNewConversation()">
+                  (click)="startNewConversation()"
+                  data-qa="send-button">
                   <mat-icon>send</mat-icon>
                 </button>
               </div>
@@ -73,30 +80,26 @@
           </h2>
 
           <!-- Add loading spinner -->
-          <div *ngIf="isLoadingConversations" class="loading-spinner">
+          <div *ngIf="isLoadingConversations" class="loading-spinner" data-qa="loading-spinner">
             <mat-spinner diameter="40"></mat-spinner>
           </div>
 
           <!-- List of existing conversations -->
-          <div *ngIf="!isLoadingConversations" class="conversation-list">
-            <div *ngIf="conversations.length === 0" class="no-conversations">
-              <p class="text-gray-400">No conversations yet</p>
-            </div>
-            <div *ngFor="let conversation of conversations" 
-                 class="conversation-item"
-                 (click)="openConversation(conversation)">
-              <div class="conversation-header">
-                <span class="conversation-title">{{ conversation.description || 'Untitled Conversation' }}</span>
-                <span class="conversation-date">{{ conversation.updated_at | date }}</span>
-              </div>
-            </div>
+          <div *ngIf="!isLoadingConversations" class="conversation-list" data-qa="conversation-list">
+            <app-conversation-card
+              *ngFor="let conversation of conversations"
+              [conversation]="conversation"
+              [messagePreviewLength]="100"
+              (cardClick)="openConversation(conversation)"
+              data-qa="conversation-item">
+            </app-conversation-card>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" data-qa="sidebar">
       <div class="sidebar-header">
         <h2 class="sidebar-title">
           <mat-icon>menu_book</mat-icon>
@@ -108,10 +111,12 @@
             accept=".txt,.doc" 
             (change)="handleFileInput($event)" 
             class="file-input" 
-            id="fileInput" />
+            id="fileInput"
+            data-qa="file-input" />
           <button 
             class="add-content-button" 
-            [matMenuTriggerFor]="addContentMenu">
+            [matMenuTriggerFor]="addContentMenu"
+            data-qa="add-content-button">
             <mat-icon>add</mat-icon>
             Add Content
           </button>
@@ -122,11 +127,11 @@
             [yPosition]="'below'"
             [hasBackdrop]="true"
             [overlapTrigger]="false">
-            <label for="fileInput" mat-menu-item>
+            <label for="fileInput" mat-menu-item data-qa="upload-file-content">
               <mat-icon>upload_file</mat-icon>
               <span>Upload File Content</span>
             </label>
-            <button mat-menu-item (click)="openTextContentDialog()">
+            <button mat-menu-item (click)="openTextContentDialog()" data-qa="add-text-content">
               <mat-icon>edit_note</mat-icon>
               <span>Add Text Content</span>
             </button>
@@ -135,7 +140,7 @@
       </div>
       
       <!-- Add loading spinner -->
-      <div *ngIf="isLoadingProject" class="loading-spinner">
+      <div *ngIf="isLoadingProject" class="loading-spinner" data-qa="project-loading-spinner">
         <mat-spinner diameter="40"></mat-spinner>
       </div>
 
@@ -146,26 +151,29 @@
              (dragenter)="onDragOver($event)"
              (dragover)="onDragOver($event)"
              (dragleave)="onDragLeave($event)"
-             (drop)="onDrop($event)">
+             (drop)="onDrop($event)"
+             data-qa="drag-drop-zone">
           <div class="drop-zone-content">
             <mat-icon class="drop-icon">upload_file</mat-icon>
             <span>Drop files to add as context</span>
           </div>
         </div>
         
-        <div class="knowledge-list">
-          <div *ngIf="knowledgeItems.length === 0" class="no-contexts">
+        <div class="knowledge-list" data-qa="knowledge-list">
+          <div *ngIf="knowledgeItems.length === 0" class="no-contexts" data-qa="no-contexts">
             <p class="text-gray-400">No project knowledge added yet</p>
           </div>
           <div *ngFor="let item of knowledgeItems; let i = index" 
                class="knowledge-item"
-               (click)="viewContext(item)">
+               (click)="viewContext(item)"
+               data-qa="knowledge-item">
             <mat-icon class="knowledge-icon">description</mat-icon>
             <div class="knowledge-details">
               <div class="knowledge-title">{{ item.title }}</div>
             </div>
             <button class="delete-button" 
-                    (click)="$event.stopPropagation(); removeContext(i)">
+                    (click)="$event.stopPropagation(); removeContext(i)"
+                    data-qa="delete-button">
               <mat-icon>close</mat-icon>
             </button>
           </div>

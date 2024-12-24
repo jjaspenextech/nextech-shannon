@@ -41,15 +41,13 @@
     <div *ngIf="!isLoading">
       <h2 *ngIf="recentConversations.length > 0">Recent Conversations</h2>
       <div class="conversation-grid">
-        <div 
-          *ngFor="let conversation of recentConversations" 
-          class="conversation-card"
-          data-qa="conversation-card"
-          (click)="conversation.conversation_id && onConversationClick(conversation.conversation_id)"
-        >
-          <h3>{{ conversation.description || 'Untitled Conversation' }}</h3>
-          <p *ngIf="conversation.messages && conversation.messages.length > 0">{{ conversation.messages[0].content?.substring(0, 100) || '' }}...</p>
-        </div>
+        <app-conversation-card
+          *ngFor="let conversation of recentConversations"
+          [conversation]="conversation"
+          [messagePreviewLength]="20"
+          (cardClick)="onConversationClick(conversation.conversation_id || '')"
+          data-qa="conversation-card">
+        </app-conversation-card>
       </div>
     </div>
   </div>

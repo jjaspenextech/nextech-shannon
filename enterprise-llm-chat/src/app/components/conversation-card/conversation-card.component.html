@@ -1,0 +1,9 @@
+<div class="conversation-card" (click)="onClick()">
+  <h3 class="conversation-title">{{ conversation.description?.substring(0, 50) || 'Untitled Conversation' }}</h3>
+  <p *ngIf="conversation.messages && conversation.messages.length > 0" class="conversation-preview">
+    {{ conversation.messages[0].content?.substring(0, 100) || '' }}...
+  </p>
+  <p *ngIf="conversation.updated_at" class="conversation-date">
+    {{ conversation.updated_at | date:'medium' }}
+  </p>
+</div> 

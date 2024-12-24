@@ -10,29 +10,16 @@ export class LLMService {
 
   constructor(private http: HttpClient) {}
 
-  async getDescription(userMessage: string): Promise<string> {
+  async getDescription(userMessage: string, projectId?: string): Promise<string> {
     try {
       const response = await this.http.post<{ description: string }>(
         `${this.apiUrl}/llm-query/description`,
-        { prompt: userMessage }
+        { prompt: userMessage, project_id: projectId }
       ).toPromise();
       return response?.description || 'No description available';
     } catch (error) {
       console.error('Error fetching description:', error);
       return 'Error fetching description';
-    }
-  }
-
-  async getResponse(userMessage: string): Promise<string> {
-    try {
-      const response = await this.http.post<{ response: string }>(
-        `${this.apiUrl}/llm-query/response`,
-        { prompt: userMessage }
-      ).toPromise();
-      return response?.response || 'No response available';
-    } catch (error) {
-      console.error('Error fetching response:', error);
-      return 'Error fetching response';
     }
   }
 } 

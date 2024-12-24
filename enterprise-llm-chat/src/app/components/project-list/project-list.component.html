@@ -1,7 +1,7 @@
-<div class="project-list-container">
+<div class="project-list-container" data-qa="project-list-container">
   <div class="header">
     <h1 class="title">Projects</h1>
-    <button class="create-project-button" (click)="navigateToCreateProject()">
+    <button class="create-project-button" (click)="navigateToCreateProject()" data-qa="create-project-button">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
@@ -14,9 +14,9 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
-      <input type="text" placeholder="Search projects..." />
+      <input type="text" placeholder="Search projects..." data-qa="search-input" />
     </div>
-    <button class="recent-activity">
+    <button class="recent-activity" data-qa="recent-activity-button">
       Recent activity
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -24,10 +24,11 @@
     </button>
   </div>
 
-  <div class="projects-grid">
+  <div class="projects-grid" data-qa="projects-grid">
     <div *ngFor="let project of projects" 
          class="project-card"
-         (click)="navigateToProject(project.project_id || '')">
+         (click)="navigateToProject(project.project_id || '')"
+         data-qa="project-card">
       <h2>{{ project.name }}</h2>
       <p>{{ project.description }}</p>
       <div class="card-footer">
