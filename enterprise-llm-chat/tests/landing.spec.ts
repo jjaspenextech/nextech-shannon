@@ -9,8 +9,8 @@ test.describe('Landing Page', () => {
   // and if there isn't, it makes a new conversation
   async function createConversationIfNeeded(page: Page) {
     // wait until the loading spinner is gone
-    await page.waitForSelector('[data-qa="conversation-loading-spinner"]', { state: 'hidden' });
-    const count = await page.locator('[data-qa="conversation-card"]').count();
+    await page.waitForSelector('[data-testid="conversation-loading-spinner"]', { state: 'hidden' });
+    const count = await page.getByTestId('conversation-card').count();
     if (count === 0) {
       await startNewConversation(page);
     }
@@ -62,8 +62,8 @@ test.describe('Landing Page', () => {
   }) => {
     await createConversationIfNeeded(page);
     // Check that there is at least one conversation card
-    await expect(page.locator('[data-qa="conversation-card"]').first()).toBeVisible();
-    const count = await page.locator('[data-qa="conversation-card"]').count();
+    await expect(page.getByTestId('conversation-card').first()).toBeVisible();
+    const count = await page.getByTestId('conversation-card').count();
     expect(count).toBeGreaterThan(0);
   });
 
@@ -77,8 +77,8 @@ test.describe('Landing Page', () => {
       // Check if recent conversations are visible
       await expect(page.locator('.recent-conversations')).toBeVisible();
       // Check that there is at least one conversation card
-      await expect(page.locator('[data-qa="conversation-card"]').first()).toBeVisible({ timeout: 30000 });
-      const count = await page.locator('[data-qa="conversation-card"]').count();
+      await expect(page.getByTestId('conversation-card').first()).toBeVisible({ timeout: 30000 });
+      const count = await page.getByTestId('conversation-card').count();
       console.log('count', count);
       expect(count).toBeGreaterThan(0);
     });
@@ -89,7 +89,7 @@ test.describe('Landing Page', () => {
       page: Page;
     }) => {
       // Click on the first conversation card
-      await page.click('[data-qa="conversation-card"]:first-child');
+      await page.click('[data-testid="conversation-card"]:first-child');
       // Verify navigation to chat page
       await expect(page).toHaveURL(/.*\/chat/);
     });
@@ -97,10 +97,10 @@ test.describe('Landing Page', () => {
 
   test('should toggle the dashboard', async ({ page }: { page: Page }) => {
     // Hover over the Shannon button to open the dashboard
-    await page.hover('[data-qa="shannon-button"]', { force: true });
+    await page.hover('[data-testid="shannon-button"]', { force: true });
     // Wait for the dashboard to open by checking for a specific class
     await page.waitForFunction(() => {
-      const dashboard = document.querySelector('[data-qa="side-dashboard"]');
+      const dashboard = document.querySelector('[data-testid="side-dashboard"]');
       return dashboard && dashboard.classList.contains('active');
     }, { timeout: 5000 });
     // Verify dashboard is open

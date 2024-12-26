@@ -40,4 +40,5 @@
 .create-button {
   @apply px-6 py-2 bg-orange-700 hover:bg-orange-600 text-white rounded-lg 
          transition-colors duration-200;
+  @apply disabled:bg-gray-600 disabled:hover:bg-gray-600;
 } 

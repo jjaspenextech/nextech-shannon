@@ -10,27 +10,25 @@ test.describe('Project Create Component', () => {
   });
 
   test('should not allow project creation with empty fields', async ({ page }: { page: Page }) => {
-    // Attempt to create a project with empty fields
-    await page.click('[data-qa="create-button"]');
     // Verify that the create button is disabled
-    await expect(page.locator('[data-qa="create-button"]')).toBeDisabled();
+    await expect(page.getByTestId('create-button')).toBeDisabled();
   });
 
   test('should create a project successfully', async ({ page }: { page: Page }) => {
     // Fill in the project name and description
-    await page.fill('[data-qa="project-name-input"]', 'New Test Project');
-    await page.fill('[data-qa="project-description-textarea"]', 'This is a new test project');
+    await page.getByTestId('project-name-input').fill('New Test Project');
+    await page.getByTestId('project-description-textarea').fill('This is a new test project');
     // Click the create button
-    await page.click('[data-qa="create-button"]');
+    await page.getByTestId('create-button').click();
     // Verify navigation to the projects list page
     await expect(page).toHaveURL(/.*\/projects/);
     // Verify the new project appears in the list
-    await expect(page.locator('[data-qa="project-card"]')).toContainText('New Test Project');
+    await expect(page.getByTestId('project-card-0')).toContainText('New Test Project');
   });
 
   test('should navigate back to projects list when cancel is clicked', async ({ page }: { page: Page }) => {
     // Click the cancel button
-    await page.click('[data-qa="cancel-button"]');
+    await page.getByTestId('cancel-button').click();
     // Verify navigation to the projects list page
     await expect(page).toHaveURL(/.*\/projects/);
   });

@@ -18,26 +18,28 @@ test.describe('Side Dashboard', () => {
 
   test('should open and close the dashboard', async ({ page }: { page: Page }) => {
     await openDashboard(page);
-    await expect(page.locator('[data-qa="side-dashboard"]')).toHaveClass(/active/);
+    await expect(page.getByTestId('side-dashboard')).toHaveClass(/active/);
     await closeDashboard(page);
-    await expect(page.locator('[data-qa="side-dashboard"]')).not.toHaveClass(/active/);
+    await expect(page.getByTestId('side-dashboard')).not.toHaveClass(/active/);
   });
 
   test('should navigate to projects when projects button is clicked', async ({ page }: { page: Page }) => {
     await openDashboard(page);
-    await page.click('[data-qa="projects-button"]');
+    await page.getByTestId('projects-button').click();
     await expect(page).toHaveURL(/.*\/projects/);
   });
 
   test('should open user settings when user settings button is clicked', async ({ page }: { page: Page }) => {
     await openDashboard(page);
-    await page.click('[data-qa="user-settings-button"]');
+    await page.getByTestId('user-settings-button').click();
     // Add assertion to verify user settings modal or page
+    // verify api-key-modal-title is visible
+    await expect(page.getByTestId('api-key-modal-title')).toBeVisible();
   });
 
   test('should log out when logout button is clicked', async ({ page }: { page: Page }) => {
     await openDashboard(page);
-    await page.click('[data-qa="logout-button"]');
+    await page.getByTestId('logout-button').click();
     await expect(page).toHaveURL(/.*\/login/);
   });
 }); 

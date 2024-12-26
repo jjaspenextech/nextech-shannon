@@ -1,5 +1,5 @@
-<div class="project-create-container" data-qa="project-create-container">
-  <div class="create-form" data-qa="create-form">
+<div class="project-create-container" data-testid="project-create-container">
+  <div class="create-form" data-testid="create-form">
     <h1 class="title">Create a personal project</h1>
     
     <div class="form-group">
@@ -9,7 +9,7 @@
         [(ngModel)]="projectName" 
         placeholder="Name your project"
         class="text-lg"
-        data-qa="project-name-input" />
+        data-testid="project-name-input" />
     </div>
 
     <div class="form-group">
@@ -19,16 +19,16 @@
         [(ngModel)]="projectDescription" 
         placeholder="Describe your project, goals, subject, etc..."
         class="text-lg"
-        data-qa="project-description-textarea"></textarea>
+        data-testid="project-description-textarea"></textarea>
     </div>
 
     <div class="button-group">
-      <button class="cancel-button" (click)="cancel()" data-qa="cancel-button">Cancel</button>
+      <button class="cancel-button" (click)="cancel()" data-testid="cancel-button">Cancel</button>
       <button 
         class="create-button" 
         (click)="createProject()" 
         [disabled]="!projectName.trim() || !projectDescription.trim()" 
-        data-qa="create-button">
+        data-testid="create-button">
         Create Project
       </button>
     </div>
