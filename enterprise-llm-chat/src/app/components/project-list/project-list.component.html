@@ -29,8 +29,8 @@
          class="project-card"
          (click)="navigateToProject(project.project_id || '')"
          [attr.data-testid]="'project-card-' + i">
-      <h2>{{ project.name }}</h2>
-      <p>{{ project.description }}</p>
+      <h2 data-testid="project-card-name">{{ project.name }}</h2>
+      <p data-testid="project-card-description">{{ project.description }}</p>
       <div class="card-footer">
         <span class="updated-text">Updated {{ project.updated_at | date:'mediumDate' }}</span>
       </div>
