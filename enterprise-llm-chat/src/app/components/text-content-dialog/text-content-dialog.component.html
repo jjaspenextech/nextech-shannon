@@ -4,13 +4,13 @@
     <div class="form-field">
       <mat-form-field appearance="fill" class="title-field">
         <mat-label *ngIf="!title">Enter Title</mat-label>
-        <input matInput [(ngModel)]="title" [readonly]="readOnly">
+        <input matInput [(ngModel)]="title" [readonly]="readOnly" data-testid="text-content-title-input">
       </mat-form-field>
     </div>
     <div class="form-field">
       <mat-form-field appearance="fill">
         <mat-label *ngIf="!content">Enter Content</mat-label>
-        <textarea matInput [(ngModel)]="content" rows="10" [readonly]="readOnly"></textarea>
+        <textarea matInput [(ngModel)]="content" rows="10" [readonly]="readOnly" data-testid="text-content-textarea"></textarea>
       </mat-form-field>
     </div>
   </mat-dialog-content>
@@ -20,7 +20,8 @@
             mat-button 
             color="primary" 
             (click)="onAdd()" 
-            [disabled]="!title.trim() || !content.trim()">
+            [disabled]="!title.trim() || !content.trim()"
+            data-testid="add-text-content-button">
       Add Content
     </button>
   </mat-dialog-actions>

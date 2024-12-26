@@ -32,3 +32,13 @@ export async function openDashboard(page: Page) {
       return dashboard && !dashboard.classList.contains('active');
     }, { timeout: 5000 });
   }
+
+export async function createProject(page: Page) {
+  // Fill in the project name and description
+  await page.getByTestId('project-name-input').fill('New Test Project');
+  await page.getByTestId('project-description-textarea').fill('This is a new test project');
+  // Click the create button
+  await page.getByTestId('create-button').click();
+  // wait for network to be idle
+  await page.waitForLoadState('networkidle');
+}
