@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Conversation } from '../models/conversation.model';
 import { environment } from '../../environments/environment';
 
 export interface ApiKeyUpdate {
@@ -34,18 +33,6 @@ export class UserApiService {
     return this.http.post(`${this.API_URL}/signup/`, userData);
   }
 
-  saveConversation(conversation: Conversation): Observable<any> {
-    return this.http.post(`${this.API_URL}/conversation/`, conversation);
-  }
-
-  getConversation(conversationId: string): Observable<Conversation> {
-    return this.http.get<Conversation>(`${this.API_URL}/conversation/${conversationId}`);
-  }
-
-  getConversations(username: string): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.API_URL}/conversations/${username}`);
-  }
-
   updateApiKey(service: string, key: string): Observable<any> {
     return this.http.post(`${this.API_URL}/api-keys/update`, { service, key });
   }
@@ -53,4 +40,4 @@ export class UserApiService {
   getApiKeys(): Observable<any> {
     return this.http.get(`${this.API_URL}/api-keys`);
   }
-} 
+}

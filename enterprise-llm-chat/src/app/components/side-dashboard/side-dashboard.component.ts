@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
 import { Conversation } from '../../models/conversation.model';
+import { ConversationApiService } from '../../services/conversation-api.service';
 
 @Component({
   selector: 'app-side-dashboard',
@@ -38,10 +39,11 @@ export class SideDashboardComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private userApiService: UserApiService,
+    private conversationApiService: ConversationApiService,
     private router: Router,
     private cookieService: CookieService,
-    private userService: UserService
+    private userService: UserService,
+    private userApiService: UserApiService
   ) {}
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class SideDashboardComponent implements OnInit {
   }
 
   loadRecentChats(username: string) {
-    this.userApiService.getConversations(username).subscribe(
+    this.conversationApiService.getConversations(username).subscribe(
       (chats: Conversation[]) => {
         // get top 6 sorted by updated_at descending
         this.recentChats = chats.sort((a, b) => new Date(b.updated_at || '').getTime() 

@@ -7,6 +7,7 @@ import { Conversation } from '../../models/conversation.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
 import { firstValueFrom } from 'rxjs';
+import { ConversationApiService } from 'app/services/conversation-api.service';
 
 @Component({
   selector: 'app-landing',
@@ -26,7 +27,8 @@ export class LandingComponent implements OnInit {
     private chatService: ChatService,
     private userService: UserService,
     private userApiService: UserApiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private conversationApiService: ConversationApiService
   ) {}
 
   ngOnInit() {
@@ -46,7 +48,7 @@ export class LandingComponent implements OnInit {
 
   async loadRecentConversations(username: string) {
     try {
-      const conversations = await firstValueFrom(this.userApiService.getConversations(username));
+      const conversations = await firstValueFrom(this.conversationApiService.getConversations(username));
       // get top 6 sorted by updated_at descending
       this.recentConversations = conversations?.sort((a, b) => new Date(b.updated_at || '').getTime() 
         - new Date(a.updated_at || '').getTime()).slice(0, 6) || [];

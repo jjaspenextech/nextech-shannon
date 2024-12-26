@@ -4,7 +4,7 @@ import * as Prism from 'prismjs';
 import 'prismjs/components/prism-python';
 import { ChatService } from '../../services/chat.service';
 import { StreamingService } from '../../services/streaming.service';
-import { UserApiService } from '../../services/user-api.service';
+import { ConversationApiService } from '../../services/conversation-api.service';
 import { ContextResult, Conversation, Message } from '@models';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -57,7 +57,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   constructor(
     private chatService: ChatService,
     private streamingService: StreamingService,
-    private userApiService: UserApiService,
+    private conversationApiService: ConversationApiService,
     private cookieService: CookieService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
@@ -271,11 +271,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   private async saveConversation() {
-    const username = this.cookieService.get('username'); // Assuming username is stored in cookies
+    const username = this.cookieService.get('username');
     this.conversation.username = username;
 
     await firstValueFrom(
-      this.userApiService.saveConversation(this.conversation)
+      this.conversationApiService.saveConversation(this.conversation)
       .pipe(
         tap(response => {
           this.conversation.conversation_id = response.conversation.conversation_id;
@@ -300,7 +300,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private async loadConversation(conversationId: string) {
     try {
       this.conversation.conversation_id = conversationId;
-      const conversation = await firstValueFrom(this.userApiService.getConversation(conversationId));
+      const conversation = await firstValueFrom(this.conversationApiService.getConversation(conversationId));
       if (conversation) {
         this.conversation = conversation;
         this.showResendButton = this.conversation.messages.length > 0 &&
