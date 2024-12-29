@@ -1,17 +1,17 @@
 .dark-theme {
   /* Background Colors */
-  --color-bg-primary: #2D2D2D; /* General background */
+  --color-bg-primary: rgb(17 24 39); /* General background */
   --color-bg-secondary: #333; /* Popup background */
   --color-bg-tertiary: #4D4D4D; /* Context pill background */
   --color-bg-hover: #4547CC; /* Button hover */
   --color-bg-accent: #5457FF; /* Button background */
-  --color-bg-light: #f9f9f9; /* Light background for forms */
+  --color-bg-light: #1F2937; /* Light background for forms */
   --color-bg-dark: #1F2937; /* Darker background for hover effects */
   --color-bg-darker: #111827; /* Dark theme menu background */
   --color-bg-overlay: rgba(0, 0, 0, 0.5); /* Overlay background */
 
   /* Text Colors */
-  --color-text-primary: #FFFFFF; /* Primary text */
+  --color-text-primary: #000000; /* Primary text */
   --color-text-secondary: #E5E7EB; /* Secondary text */
   --color-text-muted: #9CA3AF; /* Muted text */
   --color-text-accent: #FF6B6B; /* Accent text */
@@ -24,7 +24,7 @@
   --color-border-accent: #FF6B6B; /* Accent border */
 
   /* Button Colors */
-  --color-button-primary: #FF6B6B; /* Primary button */
+  --color-button-primary: #5457FF; /* Primary button */
   --color-button-hover: #FF4C4C; /* Button hover */
   --color-button-disabled: #6B7280; /* Disabled button */
 

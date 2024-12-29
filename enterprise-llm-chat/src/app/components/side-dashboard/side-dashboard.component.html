@@ -33,6 +33,9 @@
           <button class="setting-button" (click)="openApiKeyModal()" data-testid="integrations-button">
             <span>Integrations</span>
           </button>
+          <button class="setting-button" (click)="toggleTheme()" data-testid="theme-toggle-button">
+            <span>Toggle Theme</span>
+          </button>
         </div>
       </div>
     </div>
@@ -42,7 +45,7 @@
         <button 
           class="icon-button user-initials" 
           (click)="openUserSettings()" 
-          matTooltip="API Keys"
+          matTooltip="User Settings"
           data-testid="user-settings-button">
           {{ userInitials }}
         </button>

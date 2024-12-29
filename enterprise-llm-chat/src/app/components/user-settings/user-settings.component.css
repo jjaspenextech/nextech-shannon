@@ -1,0 +1,31 @@
+.user-settings-container {
+  @apply p-6 bg-[var(--color-bg-light)] rounded-lg shadow-md max-w-md mx-auto;
+}
+
+.title {
+  @apply text-2xl font-bold mb-4 text-center;
+}
+
+.theme-selection, .api-keys {
+  @apply mb-6;
+}
+
+.section-title {
+  @apply text-lg font-semibold mb-2;
+}
+
+ul {
+  @apply list-disc pl-5;
+}
+
+li {
+  @apply mb-2 cursor-pointer p-2 rounded hover:bg-[var(--color-bg-secondary)] transition-colors duration-200;
+}
+
+li.active {
+  @apply bg-[var(--color-button-primary)] text-white;
+}
+
+input {
+  @apply ml-2 p-1 border border-[var(--color-border-primary)] rounded text-[var(--color-text-primary)];
+}
