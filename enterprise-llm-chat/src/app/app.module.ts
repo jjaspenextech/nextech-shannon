@@ -32,6 +32,7 @@ import { SideDashboardComponent } from './components/side-dashboard/side-dashboa
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
 import { TextContentDialogComponent } from './components/text-content-dialog/text-content-dialog.component';
 import { ConversationCardComponent } from './components/conversation-card/conversation-card.component';
+import { ThemeService } from './services/theme.service';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -88,7 +89,8 @@ import { ConversationCardComponent } from './components/conversation-card/conver
     ChatService,
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    ProjectService
+    ProjectService,
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

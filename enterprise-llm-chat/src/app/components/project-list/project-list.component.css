@@ -1,5 +1,5 @@
 .project-list-container {
-  @apply min-h-screen bg-gray-900 text-white p-8;
+  @apply min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] p-8;
 }
 
 .header {
@@ -11,7 +11,7 @@
 }
 
 .create-project-button {
-  @apply flex items-center px-6 py-2 bg-orange-700 hover:bg-orange-600 
+  @apply flex items-center px-6 py-2 bg-[var(--color-button-primary)] hover:bg-[var(--color-button-hover)] 
          text-white rounded-lg transition-colors duration-200 whitespace-nowrap;
 }
 
@@ -20,19 +20,19 @@
 }
 
 .search-box {
-  @apply flex items-center gap-2 px-4 bg-gray-800 rounded-lg w-[600px] h-10;
+  @apply flex items-center gap-2 px-4 bg-[var(--color-bg-secondary)] rounded-lg w-[600px] h-10;
 }
 
 .search-box svg {
-  @apply text-gray-400 h-5 w-5 flex-shrink-0;
+  @apply text-[var(--color-icon)] h-5 w-5 flex-shrink-0;
 }
 
 .search-box input {
-  @apply bg-transparent border-none outline-none w-full text-white placeholder-gray-400 h-full;
+  @apply bg-transparent border-none outline-none w-full text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] h-full;
 }
 
 .recent-activity {
-  @apply flex items-center px-6 py-2 bg-gray-800 hover:bg-gray-700 
+  @apply flex items-center px-6 py-2 bg-[var(--color-bg-secondary)] hover:bg-[var(--color-bg-hover)] 
          rounded-lg transition-colors duration-200 whitespace-nowrap;
 }
 
@@ -41,17 +41,17 @@
 }
 
 .project-card {
-  @apply bg-gray-800 rounded-lg p-6 hover:bg-gray-700 
+  @apply bg-[var(--color-bg-secondary)] rounded-lg p-6 hover:bg-[var(--color-bg-hover)] 
          cursor-pointer transform hover:scale-[1.02]
          transition-all duration-200;
 }
 
 .project-card h2 {
-  @apply text-xl font-semibold mb-2;
+  @apply text-xl font-semibold mb-2 text-[var(--color-text-primary)];
 }
 
 .project-card p {
-  @apply text-gray-400 mb-4;
+  @apply text-[var(--color-text-muted)] mb-4;
 }
 
 .card-footer {
@@ -59,5 +59,5 @@
 }
 
 .updated-text {
-  @apply text-sm text-gray-500;
+  @apply text-sm text-[var(--color-text-secondary)];
 } 
