@@ -5,7 +5,7 @@ import { UserApiService } from '../../services/user-api.service';
 @Component({
   selector: 'app-api-key-modal',
   templateUrl: './api-key-modal.component.html',
-  styleUrls: ['./api-key-modal.component.scss']
+  styleUrls: ['./api-key-modal.component.css']
 })
 export class ApiKeyModalComponent {
     apiKey: string = '';

@@ -4,6 +4,7 @@ import { UserApiService } from '../../services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ThemeService } from 'app/services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent {
     private userApiService: UserApiService,
     private router: Router,
     private cookieService: CookieService,
-    private userService: UserService
+    private userService: UserService,
+    private themeService: ThemeService
   ) {}
 
   onSubmit() {

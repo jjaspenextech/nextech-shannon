@@ -40,4 +40,8 @@ export class UserApiService {
   getApiKeys(): Observable<any> {
     return this.http.get(`${this.API_URL}/api-keys`);
   }
+
+  updateUserTheme(theme: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/user/theme`, { theme });
+  }
 }
