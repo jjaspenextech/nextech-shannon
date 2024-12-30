@@ -102,6 +102,11 @@ export class SideDashboardComponent implements OnInit {
     this.closePanel.emit();
   }
 
+  navigateToNewChat(): void {
+    this.router.navigate(['/landing']);
+    this.closePanel.emit();
+  }
+
   logout(): void {
     this.cookieService.delete('authToken', '/');
     this.cookieService.delete('username', '/');

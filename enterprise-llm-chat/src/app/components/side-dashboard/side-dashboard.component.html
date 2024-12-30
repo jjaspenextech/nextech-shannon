@@ -4,16 +4,21 @@
     <div class="dashboard-header">
       <h2 class="dashboard-title clickable" (click)="navigateToLanding()" data-testid="dashboard-title">Shannon</h2>
       <button class="close-button" (click)="onClose()" data-testid="close-button">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <mat-icon>chevron_left</mat-icon>
       </button>
     </div>
 
     <div class="dashboard-content">
-      <button class="setting-button" (click)="navigateToProjects()" data-testid="projects-button">
-        <span>Projects</span>
-      </button>
+      <div class="section">
+        <button class="setting-button" (click)="navigateToProjects()" data-testid="projects-button">
+          <span>Projects</span>
+        </button>
+      </div>
+      <div class="section">
+        <button class="new-chat" (click)="navigateToNewChat()" data-testid="new-chat-button">
+          <span>Start New Chat</span>
+        </button>
+      </div>
       <div class="section">
         <h3 class="section-title">Recent Chats</h3>
         <div class="chat-list">
