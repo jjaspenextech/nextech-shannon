@@ -1,5 +1,5 @@
 .project-create-container {
-  @apply min-h-screen bg-gray-900 text-white p-8;
+  @apply min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] p-8;
 }
 
 .create-form {
@@ -20,8 +20,8 @@
 
 .form-group input,
 .form-group textarea {
-  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
-         focus:ring-2 focus:ring-orange-600 focus:outline-none;
+  @apply w-full bg-[var(--color-bg-tertiary)] border-none rounded-lg p-4 text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]
+         focus:ring-2 focus:ring-[var(--color-border-accent)] focus:outline-none;
 }
 
 .form-group textarea {
@@ -33,12 +33,12 @@
 }
 
 .cancel-button {
-  @apply px-6 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg 
+  @apply px-6 py-2 bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-bg-dark)] text-[var(--color-text-primary)] rounded-lg 
          transition-colors duration-200;
 }
 
 .create-button {
-  @apply px-6 py-2 bg-orange-700 hover:bg-orange-600 text-white rounded-lg 
+  @apply px-6 py-2 bg-[var(--color-button-primary)] hover:bg-[var(--color-button-hover)] text-[var(--color-text-primary)] rounded-lg 
          transition-colors duration-200;
-  @apply disabled:bg-gray-600 disabled:hover:bg-gray-600;
+  @apply disabled:bg-[var(--color-button-disabled)] disabled:hover:bg-[var(--color-button-disabled)];
 } 

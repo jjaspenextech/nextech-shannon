@@ -8,6 +8,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { ProjectEditComponent } from './components/project-edit/project-edit.component';
+import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -17,7 +18,8 @@ export const routes: Routes = [
   { path: 'landing', component: LandingComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'projects/create', component: ProjectCreateComponent, canActivate: [AuthGuard] },
-  { path: 'projects/:id', component: ProjectEditComponent, canActivate: [AuthGuard] }
+  { path: 'projects/:id', component: ProjectEditComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

@@ -1,0 +1,36 @@
+.default-theme {
+  /* Background Colors */
+  --color-bg-primary: #FFFFFF; /* Main background color */
+  --color-bg-secondary: #F5F7F9; /* Secondary panels/cards background */
+  --color-bg-tertiary: #E8F4F8; /* Light blue background for info areas */
+  --color-bg-hover: #008DB9; /* Hover state for interactive elements */
+  --color-bg-accent: #008DB9; /* Primary action buttons (like the blue Apply to Invoice) */
+  --color-bg-light: #008DB9; /* Form backgrounds */
+  --color-bg-dark: #087F92; /* Darker variation of accent for hover states */
+  --color-bg-darker: #006C8F; /* Even darker variation for active states */
+  --color-bg-overlay: rgba(0, 0, 0, 0.2); /* Modal overlay */
+
+  /* Text Colors */
+  --color-text-primary: #2D3748; /* Main text color */
+  --color-text-secondary: #4A5568; /* Secondary text */
+  --color-text-muted: #2D3748; /* Muted text for less emphasis */
+  --color-text-accent: #008DB9; /* Accent text color matching their brand */
+  --color-text-link: #0078D4; /* Link color (seen in View Profile) */
+  --color-text-error: #E53E3E; /* Error text */
+
+  /* Border Colors */
+  --color-border-primary: #E2E8F0; /* Primary borders */
+  --color-border-secondary: #CBD5E0; /* Secondary borders */
+  --color-border-accent: #E2E8F0; /* Accent borders */
+
+  /* Button Colors */
+  --color-button-primary: #008DB9; /* Primary button color */
+  --color-button-secondary: #00A67E; /* Secondary action buttons (green) */
+  --color-button-hover: #008DB9; /* Button hover state */
+  --color-button-disabled: #A0AEC0; /* Disabled button state */
+
+  /* Miscellaneous */
+  --color-spinner: #2D3748; /* Loading spinner */
+  --color-icon: #4A5568; /* Icon color */
+  --color-overlay: rgba(247, 250, 252, 0.95); /* Light overlay for modals */
+}

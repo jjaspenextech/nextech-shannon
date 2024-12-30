@@ -1,9 +1,9 @@
 .login-container {
-  @apply max-w-md mx-auto p-8 border border-gray-300 rounded-lg bg-gray-100 shadow-md mt-4;
+  @apply max-w-md mx-auto p-8 border border-gray-300 rounded-lg bg-[var(--color-bg-light)] shadow-md mt-4;
 }
 
 h2 {
-  @apply text-center mb-6 text-2xl text-gray-800;
+  @apply text-center mb-6 text-2xl text-[var(--color-text-secondary)];
 }
 
 .form-group {
@@ -11,20 +11,20 @@ h2 {
 }
 
 label {
-  @apply block mb-2 text-gray-600;
+  @apply block mb-2 text-[var(--color-text-muted)];
 }
 
 input[type="text"],
 input[type="password"] {
-  @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500;
+  @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[var(--color-border-accent)];
 }
 
 button {
-  @apply py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mb-4;
+  @apply py-2 bg-[var(--color-button-primary)] text-white rounded hover:bg-[var(--color-button-hover)] mb-4;
 }
 
 .error-message {
-  @apply mt-4 text-red-500 text-center;
+  @apply mt-4 text-[var(--color-text-error)] text-center;
 }
 
 .loading-spinner-container {
@@ -32,7 +32,7 @@ button {
 }
 
 ::ng-deep .loading-spinner-container .mat-mdc-progress-spinner {
-  --mdc-circular-progress-active-indicator-color: white !important;
+  --mdc-circular-progress-active-indicator-color: var(--color-spinner) !important;
 }
 
 button[type="submit"] {

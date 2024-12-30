@@ -8,6 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserService } from '../../services/user.service';
 import { Conversation } from '../../models/conversation.model';
 import { ConversationApiService } from '../../services/conversation-api.service';
+import { ThemeService } from '../../services/theme.service';
+import { UserSettingsComponent } from '../user-settings/user-settings.component';
 
 @Component({
   selector: 'app-side-dashboard',
@@ -43,7 +45,8 @@ export class SideDashboardComponent implements OnInit {
     private router: Router,
     private cookieService: CookieService,
     private userService: UserService,
-    private userApiService: UserApiService
+    private userApiService: UserApiService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit() {
@@ -57,7 +60,6 @@ export class SideDashboardComponent implements OnInit {
   loadRecentChats(username: string) {
     this.conversationApiService.getConversations(username).subscribe(
       (chats: Conversation[]) => {
-        // get top 6 sorted by updated_at descending
         this.recentChats = chats.sort((a, b) => new Date(b.updated_at || '').getTime() 
           - new Date(a.updated_at || '').getTime()).slice(0, 6);
       },
@@ -100,6 +102,11 @@ export class SideDashboardComponent implements OnInit {
     this.closePanel.emit();
   }
 
+  navigateToNewChat(): void {
+    this.router.navigate(['/landing']);
+    this.closePanel.emit();
+  }
+
   logout(): void {
     this.cookieService.delete('authToken', '/');
     this.cookieService.delete('username', '/');
@@ -111,14 +118,18 @@ export class SideDashboardComponent implements OnInit {
   }
 
   openUserSettings(): void {
-    this.openApiKeyModal();
+    this.router.navigate(['/settings']);
   }
 
   onChatClick(conversationId: string) {
     if (conversationId) {
-      // Handle the click event, e.g., navigate to the chat or perform another action
       console.log(`Navigating to conversation with ID: ${conversationId}`);
-      // Example: this.router.navigate(['/chat'], { queryParams: { id: conversationId } });
     }
+  }
+
+  toggleTheme(): void {
+    const currentTheme = this.themeService.getTheme();
+    const newTheme = currentTheme === 'default-theme' ? 'dark-theme' : 'default-theme';
+    this.themeService.setTheme(newTheme);
   }
 } 

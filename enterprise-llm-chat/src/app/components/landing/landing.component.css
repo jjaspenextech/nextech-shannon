@@ -1,0 +1,95 @@
+.landing-container {
+  @apply relative flex flex-col items-center justify-start min-h-screen p-8 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)];
+}
+
+.shannon-button {
+  @apply absolute top-5 left-5 bg-[var(--color-bg-accent)] text-white text-base py-2 px-4 rounded cursor-pointer transition-colors duration-300;
+  
+  &:hover {
+    @apply bg-[var(--color-bg-hover)];
+  }
+}
+
+.greeting-section {
+  @apply text-center mb-8;
+
+  h1 {
+    @apply text-3xl mb-4;
+  }
+
+  .subtitle {
+    @apply text-xl text-[var(--color-text-muted)];
+  }
+}
+
+.chat-input-section {
+  @apply w-1/2 max-w-xl flex items-center bg-[var(--color-bg-secondary)] rounded-lg p-4 mb-8;
+
+  .landing-input {
+    @apply flex-1 bg-transparent border-none text-[var(--color-text-primary)] text-base p-2 resize-none outline-none;
+
+    &::placeholder {
+      @apply text-[var(--color-text-muted)];
+    }
+  }
+
+  .submit-button {
+    @apply bg-transparent border-none text-[var(--color-text-muted)] cursor-pointer p-2 transition-colors duration-300;
+
+    &:hover {
+      @apply text-[var(--color-text-primary)];
+    }
+  }
+}
+
+.recent-conversations {
+  @apply w-full max-w-6xl mt-8;
+
+  h2 {
+    @apply text-xl mb-4 text-[var(--color-text-primary)];
+  }
+
+  .conversation-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  .conversation-card {
+    @apply bg-[var(--color-bg-secondary)] rounded-lg p-6 cursor-pointer transition-transform transform hover:translate-y-[-2px] hover:bg-[var(--color-bg-hover)];
+
+    h3 {
+      @apply text-lg mb-2 text-[var(--color-text-primary)];
+    }
+
+    p {
+      @apply text-[var(--color-text-muted)] text-sm line-clamp-3;
+    }
+  }
+}
+
+.settings-button {
+  @apply absolute bottom-5 left-5 w-12 h-12 rounded-full bg-[var(--color-bg-accent)] text-white flex items-center justify-center text-xl cursor-pointer transition-colors duration-300;
+
+  &:hover {
+    @apply bg-[var(--color-bg-hover)];
+  }
+}
+
+::ng-deep .custom-dialog-container .mat-dialog-container {
+  @apply relative z-50;
+}
+
+::ng-deep .cdk-overlay-pane {
+  @apply fixed top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[-50%];
+}
+
+::ng-deep .cdk-overlay-backdrop {
+  @apply bg-[var(--color-bg-overlay)];
+}
+
+.loading-spinner-container {
+  @apply flex justify-center items-center py-12;
+}
+
+::ng-deep .loading-spinner-container .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--color-spinner) !important;
+} 

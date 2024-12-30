@@ -1,32 +1,31 @@
-.shannon-button {
-  @apply fixed top-5 left-5 bg-[#5457FF] text-white text-base px-4 py-2 rounded hover:bg-[#4547CC] transition-colors duration-200;
+.mdc-button.shannon-button,.mat-mdc-button.shannon-button:not(:disabled) {
+  @apply fixed top-5 left-5 bg-[var(--color-button-primary)] text-white text-base px-4 py-2 rounded hover:bg-[var(--color-bg-hover)] transition-colors duration-200;
   width: fit-content;
   z-index: 999;
 }
 
 .chat-container {
-  @apply flex flex-col h-screen bg-gray-800 text-white m-2;
+  @apply flex flex-col h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] m-2;
 }
 
 .messages-container {
-  @apply flex-1 overflow-y-auto p-5 flex flex-col gap-4 text-white;
+  @apply flex-1 overflow-y-auto p-5 flex flex-col gap-4 text-[var(--color-text-primary)];
 }
 
 .message {
-  @apply flex p-4 rounded-lg max-w-4xl border border-gray-600 text-white;
-  position: relative;
+  @apply flex p-4 rounded-lg max-w-4xl border border-[var(--color-border-primary)] text-[var(--color-text-primary)] relative;
 }
 
 .user-message {
-  @apply bg-gray-800 self-end ml-auto;
+  @apply bg-[var(--color-bg-secondary)] self-end ml-auto;
 }
 
 .assistant-message {
-  @apply bg-gray-700 self-start mr-auto;
+  @apply bg-[var(--color-bg-tertiary)] self-start mr-auto;
 }
 
 .input-container {
-  @apply p-5 bg-gray-800 border border-gray-600 flex gap-3 items-start w-1/2 mx-auto rounded-lg text-white;
+  @apply p-5 bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] flex gap-3 items-start w-1/2 mx-auto rounded-lg text-[var(--color-text-primary)];
 }
 
 textarea {
@@ -43,149 +42,95 @@ textarea {
 }
 
 button {
-  @apply bg-indigo-600 text-white border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
+  @apply bg-[var(--color-button-primary)] text-white border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
 
   &:hover {
-    @apply bg-indigo-500;
+    @apply bg-[var(--color-button-hover)];
   }
 
   &:active {
-    @apply bg-indigo-400;
+    @apply bg-[var(--color-button-hover)];
   }
 }
 
 .message-content {
-  @apply prose text-white;
+  @apply prose text-[var(--color-text-primary)];
 }
 
 .message-content strong {
-  @apply text-white;
+  @apply text-[var(--color-text-primary)];
 }
 
 .context-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  justify-content: flex-end;
-  width: 100%;
+  @apply flex flex-wrap gap-2 mt-2 justify-end w-full;
 }
 
 .context-pill {
-  display: flex;
-  align-items: center;
-  background-color: #4D4D4D;
-  color: #FFFFFF;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  cursor: pointer;
+  @apply flex items-center bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)] py-1 px-2 rounded-full text-xs cursor-pointer;
 }
 
 .context-pill .fa-file-alt {
-  margin-right: 0.25rem;
+  @apply mr-1;
 }
 
 .message-container {
-  margin-bottom: 1rem;
+  @apply mb-4;
 }
 
 .context-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #333;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  max-height: 33vh;
-  overflow-y: auto;
+  @apply fixed top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[-50%] bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] p-4 rounded-lg shadow-lg z-50;
 }
 
 .popup-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @apply flex flex-col items-center;
 }
 
 .popup-content h3 {
-  margin-bottom: 0.5rem;
+  @apply mb-2;
 }
 
 .popup-content p {
-  margin-bottom: 1rem;
+  @apply mb-4;
 }
 
 .popup-content button {
-  background-color: #5457FF;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
+  @apply bg-[var(--color-bg-accent)] text-white border-none rounded-lg py-2 px-4 cursor-pointer;
 
-.popup-content button:hover {
-  background-color: #4547CC;
+  &:hover {
+    @apply bg-[var(--color-bg-hover)];
+  }
 }
 
 .resend-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #FF6B6B;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  z-index: 1000;
-}
+  @apply fixed bottom-5 right-5 bg-[var(--color-text-error)] text-white border-none rounded-lg py-2 px-4 cursor-pointer z-50;
 
-.resend-button:hover {
-  background-color: #FF4C4C;
+  &:hover {
+    @apply bg-[var(--color-button-hover)];
+  }
 }
 
 .resend-icon {
-  background: none;
-  border: none;
-  color: #FF6B6B;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-left: 0.5rem;
-}
+  @apply bg-none border-none text-[var(--color-text-error)] cursor-pointer text-base ml-2;
 
-.resend-icon:hover {
-  color: #FF4C4C;
+  &:hover {
+    @apply text-[var(--color-button-hover)];
+  }
 }
 
 .file-input {
-  display: none;
+  @apply hidden;
 }
 
 .file-label {
-  display: inline-block;
-  cursor: pointer;
-  margin-left: 0.5rem;
-  color: #FFFFFF;
-}
+  @apply inline-block cursor-pointer ml-2 text-white;
 
-.file-label mat-icon {
-  font-size: 24px;
+  mat-icon {
+    @apply text-2xl;
+  }
 }
 
 .drag-drop-zone {
-  background-color: #2D2D2D;
-  color: #FFFFFF;
-  padding: 1rem;
-  text-align: center;
-  border: 2px dashed #4D4D4D;
-  margin: 1rem 0;
-  border-radius: 8px;
-  cursor: pointer;
+  @apply bg-[var(--color-bg-primary)] text-white p-4 text-center border-2 border-dashed border-[var(--color-border-primary)] my-4 rounded-lg cursor-pointer;
 }
 
 .floating-drop-zone {
@@ -206,17 +151,11 @@ button {
 }
 
 .drop-zone-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #4D4D4D;
+  @apply flex flex-col items-center justify-center text-[var(--color-text-muted)];
 }
 
 .drop-icon {
-  width: 2rem;
-  height: 2rem;
-  margin-bottom: 0.5rem;
+  @apply w-8 h-8 mb-2;
 }
 
 @keyframes dropZoneAppear {
@@ -235,8 +174,7 @@ button {
 }
 
 .dot {
-  @apply w-2 h-2 rounded-full bg-gray-400;
-  animation: pulse 1.5s infinite;
+  @apply w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-pulse;
 }
 
 .dot:nth-child(2) {
@@ -275,7 +213,7 @@ button {
 }
 
 ::ng-deep .input-container button mat-spinner circle {
-  stroke: #ffffff !important;
+  stroke: var(--color-text-primary) !important;
 }
 
 .file-label.disabled {

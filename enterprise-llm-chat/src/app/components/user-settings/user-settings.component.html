@@ -1,0 +1,24 @@
+<div class="user-settings-container">
+  <h2 class="title">User Settings</h2>
+  <div class="theme-selection">
+    <h3 class="section-title">Select Theme</h3>
+    <ul>
+      <li *ngFor="let theme of availableThemes" [class.active]="theme === currentTheme" 
+      (click)="changeTheme(theme)">
+        {{ theme }}
+      </li>
+    </ul>
+  </div>
+  <div class="api-keys">
+    <h3 class="section-title">API Keys</h3>
+    <ul>
+      <li *ngFor="let service of userIntegrations | keyvalue">
+        <span>{{ service.key }}:</span>
+            <input matInput [type]="service.value.hide ? 'password' : 'text'" [(ngModel)]="service.value.value" (blur)="updateApiKey(service.key, service.value.value)" />
+            <button mat-icon-button matSuffix (click)="toggleVisibility(service.key)">
+                <mat-icon>{{ service.value.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+      </li>
+    </ul>
+  </div>
+</div>

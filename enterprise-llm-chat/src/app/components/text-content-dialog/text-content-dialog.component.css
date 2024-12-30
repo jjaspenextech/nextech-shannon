@@ -1,6 +1,6 @@
 .dialog-container {
-  @apply p-6 bg-gray-900 text-white;
-  min-width: 500px;
+  @apply p-6 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)];
+  min-w-[500px];
 }
 
 .form-field {
@@ -11,37 +11,36 @@ mat-form-field {
   @apply w-full;
 }
 
-/* Dialog text color overrides */
 ::ng-deep .mat-mdc-dialog-container .mdc-text-field {
-  @apply text-white;
+  @apply text-[var(--color-text-primary)];
 }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field-label {
-  color: rgb(156, 163, 175) !important; /* text-gray-400 */
+  color: var(--color-text-muted) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-input-element {
-  color: white !important;
+  color: var(--color-text-primary) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container mat-label {
-  color: rgb(156, 163, 175) !important;
+  color: var(--color-text-muted) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container textarea {
-  color: white !important;
+  color: var(--color-text-primary) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-title {
-  color: white !important;
+  color: var(--color-text-primary) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-actions button {
-  color: white !important;
+  color: var(--color-text-primary) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container {
-  --mdc-dialog-container-color: rgb(17, 24, 39) !important;
+  --mdc-dialog-container-color: var(--color-bg-darker) !important;
 }
 
 ::ng-deep .mat-mdc-form-field-focus-overlay {
@@ -49,7 +48,7 @@ mat-form-field {
 }
 
 ::ng-deep .mdc-text-field--filled {
-  background-color: rgb(31, 41, 55) !important;
+  background-color: var(--color-bg-dark) !important;
 }
 
 ::ng-deep .mdc-text-field {
@@ -57,10 +56,9 @@ mat-form-field {
 }
 
 ::ng-deep .mat-mdc-form-field-flex {
-  background-color: rgb(31, 41, 55) !important;
+  background-color: var(--color-bg-dark) !important;
 }
 
-/* Update input field sizing and styling */
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field {
   @apply rounded-lg;
 }
@@ -86,7 +84,6 @@ mat-form-field {
   line-height: 2.25rem !important;
 }
 
-/* Remove underline and add rounded corners */
 ::ng-deep .mat-mdc-dialog-container .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before,
 ::ng-deep .mat-mdc-dialog-container .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
   border: none !important;
@@ -103,23 +100,18 @@ mat-form-field {
   line-height: 1.75rem !important;
 }
 
-/* Remove focus outline and add orange ring instead */
-::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field-focus-overlay {
-  background-color: transparent !important;
-}
-
 ::ng-deep .mat-mdc-dialog-container .mat-focused .mdc-text-field {
   @apply ring-2 ring-orange-600;
 }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mat-mdc-input-element {
-  color: rgb(156, 163, 175) !important; /* text-gray-400 */
+  color: var(--color-text-muted) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mdc-text-field {
-  background-color: rgb(24, 31, 41) !important; /* slightly darker than normal */
+  background-color: var(--color-bg-darker) !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-form-field.readonly .mat-mdc-form-field-label {
-  color: rgb(107, 114, 128) !important; /* text-gray-500 */
+  color: var(--color-text-secondary) !important;
 } 

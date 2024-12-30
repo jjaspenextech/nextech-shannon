@@ -1,0 +1,27 @@
+.api-key-modal {
+  @apply p-6 min-w-[400px] bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] rounded-lg shadow-lg;
+
+  h2 {
+    @apply mb-4 text-xl;
+  }
+
+  .api-key-row {
+    @apply flex items-center mb-4;
+  }
+
+  .api-key-name {
+    @apply flex-1 font-bold;
+  }
+
+  .api-key-value {
+    @apply flex-2 flex items-center;
+  }
+
+  .error-message {
+    @apply text-[var(--color-text-error)] my-2;
+  }
+
+  .button-container {
+    @apply flex justify-end gap-2 mt-6;
+  }
+} 

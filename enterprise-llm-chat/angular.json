@@ -33,7 +33,7 @@
               "src/web.config"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles/styles.css",
               "node_modules/prismjs/themes/prism-tomorrow.css"
             ],
             "stylePreprocessorOptions": {
@@ -129,7 +129,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/styles.css"
             ],
             "scripts": []
           }
