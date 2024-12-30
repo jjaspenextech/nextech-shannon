@@ -75,8 +75,7 @@
 }
 
 .logout-button {
-  @apply text-[var(--color-text-error)] hover:text-[var(--color-text-error)] hover:bg-[var(--color-bg-darker)];
-  margin-top: 8px;
+  @apply ml-auto text-[var(--color-text-error)] hover:text-[var(--color-text-error)] hover:bg-[var(--color-bg-darker)];
 }
 
 .logout-button svg {
@@ -88,7 +87,7 @@
 }
 
 .footer-buttons {
-  @apply flex items-center justify-end gap-2;
+  @apply flex items-center justify-between gap-2;
 }
 
 .icon-button {
