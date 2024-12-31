@@ -14,7 +14,7 @@
   }
 
   .api-key-value {
-    @apply flex-2 flex items-center;
+    @apply flex-grow flex items-center;
   }
 
   .error-message {

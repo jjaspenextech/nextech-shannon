@@ -42,7 +42,7 @@ textarea {
 }
 
 button {
-  @apply bg-[var(--color-button-primary)] text-white border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
+  @apply bg-[var(--color-button-primary)] border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
 
   &:hover {
     @apply bg-[var(--color-button-hover)];

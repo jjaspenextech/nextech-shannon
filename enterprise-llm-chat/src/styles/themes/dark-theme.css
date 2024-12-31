@@ -28,6 +28,7 @@
   --color-button-primary: #4547CC; /* Primary button */
   --color-button-hover: #FF4C4C; /* Button hover */
   --color-button-disabled: #6B7280; /* Disabled button */
+  --color-button-text: var(--color-text-primary);
 
   /* Miscellaneous */
   --color-spinner: #FFFFFF; /* Spinner color */
