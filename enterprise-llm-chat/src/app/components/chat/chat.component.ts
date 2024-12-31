@@ -295,6 +295,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           this.conversation.messages.forEach((message, index) => {
             if (!message.message_id) {
               message.message_id = response.conversation.messages[index].message_id;
+              message.contexts = response.conversation.messages[index].contexts;
             }
           });
         })
