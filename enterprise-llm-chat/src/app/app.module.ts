@@ -34,6 +34,7 @@ import { TextContentDialogComponent } from './components/text-content-dialog/tex
 import { ConversationCardComponent } from './components/conversation-card/conversation-card.component';
 import { ThemeService } from './services/theme.service';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
+import { ContextViewerComponent } from './components/context-viewer/context-viewer.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -58,7 +59,8 @@ import { UserSettingsComponent } from './components/user-settings/user-settings.
     ProjectEditComponent,
     TextContentDialogComponent,
     ConversationCardComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    ContextViewerComponent
   ],
   imports: [
     BrowserModule,

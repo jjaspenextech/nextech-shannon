@@ -1,0 +1,15 @@
+.context-viewer-container {
+  @apply fixed top-1/2 left-1/2 transform translate-x-[-50%] translate-y-[-50%] bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] p-4 rounded-lg shadow-lg z-50;
+  width: 50vw;
+  height: 50vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.close-button {
+  @apply absolute top-2 right-2 px-3 py-1 cursor-pointer rounded border-none;
+}
+
+.close-button:hover {
+  @apply bg-[var(--color-button-hover)];
+}

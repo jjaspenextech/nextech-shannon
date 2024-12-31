@@ -12,6 +12,8 @@ import { CommandRegistryService } from '../../services/command-registry.service'
 import { firstValueFrom, tap } from 'rxjs';
 import { LLMService } from 'app/services/llm.service';
 import { MessagesService } from '../../services/messages.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ContextViewerComponent } from '../context-viewer/context-viewer.component';
 
 @Component({
   selector: 'app-chat',
@@ -65,7 +67,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private commandRegistry: CommandRegistryService,
     private router: Router,
     private llmService: LLMService,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
+    private dialog: MatDialog
   ) {
     const renderer = new marked.Renderer();
     
@@ -343,11 +346,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     event.stopPropagation();
     this.scrollEnabled = false; // Disable scrolling
     this.selectedContext = context;
+    this.openContextViewer(context);
   }
 
   closePopup(): void {
     this.selectedContext = null;
-    // Do not enable scrolling here
+    this.scrollEnabled = true; // Re-enable scrolling
   }
 
   handleFileInput(event: Event): void {
@@ -419,5 +423,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   toggleDashboard(open: boolean) {
     this.isDashboardOpen = open;
+  }
+
+  openContextViewer(context: ContextResult): void {
+    this.dialog.open(ContextViewerComponent, {
+      data: context,
+      panelClass: 'context-viewer-dialog',
+      width: '50vw',
+      height: '50vh'
+    }).afterClosed().subscribe(() => {
+      this.closePopup();
+    });
   }
 }

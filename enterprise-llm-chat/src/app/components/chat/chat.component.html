@@ -82,11 +82,3 @@
     </div>
   </div>
 </div>
-
-<div *ngIf="selectedContext" class="context-popup" data-testid="context-popup">
-  <div class="popup-content">
-    <h3>{{ selectedContext.type }}</h3>
-    <p>{{ selectedContext.content }}</p>
-    <button (click)="closePopup()" data-testid="close-popup-button">Close</button>
-  </div>
-</div>

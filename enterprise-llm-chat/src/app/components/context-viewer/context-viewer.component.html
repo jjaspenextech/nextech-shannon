@@ -1,0 +1,10 @@
+<div class="context-viewer-container">
+  <button class="close-button" (click)="close()">Close</button>
+  <div *ngIf="data.type === 'image'">
+    <img [src]="getImageSrc()" alt="Image Context" />
+  </div>
+  <div *ngIf="isTextContext()">
+    <p>{{ getTextContent() }}</p>
+  </div>
+  <!-- Add other context types if necessary -->
+</div>
