@@ -13,15 +13,15 @@
 }
 
 .message {
-  @apply flex p-4 rounded-lg max-w-4xl border border-[var(--color-border-primary)] text-[var(--color-text-primary)] relative;
+  @apply bg-[var(--color-bg-secondary)] flex p-4 rounded-lg max-w-4xl border border-[var(--color-border-primary)] text-[var(--color-text-primary)] relative;
 }
 
 .user-message {
-  @apply bg-[var(--color-bg-secondary)] self-end ml-auto;
+  @apply self-end ml-auto;
 }
 
 .assistant-message {
-  @apply bg-[var(--color-bg-tertiary)] self-start mr-auto;
+  @apply self-start mr-auto;
 }
 
 .input-container {
@@ -29,7 +29,7 @@
 }
 
 textarea {
-  @apply flex-1 bg-gray-800 rounded-lg text-white p-3 resize-none text-sm leading-relaxed overflow-hidden;
+  @apply flex-1 bg-[var(--color-bg-input)] rounded-lg text-[var(--color-text-primary)] p-3 resize-none text-sm leading-relaxed overflow-hidden;
   border: none;
   margin-top: 0;
   min-height: 44px;
@@ -66,7 +66,7 @@ button {
 }
 
 .context-pill {
-  @apply flex items-center bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)] py-1 px-2 rounded-full text-xs cursor-pointer;
+  @apply flex items-center bg-[var(--color-bg-3)] text-[var(--color-text-primary)] py-1 px-2 rounded-full text-xs cursor-pointer;
 }
 
 .context-pill .fa-file-alt {

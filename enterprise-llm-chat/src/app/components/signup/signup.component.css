@@ -1,5 +1,5 @@
 .signup-container {
-  @apply max-w-md mx-auto p-8 border border-[var(--color-border-primary)] rounded-lg bg-[var(--color-bg-light)] shadow-md;
+  @apply max-w-md mx-auto p-8 border border-[var(--color-border-primary)] rounded-lg bg-[var(--color-bg-3)] shadow-md;
 }
 
 h2 {

@@ -2,12 +2,11 @@
   /* Background Colors */
   --color-bg-primary: #FFFFFF; /* Main background color */
   --color-bg-secondary: #F5F7F9; /* Secondary panels/cards background */
-  --color-bg-tertiary: #E8F4F8; /* Light blue background for info areas */
+  --color-bg-3: #E8F4F8; /* Light blue background for info areas */
   --color-bg-hover: #008DB9; /* Hover state for interactive elements */
   --color-bg-accent: #008DB9; /* Primary action buttons (like the blue Apply to Invoice) */
-  --color-bg-light: #008DB9; /* Form backgrounds */
-  --color-bg-dark: #087F92; /* Darker variation of accent for hover states */
-  --color-bg-darker: #006C8F; /* Even darker variation for active states */
+  --color-bg-4: #087F92; /* Darker variation of accent for hover states */
+  --color-bg-5: #006C8F; /* Even darker variation for active states */
   --color-bg-overlay: rgba(0, 0, 0, 0.2); /* Modal overlay */
 
   /* Text Colors */

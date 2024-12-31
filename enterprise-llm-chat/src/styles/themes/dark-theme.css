@@ -1,15 +1,14 @@
 .dark-theme {
   /* Background Colors */
-  --color-bg-primary: rgb(17 24 39); /* General background */
-  --color-bg-secondary: rgb(31 41 55); /* Popup background */
-  --color-bg-tertiary: #4D4D4D; /* Context pill background */
+  --color-bg-primary: #1E1E1E; /* General background */
+  /* --color-bg-secondary: #4d4d4d; Popup background */
+  --color-bg-secondary: #111827; /*Popup background*/
+  --color-bg-3: #111827; /* Context pill background */
   --color-bg-hover: #4547CC; /* Button hover */
   --color-bg-accent: #5457FF; /* Button background */
-  /* hsl(48 2.7% 35.9%) */
   --color-bg-accent-secondary: hsl(60 2.7% 14.5%); /* Button background */
-  --color-bg-light: #1F2937; /* Light background for forms */
-  --color-bg-dark: #1F2937; /* Darker background for hover effects */
-  --color-bg-darker: #111827; /* Dark theme menu background */
+  --color-bg-4: #191970; /* Darker background for hover effects */
+  --color-bg-5: #111827; /* Dark theme menu background */
   --color-bg-overlay: rgba(0, 0, 0, 0.5); /* Overlay background */
 
   /* Text Colors */
@@ -34,4 +33,5 @@
   --color-spinner: #FFFFFF; /* Spinner color */
   --color-icon: #9CA3AF; /* Icon color */
   --color-overlay: rgba(45, 45, 45, 0.95); /* Overlay color */
+  --color-bg-input: #2A2A2A; /* Input background */
 }

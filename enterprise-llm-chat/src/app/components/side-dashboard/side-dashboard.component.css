@@ -1,5 +1,5 @@
 .dashboard-overlay {
-  @apply fixed inset-0 bg-[var(--color-bg-overlay)];
+  @apply fixed inset-0;
   height: 100vh;
   width: 100vw;
   z-index: 998;
@@ -7,7 +7,7 @@
 }
 
 .dashboard-panel {
-  @apply fixed left-0 top-0 bottom-0 bg-[var(--color-bg-tertiary)] text-[var(--color-text-primary)] shadow-lg flex flex-col;
+  @apply fixed left-0 top-0 bottom-0 bg-[var(--color-bg-3)] text-[var(--color-text-primary)] shadow-lg flex flex-col;
   height: 100vh;
   width: 320px;
   z-index: 999;
@@ -33,8 +33,12 @@
   @apply text-xl font-semibold;
 }
 
+button {
+  @apply w-full flex items-center justify-between p-3 rounded-lg bg-transparent hover:bg-[var(--color-button-primary)] transition-colors text-left;
+}
+
 .close-button {
-  @apply p-2 rounded-full hover:bg-[var(--color-bg-dark)] transition-colors;
+  @apply w-8 h-8 p-1 rounded-full hover:bg-[var(--color-bg-4)] transition-colors cursor-pointer;
 }
 
 .dashboard-content {
@@ -55,7 +59,7 @@
 }
 
 .chat-item {
-  @apply p-3 rounded-lg bg-[var(--color-bg-dark)] hover:bg-[var(--color-bg-secondary)] cursor-pointer transition-colors;
+  @apply p-3 rounded-lg hover:bg-[var(--color-bg-secondary)] cursor-pointer transition-colors;
 }
 
 .chat-item h4 {
@@ -70,12 +74,8 @@
   @apply space-y-2;
 }
 
-.setting-button {
-  @apply w-full flex items-center justify-between p-3 rounded-lg bg-[var(--color-bg-dark)] hover:bg-[var(--color-bg-secondary)] transition-colors text-left;
-}
-
 .logout-button {
-  @apply ml-auto text-[var(--color-text-error)] hover:text-[var(--color-text-error)] hover:bg-[var(--color-bg-darker)];
+  @apply ml-auto text-[var(--color-text-error)] hover:text-[var(--color-text-error)] hover:bg-[var(--color-bg-5)];
 }
 
 .logout-button svg {
@@ -91,7 +91,7 @@
 }
 
 .icon-button {
-  @apply p-2 rounded-full hover:bg-[var(--color-bg-dark)] transition-colors;
+  @apply p-2 rounded-full hover:bg-[var(--color-bg-4)] transition-colors;
   height: 36px;
   width: 36px;
   display: flex;

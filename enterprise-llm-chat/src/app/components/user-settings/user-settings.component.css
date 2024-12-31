@@ -1,5 +1,5 @@
 .user-settings-container {
-  @apply p-6 bg-[var(--color-bg-light)] rounded-lg shadow-md max-w-md mx-auto;
+  @apply p-6 bg-[var(--color-bg-3)] rounded-lg shadow-md max-w-md mx-auto;
 }
 
 .title {

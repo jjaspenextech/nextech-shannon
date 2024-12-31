@@ -1,5 +1,5 @@
 .login-container {
-  @apply max-w-md mx-auto p-8 border border-gray-300 rounded-lg bg-[var(--color-bg-light)] shadow-md mt-4;
+  @apply max-w-md mx-auto p-8 border border-gray-300 rounded-lg bg-[var(--color-bg-3)] shadow-md mt-4;
 }
 
 h2 {

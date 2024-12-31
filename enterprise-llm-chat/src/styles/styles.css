@@ -36,7 +36,7 @@
     }
     
     .prose pre {
-      @apply my-4 p-4 bg-[var(--color-bg-light)] rounded-lg overflow-x-auto;
+      @apply my-4 p-4 bg-[var(--color-bg-3)] rounded-lg overflow-x-auto;
     }
     
     .prose code {
@@ -57,7 +57,7 @@
 
     /* Prism.js theme overrides */
     .prose pre[class*="language-"] {
-      @apply bg-[var(--color-bg-light)] text-[var(--color-text-secondary)];
+      @apply bg-[var(--color-bg-3)] text-[var(--color-text-secondary)];
     }
 
     .prose code[class*="language-"] {
@@ -65,7 +65,7 @@
     }
 
     input {
-      @apply bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)];
+      @apply bg-[var(--color-bg-input)] text-[var(--color-text-primary)];
     }
 
     button {
