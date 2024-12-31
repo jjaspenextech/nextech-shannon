@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRegistryService } from '../../services/command-registry.service';
 import { firstValueFrom, tap } from 'rxjs';
 import { LLMService } from 'app/services/llm.service';
+import { MessagesService } from '../../services/messages.service';
 
 @Component({
   selector: 'app-chat',
@@ -63,7 +64,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private route: ActivatedRoute,
     private commandRegistry: CommandRegistryService,
     private router: Router,
-    private llmService: LLMService
+    private llmService: LLMService,
+    private messagesService: MessagesService
   ) {
     const renderer = new marked.Renderer();
     
@@ -141,67 +143,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       return Promise.resolve();
     }
   }
-
-  updateMessageContent(index: number) {
-    if (this.conversation.messages[index] && this.conversation.messages[index].content) {
-      // if the message ends with [DONE] then we need to remove it. This is a hack to get rid of the [DONE] 
-      // that the streaming service adds to the end of the message when the backend is very slow.
-      if (this.conversation.messages[index].content.endsWith('[DONE]')) {
-        this.conversation.messages[index].content = this.conversation.messages[index].content.slice(0, -6);
-      }
-      this.conversation.messages[index].formattedContent = this.formatMessage(this.conversation.messages[index].content);      
-      this.updateFormattedContent();
-    }
-  }
-
-  updateFormattedContent() {
-    setTimeout(() => {
-      Prism.highlightAll();
-      this.cdr.detectChanges();
-    }, 0);
-  }
-
-  async getContextsFromHandlers(text: string): Promise<ContextResult[]> {
-    const currentMessage = this.conversation.messages[this.conversation.messages.length - 1];
-    let existingContexts: ContextResult[] = [];
-    if (currentMessage && currentMessage.contexts) {
-      existingContexts = currentMessage.contexts;
-    }
-    const handlers = this.commandRegistry.getHandlers();
-    let contexts: ContextResult[] = existingContexts;
-    for (const [type, handler] of handlers) {
-      try {
-        const new_matches = handler.getMatches(text)
-          .filter(match => !contexts.some(context => context.match === match));
-        for (const match of new_matches) {
-          const results = await handler.execute(match);
-          results.match = match;
-          contexts = contexts.concat(results);
-        }
-      } catch (error) {
-        console.error('Error processing command:', error);
-      }
-    }
-    return contexts;
-  }
-
-  addOrUpdateLastUserMessage(message: string, contexts: ContextResult[]) {
-    // Check if we need to add new message to conversation or update the last user message
-    // to not be pending.
-    const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-    if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
-      lastMessage.pending = false;
-      lastMessage.content = message;
-    } else {
-      const userMessage: Message = { 
-        role: 'user', 
-        content: message, 
-        sequence: this.conversation.messages.length + 1,
-        contexts: contexts && contexts.length > 0 ? contexts : undefined
-      };
-      this.conversation.messages.push(userMessage);
-    }        
-  }
+  
 
   async updateConversationMessages() {
     if (this.userInput.trim() && !this.isSaving) {
@@ -268,6 +210,78 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.conversation.messages[botMessageIndex].pending = false;
       this.updateMessageContent(botMessageIndex);
     }
+  }
+
+  async resendLastMessage(): Promise<void> {
+    if (this.conversation.messages.length > 0) {
+      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage.role === 'user') {
+        this.userInput = lastMessage.content || '';
+        this.conversation.messages.pop(); // Remove the last user message
+        await this.updateConversation();
+      }
+    }
+  }
+
+  updateMessageContent(index: number) {
+    if (this.conversation.messages[index] && this.conversation.messages[index].content) {
+      // if the message ends with [DONE] then we need to remove it. This is a hack to get rid of the [DONE] 
+      // that the streaming service adds to the end of the message when the backend is very slow.
+      if (this.conversation.messages[index].content.endsWith('[DONE]')) {
+        this.conversation.messages[index].content = this.conversation.messages[index].content.slice(0, -6);
+      }
+      this.conversation.messages[index].formattedContent = this.formatMessage(this.conversation.messages[index].content);      
+      this.updateFormattedContent();
+    }
+  }
+
+  updateFormattedContent() {
+    setTimeout(() => {
+      Prism.highlightAll();
+      this.cdr.detectChanges();
+    }, 0);
+  }
+
+  async getContextsFromHandlers(text: string): Promise<ContextResult[]> {
+    const currentMessage = this.conversation.messages[this.conversation.messages.length - 1];
+    let existingContexts: ContextResult[] = [];
+    if (currentMessage && currentMessage.contexts) {
+      existingContexts = currentMessage.contexts;
+    }
+    const handlers = this.commandRegistry.getHandlers();
+    let contexts: ContextResult[] = existingContexts;
+    for (const [type, handler] of handlers) {
+      try {
+        const new_matches = handler.getMatches(text)
+          .filter(match => !contexts.some(context => context.match === match));
+        for (const match of new_matches) {
+          const results = await handler.execute(match);
+          results.match = match;
+          contexts = contexts.concat(results);
+        }
+      } catch (error) {
+        console.error('Error processing command:', error);
+      }
+    }
+    return contexts;
+  }
+
+  addOrUpdateLastUserMessage(message: string, contexts: ContextResult[]) {
+    // Check if we need to add new message to conversation or update the last user message
+    // to not be pending.
+    const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+    if (lastMessage && lastMessage.role === 'user' && lastMessage.pending) {
+      lastMessage.pending = false;
+      lastMessage.content = message;
+    } else {
+      const userMessage: Message = { 
+        role: 'user', 
+        content: message, 
+        sequence: this.conversation.messages.length + 1,
+        contexts: contexts && contexts.length > 0 ? contexts : undefined
+      };
+      this.conversation.messages.push(userMessage);
+    }        
   }
 
   private async saveConversation() {
@@ -338,48 +352,29 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     // Do not enable scrolling here
   }
 
-  async resendLastMessage(): Promise<void> {
-    if (this.conversation.messages.length > 0) {
-      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-      if (lastMessage.role === 'user') {
-        this.userInput = lastMessage.content || '';
-        this.conversation.messages.pop(); // Remove the last user message
-        await this.updateConversation();
-      }
-    }
-  }
-
   handleFileInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        this.addFileContext(content);
-      };
-      reader.readAsText(file);
-    }
+    this.messagesService.handleFileInput(event).then(contexts => {
+      if (contexts.length > 0) {
+        this.addFileContextsToLastMessage(contexts);
+      }
+    }).catch(error => {
+      console.error('Error handling file input:', error);
+    });
   }
 
-  addFileContext(content: string, type: string): void {
-    const context: ContextResult = {
-      type: type,
-      content: content
-    };
-
+  private addFileContextsToLastMessage(contexts: ContextResult[]): void {
     if (this.conversation.messages.length > 0) {
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
       if (lastMessage.role === 'user') {
         lastMessage.contexts = lastMessage.contexts || [];
-        lastMessage.contexts.push(context);
+        lastMessage.contexts.push(...contexts);
         lastMessage.pending = true;
       } else {
         this.conversation.messages.push({
           role: 'user',
           content: this.userInput,
           sequence: this.conversation.messages.length + 1,
-          contexts: [context],
+          contexts: contexts,
           pending: true
         });
       }
@@ -388,7 +383,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         role: 'user',
         content: this.userInput,
         sequence: 1,
-        contexts: [context],
+        contexts: contexts,
         pending: true
       });
     }
@@ -420,48 +415,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     event.preventDefault();
     event.stopPropagation();
     this.isDragging = false;
-
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-        const filesArray = Array.from(files);
-        for (const file of filesArray) {
-            try {
-                if (file.type.startsWith('image/')) {
-                    const base64Content = await this.readFileAsBase64(file);
-                    this.addFileContext(base64Content, 'image');
-                } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-                    const content = await this.readFileContent(file);
-                    this.addFileContext(content, 'text');
-                }
-            } catch (error) {
-                console.error('Error reading file:', error);
-            }
-        }
-    }
-  }
-
-  private readFileContent(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        resolve(content);
-      };
-      reader.onerror = (e) => reject(e);
-      reader.readAsText(file);
-    });
-  }
-
-  private readFileAsBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        resolve(content.split(',')[1]); // Remove the data:image/jpeg;base64, part
-      };
-      reader.onerror = (e) => reject(e);
-      reader.readAsDataURL(file);
-    });
+    const contexts = await this.messagesService.handleFileInput(event);
+    this.addFileContextsToLastMessage(contexts);
   }
 
   toggleDashboard(open: boolean) {
