@@ -280,9 +280,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         tap(response => {
           this.conversation.conversation_id = response.conversation.conversation_id;
           this.conversation.description = response.conversation.description;
-          // update the id of last message
-          this.conversation.messages[this.conversation.messages.length - 1].message_id 
-            = response.conversation.messages[this.conversation.messages.length - 1].message_id;
+          // update the id of all messages without an id, based on the sequence number
+          this.conversation.messages.forEach((message, index) => {
+            if (!message.message_id) {
+              message.message_id = response.conversation.messages[index].message_id;
+            }
+          });
         })
       )
     );
