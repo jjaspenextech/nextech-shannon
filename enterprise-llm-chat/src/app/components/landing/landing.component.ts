@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiKeyModalComponent } from '../api-key-modal/api-key-modal.component';
 import { firstValueFrom } from 'rxjs';
 import { ConversationApiService } from 'app/services/conversation-api.service';
+import { MessagesService } from '../../services/messages.service';
+import { ContextResult } from '@models';
 
 @Component({
   selector: 'app-landing',
@@ -20,6 +22,10 @@ export class LandingComponent implements OnInit {
   recentConversations: Conversation[] = [];
   isLoading: boolean = true;
   isDashboardOpen: boolean = false;
+  fileInput: File | null = null;
+  fileType: string = '';
+  isSaving: boolean = false;
+  firstMessageContexts: ContextResult[] = [];
   @ViewChild('landingInput') landingInput!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -28,7 +34,8 @@ export class LandingComponent implements OnInit {
     private userService: UserService,
     private userApiService: UserApiService,
     private dialog: MatDialog,
-    private conversationApiService: ConversationApiService
+    private conversationApiService: ConversationApiService,
+    private messagesService: MessagesService
   ) {}
 
   ngOnInit() {
@@ -61,7 +68,7 @@ export class LandingComponent implements OnInit {
 
   async onSubmit() {
     if (this.userInput.trim()) {
-      this.chatService.setInitialMessage(this.userInput);
+      this.chatService.setInitialMessage(this.userInput, this.firstMessageContexts);
       this.router.navigate(['/chat']);
     }
   }
@@ -107,5 +114,19 @@ export class LandingComponent implements OnInit {
 
   toggleDashboard(open: boolean) {
     this.isDashboardOpen = open;
+  }
+
+  handleFileInput(event: Event): void {
+    this.messagesService.handleFileInput(event).then(contexts => {
+      if (contexts.length > 0) {
+        this.addFileContexts(contexts);
+      }
+    }).catch(error => {
+      console.error('Error handling file input:', error);
+    });
+  }
+
+  private addFileContexts(contexts: ContextResult[]): void {
+    this.firstMessageContexts.push(...contexts);
   }
 } 

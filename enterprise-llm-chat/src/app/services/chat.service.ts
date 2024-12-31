@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Conversation } from '@models';
+import { ContextResult, Conversation, Message } from '@models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -9,13 +9,18 @@ import { environment } from '../../environments/environment';
 })
 export class ChatService {
   private readonly API_URL = environment.apiUrl;
-  private initialMessage: string | null = null;
+  private initialMessage: Message | null = null;
   private projectId: string | null = null;
 
   constructor(private http: HttpClient) {}
 
-  setInitialMessage(message: string) {
-    this.initialMessage = message;
+  setInitialMessage(message: string, contexts: ContextResult[]) {
+    this.initialMessage = {
+      role: 'user',
+      content: message,
+      contexts: contexts,
+      sequence: 1
+    };
   }
 
   setProjectId(id: string | null) {
@@ -26,7 +31,7 @@ export class ChatService {
     return this.http.get<Conversation>(`${this.API_URL}/get-conversation/${conversationId}`);
   }
 
-  getInitialMessage(): string | null {
+  getInitialMessage(): Message | null {
     const message = this.initialMessage;
     this.initialMessage = null; // Clear it after retrieving
     return message;

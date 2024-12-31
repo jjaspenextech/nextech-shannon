@@ -71,7 +71,7 @@
         [disabled]="isSaving"
         data-testid="message-input"
       ></textarea>
-      <input type="file" accept=".txt,.doc" (change)="handleFileInput($event)" class="file-input" id="fileInput" data-testid="file-input" />
+      <input type="file" accept=".txt,.doc,.jpg,.jpeg,.png" (change)="handleFileInput($event)" class="file-input" id="fileInput" data-testid="file-input" />
       <label for="fileInput" class="file-label" [class.disabled]="isSaving" data-testid="file-label">
         <mat-icon>attach_file</mat-icon>
       </label>
@@ -80,13 +80,5 @@
         <mat-spinner *ngIf="isSaving" diameter="20"></mat-spinner>
       </button>
     </div>
-  </div>
-</div>
-
-<div *ngIf="selectedContext" class="context-popup" data-testid="context-popup">
-  <div class="popup-content">
-    <h3>{{ selectedContext.type }}</h3>
-    <p>{{ selectedContext.content }}</p>
-    <button (click)="closePopup()" data-testid="close-popup-button">Close</button>
   </div>
 </div>

@@ -42,6 +42,18 @@
   }
 }
 
+.file-input {
+  @apply hidden;
+}
+
+.file-label {
+  @apply inline-block cursor-pointer ml-2 text-white;
+}
+
+.file-label.disabled {
+  @apply pointer-events-none;
+}
+
 .recent-conversations {
   @apply w-full max-w-6xl mt-8;
 
@@ -51,6 +63,10 @@
 
   .conversation-grid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  mat-icon {
+    @apply text-2xl;
   }
 
   .conversation-card {

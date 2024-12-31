@@ -224,4 +224,8 @@ button {
   @apply flex flex-col h-screen;
   margin-left: 0;
 }
+
+.context-viewer-dialog {
+  @apply max-h-[0];
+}
   
