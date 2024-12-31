@@ -362,25 +362,25 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  addFileContext(content: string): void {
+  addFileContext(content: string, type: string): void {
     const context: ContextResult = {
-      type: 'text',
+      type: type,
       content: content
     };
-  
+
     if (this.conversation.messages.length > 0) {
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
       if (lastMessage.role === 'user') {
         lastMessage.contexts = lastMessage.contexts || [];
         lastMessage.contexts.push(context);
-        lastMessage.pending = true; // Mark as pending
+        lastMessage.pending = true;
       } else {
         this.conversation.messages.push({
           role: 'user',
           content: this.userInput,
           sequence: this.conversation.messages.length + 1,
           contexts: [context],
-          pending: true // Mark as pending
+          pending: true
         });
       }
     } else {
@@ -389,7 +389,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         content: this.userInput,
         sequence: 1,
         contexts: [context],
-        pending: true // Mark as pending
+        pending: true
       });
     }
   }
@@ -423,18 +423,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      // Convert FileList to array to make it iterable
-      const filesArray = Array.from(files);
-      for (const file of filesArray) {
-        if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-          try {
-            const content = await this.readFileContent(file);
-            this.addFileContext(content);
-          } catch (error) {
-            console.error('Error reading file:', error);
-          }
+        const filesArray = Array.from(files);
+        for (const file of filesArray) {
+            try {
+                if (file.type.startsWith('image/')) {
+                    const base64Content = await this.readFileAsBase64(file);
+                    this.addFileContext(base64Content, 'image');
+                } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+                    const content = await this.readFileContent(file);
+                    this.addFileContext(content, 'text');
+                }
+            } catch (error) {
+                console.error('Error reading file:', error);
+            }
         }
-      }
     }
   }
 
@@ -447,6 +449,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       };
       reader.onerror = (e) => reject(e);
       reader.readAsText(file);
+    });
+  }
+
+  private readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        resolve(content.split(',')[1]); // Remove the data:image/jpeg;base64, part
+      };
+      reader.onerror = (e) => reject(e);
+      reader.readAsDataURL(file);
     });
   }
 
