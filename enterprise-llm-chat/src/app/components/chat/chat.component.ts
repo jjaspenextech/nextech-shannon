@@ -101,12 +101,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.conversation.project_id = projectId;
         const initialMessage = this.chatService.getInitialMessage();
         if (initialMessage) {
-          this.userInput = initialMessage;
-          this.conversation.messages.push({
-            role: 'user',
-            sequence: 1,
-            pending: true
-          });
+          this.userInput = initialMessage.content || '';
+          initialMessage.pending = true;
+          this.conversation.messages.push(initialMessage);
           this.updateConversation();
         }
       }

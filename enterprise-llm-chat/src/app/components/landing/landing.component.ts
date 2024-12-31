@@ -25,6 +25,7 @@ export class LandingComponent implements OnInit {
   fileInput: File | null = null;
   fileType: string = '';
   isSaving: boolean = false;
+  firstMessageContexts: ContextResult[] = [];
   @ViewChild('landingInput') landingInput!: ElementRef<HTMLTextAreaElement>;
 
   constructor(
@@ -67,7 +68,7 @@ export class LandingComponent implements OnInit {
 
   async onSubmit() {
     if (this.userInput.trim()) {
-      this.chatService.setInitialMessage(this.userInput);
+      this.chatService.setInitialMessage(this.userInput, this.firstMessageContexts);
       this.router.navigate(['/chat']);
     }
   }
@@ -126,7 +127,6 @@ export class LandingComponent implements OnInit {
   }
 
   private addFileContexts(contexts: ContextResult[]): void {
-    // Logic to add file contexts to the message or conversation
-    console.log('File contexts added:', contexts);
+    this.firstMessageContexts.push(...contexts);
   }
 } 

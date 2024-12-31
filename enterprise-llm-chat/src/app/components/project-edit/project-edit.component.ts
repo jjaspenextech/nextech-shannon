@@ -268,7 +268,7 @@ export class ProjectEditComponent implements OnInit {
   startNewConversation() {
     if (!this.newMessage.trim() || !this.project.project_id) return;
     
-    this.chatService.setInitialMessage(this.newMessage);
+    this.chatService.setInitialMessage(this.newMessage, []);
     this.chatService.setProjectId(this.project.project_id);
     this.router.navigate(['/chat']);
   }
