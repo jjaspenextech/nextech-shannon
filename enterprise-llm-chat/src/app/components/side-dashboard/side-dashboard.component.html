@@ -1,4 +1,4 @@
-<div class="hover-area" [class.active]="isOpen" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+<div class="hover-area" [class.active]="isOpen">
   <div class="dashboard-overlay" *ngIf="isOpen"></div>
   <div class="dashboard-panel" [@slideInOut] *ngIf="isOpen">
     <div class="dashboard-header">

@@ -69,14 +69,6 @@ export class SideDashboardComponent implements OnInit {
     );
   }
 
-  onMouseEnter() {
-    this.openPanel.emit();
-  }
-
-  onMouseLeave() {
-    this.closePanel.emit();
-  }
-
   onClose() {
     this.closePanel.emit();
   }

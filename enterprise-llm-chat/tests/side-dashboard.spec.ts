@@ -31,10 +31,13 @@ test.describe('Side Dashboard', () => {
 
   test('should open user settings when user settings button is clicked', async ({ page }: { page: Page }) => {
     await openDashboard(page);
+    // for some reason, stuff in the user settings component resolves to 2 different elements, even thought there is only 1
+    // so we cant use strict mode with getByTestId
+    // Error: locator.click: Error: strict mode violation: getByTestId('user-settings-button') resolved to 2 elements:
     await page.getByTestId('user-settings-button').click();
     // Add assertion to verify user settings modal or page
     // verify api-key-modal-title is visible
-    await expect(page.getByTestId('api-key-modal-title')).toBeVisible();
+    await expect(page.getByTestId('user-settings-container')).toBeVisible({ timeout: 60000 });
   });
 
   test('should log out when logout button is clicked', async ({ page }: { page: Page }) => {

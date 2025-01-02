@@ -29,7 +29,7 @@
 }
 
 textarea {
-  @apply flex-1 bg-[var(--color-bg-input)] rounded-lg text-[var(--color-text-primary)] p-3 resize-none text-sm leading-relaxed overflow-hidden;
+  @apply flex-1 rounded-lg text-[var(--color-text-primary)] p-3 resize-none text-sm leading-relaxed overflow-hidden;
   border: none;
   margin-top: 0;
   min-height: 44px;

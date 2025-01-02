@@ -1,15 +1,14 @@
 <div class="landing-container">
   <button mat-button class="shannon-button" 
     data-testid="shannon-button"
-    (mouseenter)="toggleDashboard(true)" 
-    (mouseleave)="toggleDashboard(false)">
+    (mouseenter)="toggleDashboard(true)"    
+    >
     Shannon
   </button>
   <app-side-dashboard 
     [isOpen]="isDashboardOpen" 
     [class.active]="isDashboardOpen"
     (closePanel)="toggleDashboard(false)"
-    (openPanel)="toggleDashboard(true)"
     data-testid="side-dashboard"
     >
   </app-side-dashboard>
