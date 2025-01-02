@@ -1,5 +1,5 @@
-<div class="context-viewer-container">
-  <button class="close-button" (click)="close()">Close</button>
+<div class="context-viewer-container" data-testid="context-viewer-container">
+  <button class="close-button" (click)="close()" data-testid="context-viewer-close-button">Close</button>
   <div *ngIf="data.type === 'image'">
     <img [src]="getImageSrc()" alt="Image Context" />
   </div>

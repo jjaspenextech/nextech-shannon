@@ -33,4 +33,5 @@
   --color-spinner: #2D3748; /* Loading spinner */
   --color-icon: #4A5568; /* Icon color */
   --color-overlay: rgba(247, 250, 252, 0.95); /* Light overlay for modals */
+  --color-bg-input: #E8F4F8; /* Input background */
 }

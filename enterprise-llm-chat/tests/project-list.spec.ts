@@ -7,7 +7,7 @@ async function createProject(page: Page) {
   await page.waitForLoadState('networkidle');
   await page.getByTestId('create-project-button').click();
   await page.waitForLoadState('networkidle');
-  await page.getByTestId('project-name-input').fill('New Test Project');
+  await page.getByTestId('project-name-input').fill('Test Project');
   await page.getByTestId('project-description-textarea').fill('This is a test project');
   await page.getByTestId('create-button').click();
   await page.waitForLoadState('networkidle');

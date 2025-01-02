@@ -14,8 +14,13 @@
     <ul>
       <li *ngFor="let service of userIntegrations | keyvalue">
         <span>{{ service.key }}:</span>
-            <input matInput [type]="service.value.hide ? 'password' : 'text'" [(ngModel)]="service.value.value" (blur)="updateApiKey(service.key, service.value.value)" />
-            <button mat-icon-button matSuffix (click)="toggleVisibility(service.key)">
+            <input matInput 
+                [type]="service.value.hide ? 'password' : 'text'" 
+                [(ngModel)]="service.value.value" 
+                (blur)="updateApiKey(service.key, service.value.value)" 
+                [attr.data-testid]="service.key + '-input'" />
+            <button mat-icon-button matSuffix (click)="toggleVisibility(service.key)"
+            [attr.data-testid]="service.key + '-toggle-button'">
                 <mat-icon>{{ service.value.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
       </li>

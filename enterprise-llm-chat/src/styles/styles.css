@@ -68,6 +68,10 @@
       @apply bg-[var(--color-bg-input)] text-[var(--color-text-primary)];
     }
 
+    textarea {
+      @apply bg-[var(--color-bg-input)] text-[var(--color-text-primary)];
+    }
+
     button {
       @apply bg-[var(--color-button-primary)] text-[var(--color-text-primary)] transition-colors duration-200 disabled:opacity-50 hover:bg-[var(--color-button-hover)];
     }

@@ -1,5 +1,5 @@
 .project-edit-container {
-  @apply min-h-screen bg-gray-900 text-white;
+  @apply min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] p-8;
 }
 
 .header {
@@ -7,7 +7,7 @@
 }
 
 .back-button {
-  @apply flex items-center text-gray-400 hover:text-white transition-colors duration-200;
+  @apply flex items-center transition-colors duration-200;
 }
 
 .back-icon {
@@ -53,7 +53,7 @@
 }
 
 .project-privacy {
-  @apply flex items-center px-3 py-1 bg-gray-800 rounded-full text-sm;
+  @apply flex items-center px-3 py-1 rounded-full text-sm;
 }
 
 .privacy-icon {
@@ -73,8 +73,8 @@
 
 .form-group input,
 .form-group textarea {
-  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
-         focus:ring-2 focus:ring-orange-600 focus:outline-none text-lg;
+  @apply w-full border border-[var(--color-border-primary)] rounded-lg p-4 placeholder-[var(--color-text-muted)]
+         focus:ring-2 focus:ring-[var(--color-border-accent)] focus:outline-none;
 }
 
 .form-group textarea {
@@ -82,7 +82,7 @@
 }
 
 .sidebar {
-  @apply w-96 border-l border-gray-800 p-6 bg-gray-900;
+  @apply w-96 border-l border-gray-800 p-6;
 }
 
 .sidebar-header {
@@ -301,7 +301,7 @@
 }
 
 .conversations-title {
-  @apply text-xl font-semibold flex items-center gap-2 mb-6 text-gray-200;
+  @apply text-xl font-semibold flex items-center gap-2 mb-6;
 }
 
 .conversation-list {
@@ -309,7 +309,7 @@
 }
 
 .conversation-item {
-  @apply bg-gray-800 rounded-lg p-4 hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
+  @apply bg-gray-800 rounded-lg p-4 transition-colors duration-200 cursor-pointer;
 }
 
 .conversation-header {
@@ -317,15 +317,15 @@
 }
 
 .conversation-title {
-  @apply font-medium text-gray-200;
+  @apply font-medium;
 }
 
 .conversation-date {
-  @apply text-sm text-gray-400;
+  @apply text-sm ;
 }
 
 .conversation-preview {
-  @apply text-sm text-gray-400 line-clamp-2;
+  @apply text-sm line-clamp-2;
 }
 
 .new-conversation {
@@ -337,14 +337,14 @@
 }
 
 .chat-input {
-  @apply w-full bg-gray-800 border-none rounded-lg p-4 text-white placeholder-gray-400
+  @apply w-full border-none rounded-lg p-4
          focus:ring-2 focus:ring-orange-600 focus:outline-none resize-none;
   min-height: 60px;
 }
 
 .send-button {
-  @apply flex items-center justify-center p-3 bg-orange-600 text-white rounded-lg
-         hover:bg-orange-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply flex items-center justify-center p-3 bg-[var(--color-button-primary)] rounded-lg
+         hover:bg-[var(--color-button-hover)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .send-button mat-icon {

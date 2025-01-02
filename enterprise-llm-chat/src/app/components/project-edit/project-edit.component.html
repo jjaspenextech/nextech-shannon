@@ -1,15 +1,15 @@
 <div class="project-edit-container" data-testid="project-edit-container">
   <!-- Header -->
   <header class="header">
-    <button class="back-button" (click)="navigateBack()" data-testid="back-button">
+    <button mat-button class="back-button" (click)="navigateBack()" data-testid="back-button">
       <mat-icon class="back-icon">arrow_back</mat-icon>
       All projects
     </button>
     <div class="actions">
-      <button class="star-button" data-testid="star-button">
+      <button mat-button class="star-button" data-testid="star-button">
         <mat-icon>star_outline</mat-icon>
       </button>
-      <button class="menu-button" data-testid="menu-button">
+      <button mat-button class="menu-button" data-testid="menu-button">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
@@ -46,7 +46,12 @@
               (ngModelChange)="onDescriptionChange()"
               data-testid="project-description-textarea"></textarea>
           </div>
-          <button *ngIf="isDescriptionChanged" (click)="saveDescription()" class="save-button" data-testid="save-description-button">
+          <button 
+            mat-button
+            *ngIf="isDescriptionChanged" 
+            (click)="saveDescription()" 
+            class="save-button" 
+            data-testid="save-description-button">
             Save
           </button>
         </form>
@@ -113,7 +118,7 @@
             class="file-input" 
             id="fileInput"
             data-testid="file-input" />
-          <button 
+          <button mat-button
             class="add-content-button" 
             [matMenuTriggerFor]="addContentMenu"
             data-testid="add-content-button">

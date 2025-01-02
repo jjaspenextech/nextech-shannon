@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { Page } from '@playwright/test';
-import { login, openDashboard, createProject } from './shared';
+import { login, openDashboard, createProject, projectName, projectDescription } from './shared';
 
 test.describe('Project Edit Component', () => {
   // Perform login before each test
@@ -16,8 +16,6 @@ test.describe('Project Edit Component', () => {
     // by checking the project-card-0 is visible
     try {
       await expect(page.getByTestId('project-card-0')).toBeVisible();
-      // click on the first project
-      await page.getByTestId('project-card-0').click();
     } catch (error) {        
       // if it fails, we need to make a new project
       await page.goto('http://localhost:4200/projects/create');
@@ -26,14 +24,16 @@ test.describe('Project Edit Component', () => {
       // fill in the project name
       await createProject(page);
     }
+    // click on the first project
+    await page.getByTestId('project-card-0').click();
     // wait for network to be idle
     await page.waitForLoadState('networkidle');
   });
 
   test('should display project details', async ({ page }: { page: Page }) => {
     await expect(page.getByTestId('project-edit-container')).toBeVisible();
-    await expect(page.getByTestId('project-name-input')).toHaveValue('Test Project');
-    await expect(page.getByTestId('project-description-textarea')).toHaveValue('This is a test project');
+    await expect(page.getByTestId('project-name-input')).toHaveValue(projectName);
+    await expect(page.getByTestId('project-description-textarea')).toHaveValue(projectDescription);
   });
 
   test('should update project name and description', async ({ page }: { page: Page }) => {

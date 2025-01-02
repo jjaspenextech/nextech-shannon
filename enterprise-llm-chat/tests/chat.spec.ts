@@ -78,9 +78,9 @@ test.describe('Chat Component', () => {
     await sendMessage(page, 'Show me the context');
     // open pill
     await page.getByTestId('context-pill').click();
-    await expect(page.getByTestId('context-popup')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId('context-viewer-container')).toBeVisible({ timeout: 10000 });
     // close popup
-    await page.getByTestId('close-popup-button').click();
-    await expect(page.getByTestId('context-popup')).not.toBeVisible();
+    await page.getByTestId('context-viewer-close-button').click();
+    await expect(page.getByTestId('context-viewer-container')).not.toBeVisible();
   });
 }); 
