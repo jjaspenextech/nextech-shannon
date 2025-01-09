@@ -14,6 +14,12 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
+  processFileContext(file: File): Observable<ContextResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<ContextResult>(`${this.API_URL}/process-file`, formData);
+  }
+
   setInitialMessage(message: string, contexts: ContextResult[]) {
     this.initialMessage = {
       role: 'user',

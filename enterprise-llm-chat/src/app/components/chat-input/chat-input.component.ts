@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Message } from '../../models/message.model';
-import { Context } from '../../models/context.model';
+import { ContextResult } from '../../models/context.model';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
@@ -10,17 +10,18 @@ import { ChatService } from '../../services/chat.service';
 })
 export class ChatInputComponent {
   @Input() mode: 'chat' | 'landing' | 'project' = 'chat';
+  @Input() sequence: number = 0;
   @Output() messageSent = new EventEmitter<Message>();
 
   messageContent: string = '';
-  contexts: Context[] = [];
+  contexts: ContextResult[] = [];
 
   constructor(private chatService: ChatService) {}
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.chatService.processFileContext(file).subscribe(context => {
+      this.chatService.processFileContext(file).subscribe((context: ContextResult) => {
         this.contexts.push(context);
       });
     }
@@ -33,7 +34,8 @@ export class ChatInputComponent {
       content: this.messageContent,
       contexts: this.contexts,
       timestamp: new Date(),
-      role: 'user'
+      role: 'user',
+      sequence: this.sequence
     };
 
     this.messageSent.emit(message);

@@ -1,16 +1,36 @@
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl mb-4">Chat Input Test Page</h1>
-  
-  <app-chat-input
-    [mode]="'chat'"
-    (messageSent)="onMessageSent($event)"
-  ></app-chat-input>
+<div class="landing-container">
+  <div class="greeting-section">
+    <h1>Chat Input Test</h1>
+    <p class="subtitle">Test the new chat input component</p>
+  </div>
 
-  <div class="mt-8">
-    <h2 class="text-xl mb-4">Sent Messages:</h2>
-    <div class="space-y-4">
-      <div *ngFor="let message of messages" class="p-4 bg-gray-50 rounded-lg">
-        <pre>{{ message | json }}</pre>
+  <div class="chat-input-container">
+    <app-chat-input
+      [mode]="'chat'"
+      [sequence]="messages.length + 1"
+      (messageSent)="onMessageSent($event)"
+    ></app-chat-input>
+  </div>
+
+  <div class="messages-section">
+    <h2 *ngIf="messages.length > 0">Sent Messages</h2>
+    <div class="messages-grid">
+      <div *ngFor="let message of messages" class="message-card">
+        <h3>Message {{message.sequence}}</h3>
+        <div class="message-content">
+          <p><strong>Content:</strong> {{message.content}}</p>
+          <div *ngIf="message.contexts && message.contexts.length > 0">
+            <strong>Contexts:</strong>
+            <ul>
+              <li *ngFor="let context of message.contexts">
+                {{context.type}}: {{context.content}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="message-meta">
+          <span>{{message.timestamp | date:'medium'}}</span>
+        </div>
       </div>
     </div>
   </div>

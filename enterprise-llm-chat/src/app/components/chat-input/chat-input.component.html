@@ -1,48 +1,42 @@
-<div class="flex flex-col gap-4 p-4 border rounded-lg shadow-sm">
+<div class="flex-col">
   <!-- Context Preview -->
-  <div *ngIf="contexts.length > 0" class="flex flex-wrap gap-2">
-    <div *ngFor="let context of contexts; let i = index" 
-         class="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full">
+  <div *ngIf="contexts.length > 0" class="context-preview">
+    <div *ngFor="let context of contexts; let i = index" class="context-item">
       <span class="text-sm">{{context.type}}: {{context.content | slice:0:20}}...</span>
-      <button (click)="removeContext(i)" 
-              class="text-red-500 hover:text-red-700">
-        ×
-      </button>
+      <button (click)="removeContext(i)">×</button>
     </div>
   </div>
 
-  <!-- Input Area -->
-  <div class="flex gap-2">
+  <div class="chat-input-section">
     <textarea
       [(ngModel)]="messageContent"
-      placeholder="Type your message..."
-      class="flex-grow p-2 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-      rows="3"
+      placeholder="Message..."
+      class="landing-input"
+      rows="1"
+      #messageInput
     ></textarea>
 
-    <div class="flex flex-col gap-2">
-      <input
-        type="file"
-        #fileInput
-        (change)="onFileSelected($event)"
-        class="hidden"
-      />
-      
-      <button
-        (click)="fileInput.click()"
-        class="p-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
-        title="Attach file"
-      >
-        📎
-      </button>
+    <input
+      type="file"
+      #fileInput
+      (change)="onFileSelected($event)"
+      class="file-input"
+    />
+    
+    <label 
+      for="fileInput" 
+      class="file-label"
+      (click)="fileInput.click()"
+    >
+      <span class="material-icons">attach_file</span>
+    </label>
 
-      <button
-        (click)="sendMessage()"
-        [disabled]="!messageContent.trim()"
-        class="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 disabled:bg-gray-300"
-      >
-        ➤
-      </button>
-    </div>
+    <button
+      (click)="sendMessage()"
+      [disabled]="!messageContent.trim()"
+      class="submit-button"
+    >
+      <span class="material-icons">send</span>
+    </button>
   </div>
 </div>
