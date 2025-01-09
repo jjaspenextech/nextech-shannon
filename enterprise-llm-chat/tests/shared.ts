@@ -33,7 +33,7 @@ export async function openDashboard(page: Page) {
   
   // Reusable function to close the dashboard
   export async function closeDashboard(page: Page) {
-    await page.mouse.move(1000, 1000);
+    await page.getByTestId('close-button').click();
     await page.waitForFunction(() => {
       const dashboard = document.querySelector('[data-testid="side-dashboard"]');
       return dashboard && !dashboard.classList.contains('active');

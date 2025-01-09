@@ -1,7 +1,6 @@
 <div class="chat-container">
   <button mat-button class="shannon-button" 
-    (mouseenter)="toggleDashboard(true)" 
-    (mouseleave)="toggleDashboard(false)"
+    (mouseenter)="toggleDashboard(true)"
     data-testid="shannon-button">
     Shannon
   </button>
@@ -10,7 +9,6 @@
     [isOpen]="isDashboardOpen" 
     [class.active]="isDashboardOpen"
     (closePanel)="toggleDashboard(false)"
-    (openPanel)="toggleDashboard(true)"
     data-testid="side-dashboard">
   </app-side-dashboard>
 

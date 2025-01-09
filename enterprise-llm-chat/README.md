@@ -82,6 +82,19 @@ ng test
 ng e2e
 ```
 
+## Publish to Azure App Service from local
+
+```bash
+cd frontend/enterprise-llm-chat
+
+ng build --configuration=production
+
+# Compress the dist folder contents
+Compress-Archive -Path ./dist/* -DestinationPath deploy.zip -Force
+# Deploy the zipped file
+az webapp deploy --resource-group nextech-shannon-dev-rg --name nextech-shannon-dev --src-path deploy.zip --type zip
+```
+
 ## Further Help
 
 For more help on the Angular CLI use `ng help` or check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

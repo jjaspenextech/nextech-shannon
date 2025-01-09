@@ -75,3 +75,4 @@ Thumbs.db
 /enterprise-llm-chat/src/environments/environment.dev.ts
 /enterprise-llm-chat/test-results/
 /enterprise-llm-chat/.env
+/enterprise-llm-chat/deploy.zip

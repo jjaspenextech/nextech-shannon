@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { Page } from '@playwright/test';
-import { login } from './shared';
+import { closeDashboard, login, openDashboard } from './shared';
 
   
 test.describe('Landing Page', () => {
@@ -95,19 +95,10 @@ test.describe('Landing Page', () => {
     });
   });
 
-  test('should toggle the dashboard', async ({ page }: { page: Page }) => {
-    // Hover over the Shannon button to open the dashboard
-    await page.hover('[data-testid="shannon-button"]', { force: true });
-    // Wait for the dashboard to open by checking for a specific class
-    await page.waitForFunction(() => {
-      const dashboard = document.querySelector('[data-testid="side-dashboard"]');
-      return dashboard && dashboard.classList.contains('active');
-    }, { timeout: 5000 });
-    // Verify dashboard is open
-    await expect(page.locator('app-side-dashboard')).toHaveClass(/active/);
-    // Move mouse all the way to the right to close the dashboard
-    await page.mouse.move(1000, 1000);
-    // Verify dashboard is closed
-    await expect(page.locator('app-side-dashboard')).not.toHaveClass(/active/);
+  test('should open and close the dashboard', async ({ page }: { page: Page }) => {
+    await openDashboard(page); 
+    await expect(page.getByTestId('side-dashboard')).toHaveClass(/active/);
+    await closeDashboard(page);
+    await expect(page.getByTestId('side-dashboard')).not.toHaveClass(/active/);
   });
 });
