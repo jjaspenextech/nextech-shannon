@@ -54,7 +54,9 @@ export class ChatInputComponent {
 
     const message: Message = {
       content: this.messageContent,
-      contexts: this.contexts
+      contexts: this.contexts,
+      role: 'user',
+      sequence: this.sequence
     };
 
     this.messageSent.emit(message);
@@ -69,7 +71,7 @@ export class ChatInputComponent {
     event.preventDefault();
     event.stopPropagation();
     this.dialog.open(ContextViewerComponent, {
-      data: { context },
+      data: context,
       width: '600px'
     });
   }

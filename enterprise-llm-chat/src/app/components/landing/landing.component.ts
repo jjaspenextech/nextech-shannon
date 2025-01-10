@@ -52,7 +52,7 @@ export class LandingComponent implements OnInit {
 
   onMessageSent(message: Message) {
     if (message.content) {
-      this.chatService.setInitialMessage(message.content, message.contexts || []);
+      this.chatService.setInitialMessage(message);
       this.router.navigate(['/chat']);
     }
   }

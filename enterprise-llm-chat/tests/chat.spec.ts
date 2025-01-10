@@ -4,7 +4,7 @@ import { login, openDashboard, closeDashboard } from './shared';
 
 // Reusable function to send a message
 async function sendMessage(page: Page, message: string) {
-  await page.getByTestId('message-input').fill(message);
+  await page.getByTestId('chat-input').fill(message);
   await page.getByTestId('send-button').click();
   // wait for idle network
   await page.waitForLoadState('networkidle');
@@ -28,7 +28,7 @@ test.describe('Chat Component', () => {
   test('should send a message and receive a response', async ({ page }: { page: Page }) => {
     await sendMessage(page, 'Hello, how are you?');
     await expect(page.getByTestId('user-message-0')).toBeVisible({ timeout: 10000 }); 
-    await expect(page.getByTestId('assistant-message-1')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId('assistant-message-1')).toBeVisible({ timeout: 20000 });
     // wait for it to have some content
     const regexPatternForAnyText = /.*?/;
     await expect(page.getByTestId('assistant-message-1').locator('p'))
@@ -68,7 +68,14 @@ test.describe('Chat Component', () => {
   test('should attach a file and display context', async ({ page }: { page: Page }) => {
     const filePath = 'tests/sample.txt'; // Update with a valid file path
     await page.getByTestId('file-input').setInputFiles(filePath);
+
+    // check that pill shows up in the input sections
+    await expect(page.getByTestId('chat-context-pill-0')).toBeVisible({ timeout: 10000 });
+
+    // send message
     await sendMessage(page, 'Show me the context');
+
+    //check that pill shows up in the messages section
     await expect(page.getByTestId('context-pill')).toBeVisible({ timeout: 10000 });
   });
 
@@ -79,6 +86,10 @@ test.describe('Chat Component', () => {
     // open pill
     await page.getByTestId('context-pill').click();
     await expect(page.getByTestId('context-viewer-container')).toBeVisible({ timeout: 10000 });
+
+    //verify contents
+    await expect(page.getByTestId('context-viewer-text-content')).toHaveText('Some sample text for testing.');
+
     // close popup
     await page.getByTestId('context-viewer-close-button').click();
     await expect(page.getByTestId('context-viewer-container')).not.toBeVisible();

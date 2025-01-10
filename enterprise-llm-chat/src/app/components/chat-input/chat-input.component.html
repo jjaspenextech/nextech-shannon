@@ -3,7 +3,7 @@
   <div *ngIf="contexts.length > 0" class="context-pills">
     <span *ngFor="let context of contexts; let i = index" 
           class="context-pill" 
-          data-testid="context-pill"
+          [attr.data-testid]="'chat-context-pill-' + i"
           (click)="openContext(context, $event)">
       <i class="fas fa-file-alt"></i> {{ context.type }}
       <button class="remove-context" 

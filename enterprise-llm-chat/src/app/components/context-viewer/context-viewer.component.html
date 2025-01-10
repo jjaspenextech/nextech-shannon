@@ -4,7 +4,7 @@
     <img [src]="getImageSrc()" alt="Image Context" />
   </div>
   <div *ngIf="isTextContext()">
-    <p>{{ getTextContent() }}</p>
+    <p data-testid="context-viewer-text-content">{{ getTextContent() }}</p>
   </div>
   <!-- Add other context types if necessary -->
 </div>

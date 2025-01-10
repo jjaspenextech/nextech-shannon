@@ -116,8 +116,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     } else {
       return Promise.resolve();
     }
-  }
-  
+  }  
 
   async updateConversationMessages() {
     const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
@@ -325,7 +324,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   async onMessageSent(message: Message) {
     if (this.isSaving) return;
-    
     this.isSaving = true;
     this.scrollEnabled = true;
     
