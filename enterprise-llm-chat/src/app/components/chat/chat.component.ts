@@ -317,7 +317,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   openContextViewer(context: ContextResult): void {
     this.dialog.open(ContextViewerComponent, {
-      data: { context },
+      data: context,
       width: '600px'
     });
   }

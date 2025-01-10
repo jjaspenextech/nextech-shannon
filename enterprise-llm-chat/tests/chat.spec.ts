@@ -3,11 +3,13 @@ import { Page } from '@playwright/test';
 import { login, openDashboard, closeDashboard } from './shared';
 
 // Reusable function to send a message
-async function sendMessage(page: Page, message: string) {
+async function sendMessage(page: Page, message: string, waitForResponse: boolean = true) {
   await page.getByTestId('chat-input').fill(message);
   await page.getByTestId('send-button').click();
-  // wait for idle network
-  await page.waitForLoadState('networkidle');
+  if (waitForResponse) {
+    // wait for idle network
+    await page.waitForLoadState('networkidle');
+  }
 }
 
 // Test suite for the chat component
@@ -80,14 +82,14 @@ test.describe('Chat Component', () => {
   });
 
   test('should open and close context popup', async ({ page }: { page: Page }) => { 
-    const filePath = 'tests/sample.txt'; // Update with a valid file path
-    await page.getByTestId('file-input').setInputFiles(filePath);
-    await sendMessage(page, 'Show me the context');
+    await page.getByTestId('file-input').setInputFiles({name: 'sample.txt', mimeType: 'text/plain', buffer: Buffer.from('Some sample text for testing.')});
+    await sendMessage(page, 'Show me the context', false);
     // open pill
     await page.getByTestId('context-pill').click();
     await expect(page.getByTestId('context-viewer-container')).toBeVisible({ timeout: 10000 });
 
     //verify contents
+    await expect(page.getByTestId('context-viewer-text-content')).toBeVisible({ timeout: 10000 });
     await expect(page.getByTestId('context-viewer-text-content')).toHaveText('Some sample text for testing.');
 
     // close popup
