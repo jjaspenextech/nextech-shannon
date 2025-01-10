@@ -329,7 +329,7 @@
 }
 
 .new-conversation {
-  @apply mb-6;
+  @apply w-full mb-6;
 }
 
 .input-container {

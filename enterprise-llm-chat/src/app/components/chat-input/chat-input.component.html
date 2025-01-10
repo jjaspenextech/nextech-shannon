@@ -14,7 +14,7 @@
       class="landing-input"
       rows="1"
       #messageInput
-      (keydown)="onKeyDown($event)"
+      data-testid="chat-input"
     ></textarea>
 
     <input
@@ -22,6 +22,7 @@
       #fileInput
       (change)="onFileSelected($event)"
       class="file-input"
+      data-testid="file-input"
     />
     
     <label 
@@ -36,6 +37,7 @@
       (click)="sendMessage()"
       [disabled]="!messageContent.trim()"
       class="submit-button"
+      data-testid="send-button"
     >
       <span class="material-icons">send</span>
     </button>

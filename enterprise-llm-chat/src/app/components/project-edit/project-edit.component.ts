@@ -24,7 +24,6 @@ interface KnowledgeItem {
 export class ProjectEditComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
-  @ViewChild('chatInput') chatInput!: ElementRef<HTMLTextAreaElement>;
   
   project: Project = {
     name: '',
@@ -38,7 +37,6 @@ export class ProjectEditComponent implements OnInit {
   isDragging = false;
   knowledgeItems: KnowledgeItem[] = [];
   conversations: Conversation[] = [];
-  newMessage: string = '';
   isLoadingConversations: boolean = false;
   isLoadingProject: boolean = false;
   isDescriptionChanged: boolean = false;
@@ -259,20 +257,6 @@ export class ProjectEditComponent implements OnInit {
     return conversation.messages[0]?.content?.slice(0, 100) + '...' || 'No messages';
   }
 
-  onEnter(event: any): void {
-    if (event.shiftKey) return;
-    event.preventDefault();
-    this.startNewConversation();
-  }
-
-  startNewConversation() {
-    if (!this.newMessage.trim() || !this.project.project_id) return;
-    
-    this.chatService.setInitialMessage(this.newMessage, []);
-    this.chatService.setProjectId(this.project.project_id);
-    this.router.navigate(['/chat']);
-  }
-
   openConversation(conversation: Conversation): void {
     if (conversation.conversation_id) {
       this.router.navigate(['/chat'], { 
@@ -314,5 +298,13 @@ export class ProjectEditComponent implements OnInit {
         // Handle error (show message)
       }
     });
+  }
+
+  onMessageSent(message: Message) {
+    if (message?.content?.trim() && this.project.project_id) {
+      this.chatService.setInitialMessage(message.content, message.contexts || []);
+      this.chatService.setProjectId(this.project.project_id);
+      this.router.navigate(['/chat']);
+    }
   }
 }
