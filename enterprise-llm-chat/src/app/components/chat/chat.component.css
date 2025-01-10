@@ -167,4 +167,11 @@
 .context-viewer-dialog {
   @apply max-h-[0];
 }
+
+/* Override Tailwind prose styles for code blocks */
+.message-content pre code,
+.message-content :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+  color: inherit !important;
+  font-weight: normal;
+}
   
