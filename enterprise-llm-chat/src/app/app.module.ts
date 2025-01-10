@@ -35,6 +35,8 @@ import { ConversationCardComponent } from './components/conversation-card/conver
 import { ThemeService } from './services/theme.service';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 import { ContextViewerComponent } from './components/context-viewer/context-viewer.component';
+import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { ChatInputTestComponent } from './components/chat-input-test/chat-input-test.component';
 // function MSALInstanceFactory() {
 //   return new PublicClientApplication({
 //     auth: {
@@ -60,7 +62,9 @@ import { ContextViewerComponent } from './components/context-viewer/context-view
     TextContentDialogComponent,
     ConversationCardComponent,
     UserSettingsComponent,
-    ContextViewerComponent
+    ContextViewerComponent,
+    ChatInputComponent,
+    ChatInputTestComponent
   ],
   imports: [
     BrowserModule,

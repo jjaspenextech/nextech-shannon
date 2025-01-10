@@ -14,13 +14,20 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  setInitialMessage(message: string, contexts: ContextResult[]) {
+  processFileContext(file: File): Observable<ContextResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<ContextResult>(`${this.API_URL}/process-file`, formData);
+  }
+
+  setInitialMessage(message: Message) {
     this.initialMessage = {
+      ...message,
       role: 'user',
-      content: message,
-      contexts: contexts,
-      sequence: 1
-    };
+      sequence: 1,
+      pending: true,
+      timestamp: new Date()
+    } as Message;
   }
 
   setProjectId(id: string | null) {

@@ -5,9 +5,9 @@ export interface Message {
   conversation_id?: string;
   content?: string;
   contexts?: ContextResult[];
-  sequence: number;
+  sequence?: number;
   formattedContent?: string;
-  role: string;
+  role?: string;
   description?: string;
   pending?: boolean;
   timestamp?: string | Date;

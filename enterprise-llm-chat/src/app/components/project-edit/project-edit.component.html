@@ -60,45 +60,33 @@
         <div class="project-conversations" data-testid="project-conversations">
             <!-- New conversation input -->
             <div class="new-conversation">
-              <div class="input-container">
-                <textarea 
-                  #chatInput
-                  [(ngModel)]="newMessage"
-                  (keydown.enter)="onEnter($event)"
-                  placeholder="Type a message to start a new conversation..."
-                  class="chat-input"
-                  rows="1"
-                  data-testid="new-conversation-input"></textarea>
-                <button 
-                  class="send-button"
-                  [disabled]="!newMessage.trim()"
-                  (click)="startNewConversation()"
-                  data-testid="send-button">
-                  <mat-icon>send</mat-icon>
-                </button>
-              </div>
+              <app-chat-input
+                [mode]="'project'"
+                [sequence]="1"
+                (messageSent)="onMessageSent($event)"
+              ></app-chat-input>
             </div>
             
-          <h2 class="conversations-title">
-            <mat-icon>chat</mat-icon>
-            Project Conversations
-          </h2>
+            <h2 class="conversations-title">
+              <mat-icon>chat</mat-icon>
+              Project Conversations
+            </h2>
 
-          <!-- Add loading spinner -->
-          <div *ngIf="isLoadingConversations" class="loading-spinner" data-testid="loading-spinner">
-            <mat-spinner diameter="40"></mat-spinner>
-          </div>
+            <!-- Add loading spinner -->
+            <div *ngIf="isLoadingConversations" class="loading-spinner" data-testid="loading-spinner">
+              <mat-spinner diameter="40"></mat-spinner>
+            </div>
 
-          <!-- List of existing conversations -->
-          <div *ngIf="!isLoadingConversations" class="conversation-list" data-testid="conversation-list">
-            <app-conversation-card
-              *ngFor="let conversation of conversations"
-              [conversation]="conversation"
-              [messagePreviewLength]="100"
-              (cardClick)="openConversation(conversation)"
-              data-testid="conversation-item">
-            </app-conversation-card>
-          </div>
+            <!-- List of existing conversations -->
+            <div *ngIf="!isLoadingConversations" class="conversation-list" data-testid="conversation-list">
+              <app-conversation-card
+                *ngFor="let conversation of conversations; let i = index"
+                [conversation]="conversation"
+                [messagePreviewLength]="100"
+                (cardClick)="openConversation(conversation)"
+                [attr.data-testid]="'conversation-item-' + i">
+              </app-conversation-card>
+            </div>
         </div>
       </div>
     </div>

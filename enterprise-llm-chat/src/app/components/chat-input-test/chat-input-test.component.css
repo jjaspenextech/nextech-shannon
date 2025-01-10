@@ -1,0 +1,59 @@
+.landing-container {
+  @apply relative flex flex-col items-center justify-start min-h-screen p-8 bg-[var(--color-bg-primary)] text-[var(--color-text-primary)];
+}
+
+.greeting-section {
+  @apply text-center mb-8;
+
+  h1 {
+    @apply text-3xl mb-4;
+  }
+
+  .subtitle {
+    @apply text-xl text-[var(--color-text-muted)];
+  }
+}
+
+.chat-input-container {
+  @apply w-1/2 max-w-xl mb-8;
+}
+
+.messages-section {
+  @apply w-full max-w-6xl mt-8;
+
+  h2 {
+    @apply text-xl mb-4 text-[var(--color-text-primary)];
+  }
+
+  .messages-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+  }
+
+  .message-card {
+    @apply bg-[var(--color-bg-secondary)] rounded-lg p-6 transition-transform transform hover:translate-y-[-2px];
+
+    h3 {
+      @apply text-lg mb-2 text-[var(--color-text-primary)];
+    }
+
+    .message-content {
+      @apply text-[var(--color-text-primary)] text-sm mb-4;
+
+      p {
+        @apply mb-2;
+      }
+
+      ul {
+        @apply list-disc pl-4;
+      }
+
+      li {
+        @apply text-[var(--color-text-muted)];
+      }
+    }
+
+    .message-meta {
+      @apply text-[var(--color-text-muted)] text-xs;
+    }
+  }
+} 

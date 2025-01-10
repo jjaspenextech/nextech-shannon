@@ -22,36 +22,8 @@
   }
 }
 
-.chat-input-section {
-  @apply w-1/2 max-w-xl flex items-center bg-[var(--color-bg-input)] rounded-lg p-4 mb-8;
-
-  .landing-input {
-    @apply flex-1 bg-transparent border-none text-[var(--color-text-primary)] text-base p-2 resize-none outline-none;
-
-    &::placeholder {
-      @apply text-[var(--color-text-muted)];
-    }
-  }
-
-  .submit-button {
-    @apply bg-transparent border-none text-[var(--color-text-muted)] cursor-pointer p-2 transition-colors duration-300;
-
-    &:hover {
-      @apply text-[var(--color-text-primary)];
-    }
-  }
-}
-
-.file-input {
-  @apply hidden;
-}
-
-.file-label {
-  @apply inline-block cursor-pointer ml-2 text-white;
-}
-
-.file-label.disabled {
-  @apply pointer-events-none;
+.input-container {
+  @apply w-1/2 max-w-xl mb-8;
 }
 
 .recent-conversations {

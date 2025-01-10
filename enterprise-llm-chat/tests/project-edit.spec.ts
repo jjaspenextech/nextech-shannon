@@ -3,6 +3,19 @@ import { Page } from '@playwright/test';
 import { login, openDashboard, createProject, projectName, projectDescription } from './shared';
 
 test.describe('Project Edit Component', () => {
+  async function typeMessage(page: Page, message: string) {
+    await page.evaluate(() => {
+        const textarea = document.querySelector('[data-testid="chat-input"]') as HTMLTextAreaElement;
+        textarea.value = message;
+        
+        // Create and dispatch multiple events to ensure Angular picks up the change
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+        textarea.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    
+    // Wait a bit for Angular to process the changes
+    await page.waitForTimeout(1000);    
+  }
   // Perform login before each test
   test.beforeEach(async ({ page }: { page: Page }) => {
     await login(page);
@@ -68,4 +81,27 @@ test.describe('Project Edit Component', () => {
     await page.getByTestId('back-button').click();
     await expect(page).toHaveURL(/.*\/projects/);
   });
+
+  /* need a test that starts a new conversation with the message "tell me a joke"
+  waits for the response to be received, then goes back to the project (by clicking the back button)
+  and verifies that the top conversation description doesn't say error
+  */
+  test('should create a new conversation with a valid description', async ({ page }: { page: Page }) => {
+    await typeMessage(page, 'tell me a joke');
+    
+    // Make sure the send button is enabled
+    await page.waitForSelector('[data-testid="send-button"]:not([disabled])');
+    
+    await page.getByTestId('send-button').click();
+    await page.waitForLoadState('networkidle');
+    // verify that we are in the chat page
+    await expect(page).toHaveURL(/.*\/chat/);
+    // go back to the project page
+    await page.goBack();
+    await page.waitForLoadState('networkidle');
+    
+    await expect(page.getByTestId('conversation-item-0')).not.toContainText('error');
+  });
 });
+
+
