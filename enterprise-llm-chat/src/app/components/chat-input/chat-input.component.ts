@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@
 import { Message } from '../../models/message.model';
 import { ContextResult } from '../../models/context.model';
 import { ChatService } from '../../services/chat.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ContextViewerComponent } from '../context-viewer/context-viewer.component';
 
 @Component({
   selector: 'app-chat-input',
@@ -18,7 +20,10 @@ export class ChatInputComponent {
   messageContent: string = '';
   contexts: ContextResult[] = [];
 
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private dialog: MatDialog
+  ) {}
 
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
@@ -59,6 +64,15 @@ export class ChatInputComponent {
 
   removeContext(index: number) {
     this.contexts.splice(index, 1);
+  }
+
+  openContext(context: ContextResult, event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dialog.open(ContextViewerComponent, {
+      data: { context },
+      width: '600px'
+    });
   }
 
   private resetInput() {

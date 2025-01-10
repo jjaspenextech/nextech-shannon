@@ -1,10 +1,15 @@
 <div class="flex-col">
   <!-- Context Preview -->
-  <div *ngIf="contexts.length > 0" class="context-preview">
-    <div *ngFor="let context of contexts; let i = index" class="context-item">
-      <span class="text-sm">{{context.type}}: {{context.content | slice:0:20}}...</span>
-      <button (click)="removeContext(i)">×</button>
-    </div>
+  <div *ngIf="contexts.length > 0" class="context-pills">
+    <span *ngFor="let context of contexts; let i = index" 
+          class="context-pill" 
+          data-testid="context-pill"
+          (click)="openContext(context, $event)">
+      <i class="fas fa-file-alt"></i> {{ context.type }}
+      <button class="remove-context" 
+              (click)="$event.stopPropagation(); removeContext(i)" 
+              data-testid="remove-context">×</button>
+    </span>
   </div>
 
   <div class="chat-input-section">
@@ -14,6 +19,7 @@
       class="landing-input"
       rows="1"
       #messageInput
+      (keydown)="onKeyDown($event)"
       data-testid="chat-input"
       [disabled]="disabled"
     ></textarea>
