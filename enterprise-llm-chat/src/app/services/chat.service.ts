@@ -20,13 +20,14 @@ export class ChatService {
     return this.http.post<ContextResult>(`${this.API_URL}/process-file`, formData);
   }
 
-  setInitialMessage(message: string, contexts: ContextResult[]) {
+  setInitialMessage(message: Message) {
     this.initialMessage = {
+      ...message,
       role: 'user',
-      content: message,
-      contexts: contexts,
-      sequence: 1
-    };
+      sequence: 1,
+      pending: true,
+      timestamp: new Date()
+    } as Message;
   }
 
   setProjectId(id: string | null) {

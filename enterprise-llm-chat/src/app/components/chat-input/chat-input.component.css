@@ -12,10 +12,6 @@
   @apply flex-1 bg-transparent border-none text-[var(--color-text-primary)] text-base p-2 resize-none outline-none;
 }
 
-.landing-input::placeholder {
-  @apply text-[var(--color-text-muted)];
-}
-
 .file-input {
   @apply hidden;
 }
@@ -26,6 +22,10 @@
 
 .file-label:hover {
   @apply text-[var(--color-text-primary)];
+}
+
+.file-label.disabled {
+  @apply opacity-50 cursor-not-allowed;
 }
 
 .submit-button {
@@ -40,15 +40,19 @@
   @apply opacity-50 cursor-not-allowed;
 }
 
-.context-preview {
-  @apply flex flex-wrap gap-2 mb-2;
+.context-pills {
+  @apply flex flex-wrap gap-2 mt-2 mb-2 w-full;
 }
 
-.context-item {
-  @apply flex items-center gap-2 px-3 py-1 bg-[var(--color-bg-secondary)] rounded-full text-[var(--color-text-muted)];
+.context-pill {
+  @apply flex items-center bg-[var(--color-bg-3)] text-[var(--color-text-primary)] py-1 px-2 rounded-full text-xs;
 }
 
-.context-item button {
-  @apply text-red-500 hover:text-red-700 p-0;
+.context-pill .fa-file-alt {
+  @apply mr-1;
+}
+
+.context-pill .remove-context {
+  @apply ml-2 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] cursor-pointer bg-transparent border-none p-0 text-sm;
 }
 

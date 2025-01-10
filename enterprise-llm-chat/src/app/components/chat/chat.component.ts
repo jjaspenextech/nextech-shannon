@@ -127,7 +127,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       const message = lastMessage.content;
       lastMessage.content = '';
       try {
-        await this.sendMessage(message);    
+        await this.sendMessage(message);
         this.messagesContainer.nativeElement.style.height = 'auto';
       } catch (error) {
         console.error('Error in updateConversationMessages:', error);
@@ -340,7 +340,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         content: '',
         sequence: botMessageIndex + 1,
         pending: true
-      });
+      } as Message);
       
       // Update conversation description if needed
       if (!this.conversation.description) {

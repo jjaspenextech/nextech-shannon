@@ -4,6 +4,7 @@ import { ContextResult } from '../../models/context.model';
 import { ChatService } from '../../services/chat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContextViewerComponent } from '../context-viewer/context-viewer.component';
+import { MessagesService } from 'app/services/messages.service';
 
 @Component({
   selector: 'app-chat-input',
@@ -21,8 +22,8 @@ export class ChatInputComponent {
   contexts: ContextResult[] = [];
 
   constructor(
-    private chatService: ChatService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private messagesService: MessagesService
   ) {}
 
   onKeyDown(event: KeyboardEvent): void {
@@ -38,13 +39,14 @@ export class ChatInputComponent {
     }
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.chatService.processFileContext(file).subscribe((context: ContextResult) => {
-        this.contexts.push(context);
-      });
-    }
+  onFileSelected(event: Event) {
+    this.messagesService.handleFileInput(event).then(contexts => {
+      if (contexts.length > 0) {
+        this.contexts = this.contexts.concat(contexts);
+      }
+    }).catch(error => {
+      console.error('Error handling file input:', error);
+    });
   }
 
   sendMessage() {
@@ -52,10 +54,7 @@ export class ChatInputComponent {
 
     const message: Message = {
       content: this.messageContent,
-      contexts: this.contexts,
-      timestamp: new Date(),
-      role: 'user',
-      sequence: this.sequence
+      contexts: this.contexts
     };
 
     this.messageSent.emit(message);
