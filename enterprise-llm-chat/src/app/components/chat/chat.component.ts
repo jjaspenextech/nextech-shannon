@@ -22,34 +22,10 @@ import { ContextViewerComponent } from '../context-viewer/context-viewer.compone
   encapsulation: ViewEncapsulation.None
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
-  userInput: string = '';
-  // DO NOT DELETE THIS COMMENTED OUT CODE
-//   conversation: Conversation = { username: '', messages: [
-//     {
-//         "role": "user",
-//         "content": "@jira:ALC-386 Help me flesh out this story",
-//         "sequence": 1,
-//         "contexts": [
-//             {
-//                 "type": "jira",
-//                 "content": {
-//                     "description": "What is coming that will impact us, can we plan ahead for it now?  \n\nExample - we should have been ahead of AI scribe…then we should have been ahead of voice to voice…what should we be planning for 2026?"
-//                 }
-//             }
-//         ]
-//     } as Message,
-//     {
-//         "role": "assistant",
-//         "content": "To flesh out the story for ALC-386, we can start by expanding on the key elements that will help guide the planning process for future trends and technologies. Here are some suggestions to consider:\n\n1. **Research and Analysis**:\n   - Conduct a thorough market analysis to identify emerging technologies and trends that could impact our industry by 2026.\n   - Gather insights from industry experts, reports, and thought leaders to understand potential disruptions.\n\n2. **Trend Identification**:\n   - Identify specific technologies or innovations that are gaining traction, such as advancements in AI, machine learning, blockchain, or quantum computing.\n   - Consider societal and economic shifts that could influence technology adoption, like remote work trends or sustainability initiatives.\n\n3. **Impact Assessment**:\n   - Evaluate how these trends could affect our business operations, customer expectations, and competitive landscape.\n   - Assess potential risks and opportunities associated with these changes.\n\n4. **Strategic Planning**:\n   - Develop a strategic roadmap that outlines how we can leverage these trends to our advantage.\n   - Consider partnerships, investments, or internal projects that could position us ahead of the curve.\n\n5. **Resource Allocation**:\n   - Determine the resources needed to explore and implement these future technologies, including budget, talent, and infrastructure.\n\n6. **Continuous Monitoring**:\n   - Set up a system for ongoing monitoring of technological advancements and market changes to ensure we remain proactive.\n\n7. **Feedback and Iteration**:\n   - Establish a feedback loop to refine our strategies based on new information and changing circumstances.\n\nWould you like to focus on any specific area or need further details on any of these points?",
-//         "sequence": 2,
-//         "formattedContent": "<p>To flesh out the story for ALC-386, we can start by expanding on the key elements that will help guide the planning process for future trends and technologies. Here are some suggestions to consider:</p>\n<ol>\n<li><p><strong>Research and Analysis</strong>:</p>\n<ul>\n<li>Conduct a thorough market analysis to identify emerging technologies and trends that could impact our industry by 2026.</li>\n<li>Gather insights from industry experts, reports, and thought leaders to understand potential disruptions.</li>\n</ul>\n</li>\n<li><p><strong>Trend Identification</strong>:</p>\n<ul>\n<li>Identify specific technologies or innovations that are gaining traction, such as advancements in AI, machine learning, blockchain, or quantum computing.</li>\n<li>Consider societal and economic shifts that could influence technology adoption, like remote work trends or sustainability initiatives.</li>\n</ul>\n</li>\n<li><p><strong>Impact Assessment</strong>:</p>\n<ul>\n<li>Evaluate how these trends could affect our business operations, customer expectations, and competitive landscape.</li>\n<li>Assess potential risks and opportunities associated with these changes.</li>\n</ul>\n</li>\n<li><p><strong>Strategic Planning</strong>:</p>\n<ul>\n<li>Develop a strategic roadmap that outlines how we can leverage these trends to our advantage.</li>\n<li>Consider partnerships, investments, or internal projects that could position us ahead of the curve.</li>\n</ul>\n</li>\n<li><p><strong>Resource Allocation</strong>:</p>\n<ul>\n<li>Determine the resources needed to explore and implement these future technologies, including budget, talent, and infrastructure.</li>\n</ul>\n</li>\n<li><p><strong>Continuous Monitoring</strong>:</p>\n<ul>\n<li>Set up a system for ongoing monitoring of technological advancements and market changes to ensure we remain proactive.</li>\n</ul>\n</li>\n<li><p><strong>Feedback and Iteration</strong>:</p>\n<ul>\n<li>Establish a feedback loop to refine our strategies based on new information and changing circumstances.</li>\n</ul>\n</li>\n</ol>\n<p>Would you like to focus on any specific area or need further details on any of these points?</p>\n"
-//     } as Message
-// ] };
   conversation: Conversation = { username: '', messages: [] };
   currentStreamingMessage: string = '';
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
-  @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
-
+  
   selectedContext: ContextResult | null = null;
   scrollEnabled: boolean = true;
   showResendButton: boolean = false;
@@ -104,8 +80,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.conversation.project_id = projectId;
         const initialMessage = this.chatService.getInitialMessage();
         if (initialMessage) {
-          this.userInput = initialMessage.content || '';
-          initialMessage.pending = true;
           this.conversation.messages.push(initialMessage);
           this.updateConversation();
         }
@@ -136,7 +110,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   async updateConversationDescription() {
     if (!this.conversation.description) {
       this.conversation.description 
-        = await this.llmService.getDescription(this.userInput || '',
+        = await this.llmService.getDescription(this.conversation.messages[this.conversation.messages.length - 1].content || '',
            this.conversation.project_id);
       await this.saveConversation();
     } else {
@@ -146,14 +120,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   
 
   async updateConversationMessages() {
-    if (this.userInput.trim() && !this.isSaving) {
+    const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
+    if (lastMessage?.content?.trim() && !this.isSaving) {
       this.isSaving = true;
       this.scrollEnabled = true;
-      const message = this.userInput;
-      this.userInput = '';
+      const message = lastMessage.content;
+      lastMessage.content = '';
       try {
         await this.sendMessage(message);    
-        this.messageInput.nativeElement.style.height = 'auto';
+        this.messagesContainer.nativeElement.style.height = 'auto';
       } catch (error) {
         console.error('Error in updateConversationMessages:', error);
         this.isSaving = false;
@@ -216,8 +191,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (this.conversation.messages.length > 0) {
       const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
       if (lastMessage.role === 'user') {
-        this.userInput = lastMessage.content || '';
-        this.conversation.messages.pop(); // Remove the last user message
+        this.conversation.messages[this.conversation.messages.length - 1].content = '';
         await this.updateConversation();
       }
     }
@@ -308,10 +282,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   private scrollToBottom(): void {
-    if (this.scrollEnabled) {
-      try {
-        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
-      } catch (err) {}
+    if (this.scrollEnabled && this.messagesContainer) {
+      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
     }
   }
 
@@ -332,13 +304,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onInput(textarea: HTMLTextAreaElement): void {
-    this.adjustTextareaHeight(textarea);
-  }
-
-  adjustTextareaHeight(textarea: HTMLTextAreaElement): void {
-    textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
+  toggleDashboard(open: boolean) {
+    this.isDashboardOpen = open;
   }
 
   togglePopup(context: ContextResult, event: MouseEvent): void {
@@ -349,90 +316,46 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.openContextViewer(context);
   }
 
-  closePopup(): void {
-    this.selectedContext = null;
-    this.scrollEnabled = true; // Re-enable scrolling
-  }
-
-  handleFileInput(event: Event): void {
-    this.messagesService.handleFileInput(event).then(contexts => {
-      if (contexts.length > 0) {
-        this.addFileContextsToLastMessage(contexts);
-      }
-    }).catch(error => {
-      console.error('Error handling file input:', error);
-    });
-  }
-
-  private addFileContextsToLastMessage(contexts: ContextResult[]): void {
-    if (this.conversation.messages.length > 0) {
-      const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
-      if (lastMessage.role === 'user') {
-        lastMessage.contexts = lastMessage.contexts || [];
-        lastMessage.contexts.push(...contexts);
-        lastMessage.pending = true;
-      } else {
-        this.conversation.messages.push({
-          role: 'user',
-          content: this.userInput,
-          sequence: this.conversation.messages.length + 1,
-          contexts: contexts,
-          pending: true
-        });
-      }
-    } else {
-      this.conversation.messages.push({
-        role: 'user',
-        content: this.userInput,
-        sequence: 1,
-        contexts: contexts,
-        pending: true
-      });
-    }
-  }
-
-  @HostListener('dragenter', ['$event'])
-  @HostListener('dragover', ['$event'])
-  onDragOver(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragging = true;
-  }
-
-  @HostListener('dragleave', ['$event'])
-  onDragLeave(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    const rect = this.messagesContainer.nativeElement.getBoundingClientRect();
-    const x = event.clientX;
-    const y = event.clientY;
-
-    if (x <= rect.left || x >= rect.right || y <= rect.top || y >= rect.bottom) {
-      this.isDragging = false;
-    }
-  }
-
-  @HostListener('drop', ['$event'])
-  async onDrop(event: DragEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragging = false;
-    const contexts = await this.messagesService.handleFileInput(event);
-    this.addFileContextsToLastMessage(contexts);
-  }
-
-  toggleDashboard(open: boolean) {
-    this.isDashboardOpen = open;
-  }
-
   openContextViewer(context: ContextResult): void {
     this.dialog.open(ContextViewerComponent, {
-      data: context,
-      panelClass: 'context-viewer-dialog',
-      width: '50vw',
-      height: '50vh'
-    }).afterClosed().subscribe(() => {
-      this.closePopup();
+      data: { context },
+      width: '600px'
     });
+  }
+
+  async onMessageSent(message: Message) {
+    if (this.isSaving) return;
+    
+    this.isSaving = true;
+    this.scrollEnabled = true;
+    
+    try {
+      // Add the user message to conversation
+      this.conversation.messages.push(message);
+      
+      // Add pending assistant message with loading animation
+      const botMessageIndex = this.conversation.messages.length;
+      this.conversation.messages.push({ 
+        role: 'assistant', 
+        content: '',
+        sequence: botMessageIndex + 1,
+        pending: true
+      });
+      
+      // Update conversation description if needed
+      if (!this.conversation.description) {
+        this.conversation.description = await this.llmService.getDescription(
+          message.content || '',
+          this.conversation.project_id
+        );
+        await this.saveConversation();
+      }
+      
+      this.isSaving = false; // Remove loading state before starting to stream
+      await this.streamNewMessage(botMessageIndex);
+    } catch (error) {
+      console.error('Error in onMessageSent:', error);
+      this.isSaving = false;
+    }
   }
 }

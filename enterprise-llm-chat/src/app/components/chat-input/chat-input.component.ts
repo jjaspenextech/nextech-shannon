@@ -9,8 +9,9 @@ import { ChatService } from '../../services/chat.service';
   styleUrls: ['./chat-input.component.css']
 })
 export class ChatInputComponent {
-  @Input() mode: 'chat' | 'landing' | 'project' = 'chat';
-  @Input() sequence: number = 0;
+  @Input() mode: 'chat' | 'project' | 'landing' = 'chat';
+  @Input() sequence: number = 1;
+  @Input() disabled: boolean = false;
   @Output() messageSent = new EventEmitter<Message>();
   @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
 

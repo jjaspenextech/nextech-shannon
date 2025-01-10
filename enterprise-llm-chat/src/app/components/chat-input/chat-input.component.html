@@ -15,6 +15,7 @@
       rows="1"
       #messageInput
       data-testid="chat-input"
+      [disabled]="disabled"
     ></textarea>
 
     <input
@@ -23,19 +24,21 @@
       (change)="onFileSelected($event)"
       class="file-input"
       data-testid="file-input"
+      [disabled]="disabled"
     />
     
     <label 
       for="fileInput" 
       class="file-label"
-      (click)="fileInput.click()"
+      (click)="!disabled && fileInput.click()"
+      [class.disabled]="disabled"
     >
       <span class="material-icons">attach_file</span>
     </label>
 
     <button
       (click)="sendMessage()"
-      [disabled]="!messageContent.trim()"
+      [disabled]="!messageContent.trim() || disabled"
       class="submit-button"
       data-testid="send-button"
     >

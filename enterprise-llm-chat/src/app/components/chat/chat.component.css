@@ -25,32 +25,7 @@
 }
 
 .input-container {
-  @apply p-5 bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] flex gap-3 items-start w-1/2 mx-auto rounded-lg text-[var(--color-text-primary)];
-}
-
-textarea {
-  @apply flex-1 rounded-lg text-[var(--color-text-primary)] p-3 resize-none text-sm leading-relaxed overflow-hidden;
-  border: none;
-  margin-top: 0;
-  min-height: 44px;
-  max-height: 200px;
-  transition: height 0.1s ease-out;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-button {
-  @apply bg-[var(--color-button-primary)] border-none rounded-lg p-3 cursor-pointer text-sm font-medium h-[44px];
-
-  &:hover {
-    @apply bg-[var(--color-button-hover)];
-  }
-
-  &:active {
-    @apply bg-[var(--color-button-hover)];
-  }
+  @apply p-5 bg-[var(--color-bg-secondary)] border border-[var(--color-border-primary)] w-1/2 mx-auto rounded-lg text-[var(--color-text-primary)];
 }
 
 .message-content {
@@ -114,18 +89,6 @@ button {
 
   &:hover {
     @apply text-[var(--color-button-hover)];
-  }
-}
-
-.file-input {
-  @apply hidden;
-}
-
-.file-label {
-  @apply inline-block cursor-pointer ml-2 text-white;
-
-  mat-icon {
-    @apply text-2xl;
   }
 }
 
@@ -194,30 +157,6 @@ button {
     transform: scale(1.1);
     opacity: 1;
   }
-}
-
-.input-container.is-loading textarea {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.input-container.is-loading .file-label {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.input-container button {
-  @apply min-w-[70px] flex items-center justify-center;
-}
-
-.input-container button mat-spinner {
-  @apply mx-auto;
-}
-
-::ng-deep .input-container button mat-spinner circle {
-  stroke: var(--color-text-primary) !important;
-}
-
-.file-label.disabled {
-  @apply pointer-events-none;
 }
 
 .chat-content {
