@@ -81,42 +81,26 @@ export class ProjectEditComponent implements OnInit {
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      const filesArray = Array.from(files);
-      for (const file of filesArray) {
-        if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-          try {
-            const content = await this.readFileContent(file);
-            this.addContext({
-              type: 'text',
-              content: content,
-              title: file.name
-            });
-          } catch (error) {
-            console.error('Error reading file:', error);
-          }
-        }
-      }
+      this.addFilesToContext(files);
     }
   }
 
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      Array.from(input.files).forEach(async file => {
-        if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-          try {
-            const content = await this.readFileContent(file);
-            this.addContext({
-              type: 'text',
-              content: content,
-              title: file.name
-            });
-          } catch (error) {
-            console.error('Error reading file:', error);
-          }
-        }
-      });
+      this.addFilesToContext(input.files);
       input.value = '';
+    }
+  }
+
+  private async addFilesToContext(files: FileList) {
+    for (const file of Array.from(files)) {
+      const content = await this.readFileContent(file);
+      this.addContext({
+        type: this.getFileType(file),
+        content: content,
+        title: file.name
+      });
     }
   }
 
@@ -130,7 +114,8 @@ export class ProjectEditComponent implements OnInit {
   }
 
   private getFileType(file: File): string {
-    if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+    const textFileExtensions = ['.txt', '.md', '.json'];
+    if (file.type === 'text/plain' || textFileExtensions.includes(file.name.toLowerCase())) {
       return 'text';
     }
     if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {

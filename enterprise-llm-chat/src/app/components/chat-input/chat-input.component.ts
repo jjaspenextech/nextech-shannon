@@ -39,14 +39,18 @@ export class ChatInputComponent {
     }
   }
 
-  onFileSelected(event: Event) {
-    this.messagesService.handleFileInput(event).then(contexts => {
-      if (contexts.length > 0) {
-        this.contexts = this.contexts.concat(contexts);
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      try {
+        const contexts = await this.messagesService.processFilesToContexts(input.files);
+        if (contexts.length > 0) {
+          this.contexts = this.contexts.concat(contexts);
+        }
+      } catch (error) {
+        console.error('Error handling file input:', error);
       }
-    }).catch(error => {
-      console.error('Error handling file input:', error);
-    });
+    }
   }
 
   sendMessage() {

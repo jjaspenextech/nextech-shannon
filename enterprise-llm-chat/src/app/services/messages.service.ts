@@ -8,19 +8,10 @@ export class MessagesService {
 
   async handleFileInput(event: Event | DragEvent): Promise<ContextResult[]> {
     const files = this.extractFiles(event);
-    return this.processFiles(files);
+    return this.processFilesToContexts(files);
   }
 
-  private extractFiles(event: Event | DragEvent): FileList | null {
-    if (event instanceof DragEvent && event.dataTransfer) {
-      return event.dataTransfer.files;
-    } else if (event.target instanceof HTMLInputElement) {
-      return event.target.files;
-    }
-    return null;
-  }
-
-  private async processFiles(files: FileList | null): Promise<ContextResult[]> {
+  async processFilesToContexts(files: FileList | null): Promise<ContextResult[]> {
     const contexts: ContextResult[] = [];
     if (files && files.length > 0) {
       const filesArray = Array.from(files);
@@ -39,6 +30,15 @@ export class MessagesService {
       }
     }
     return contexts;
+  }
+
+  private extractFiles(event: Event | DragEvent): FileList | null {
+    if (event instanceof DragEvent && event.dataTransfer) {
+      return event.dataTransfer.files;
+    } else if (event.target instanceof HTMLInputElement) {
+      return event.target.files;
+    }
+    return null;
   }
 
   private readFileContent(file: File): Promise<string> {
