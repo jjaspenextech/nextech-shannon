@@ -32,6 +32,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   isDragging = false;
   isSaving: boolean = false;
   isDashboardOpen: boolean = false;
+  isLoadingConversation: boolean = false;
+
 
   constructor(
     private chatService: ChatService,
@@ -291,6 +293,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   private async loadConversation(conversationId: string) {
     try {      
+      this.isLoadingConversation = true;  // Set loading state
       this.conversation.conversation_id = conversationId;
       const conversation = await firstValueFrom(this.conversationApiService.getConversation(conversationId));
       if (conversation) {
@@ -303,6 +306,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       }
     } catch (error) {
       console.error('Error loading conversation:', error);
+    } finally {
+      this.isLoadingConversation = false;  // Clear loading state
     }
   }
 

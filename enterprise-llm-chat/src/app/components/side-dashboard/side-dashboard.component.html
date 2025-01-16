@@ -26,11 +26,11 @@
             <mat-spinner diameter="40" data-testid="side-dashboard-conversation-loading-spinner"></mat-spinner>
           </div>
           <app-conversation-card
-            *ngFor="let chat of recentChats"
+            *ngFor="let chat of recentChats; let i = index"
             [conversation]="chat"
             [messagePreviewLength]="20"
             (cardClick)="onChatClick(chat.conversation_id || '')"
-            data-testid="conversation-card">
+            [attr.data-testid]="'conversation-card-' + i">
           </app-conversation-card>
         </div>
       </div>

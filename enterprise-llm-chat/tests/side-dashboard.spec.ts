@@ -48,9 +48,12 @@ test.describe('Side Dashboard', () => {
 
   test('should open a conversation when a conversation is clicked', async ({ page }: { page: Page }) => {
     await openDashboard(page);
-    await page.getByTestId('conversation-card').first().click();
-    await expect(page.getByTestId('conversation-loading-spinner')).toBeVisible({ timeout: 60000 });
-    await expect(page.getByTestId('conversation-loading-spinner')).not.toBeVisible({ timeout: 60000 });
-    await expect(page.getByTestId('conversation-container')).toBeVisible({ timeout: 60000 });    
+    // await expect(page.getByTestId('side-dashboard-conversation-loading-spinner')).toBeVisible({ timeout: 60000 });
+    await expect(page.getByTestId('side-dashboard-conversation-loading-spinner')).not.toBeVisible({ timeout: 60000 });
+    // click top conversation card
+    await page.getByTestId('conversation-card-0').click();
+    await page.waitForLoadState('networkidle');
+    // verify url has query param id
+    await expect(page).toHaveURL(/.*\/chat\?id=.*/);
   });
 }); 

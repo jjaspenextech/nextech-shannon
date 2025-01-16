@@ -13,7 +13,12 @@
   </app-side-dashboard>
 
   <div class="chat-content">
-    <div #messagesContainer class="messages-container" data-testid="messages-container">
+    <div *ngIf="isLoadingConversation" class="chat-loading-spinner-container">
+      <mat-spinner diameter="40" data-testid="conversation-loading-spinner"></mat-spinner>
+    </div>
+
+    <div #messagesContainer class="messages-container" 
+         data-testid="messages-container">
       <ng-container *ngFor="let message of conversation.messages; let isLast = last; let i = index">
         <div *ngIf="message.pending && message.role === 'assistant'" 
         class="message assistant-message" 
