@@ -72,6 +72,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+      this.isDashboardOpen = false;
+      this.toggleDashboard(false);
+      this.conversation = { username: '', messages: [] };
       const conversationId = params['id'];
       if (conversationId) {
         this.loadConversation(conversationId);
@@ -287,7 +290,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   private async loadConversation(conversationId: string) {
-    try {
+    try {      
       this.conversation.conversation_id = conversationId;
       const conversation = await firstValueFrom(this.conversationApiService.getConversation(conversationId));
       if (conversation) {

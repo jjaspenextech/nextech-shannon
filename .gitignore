@@ -76,3 +76,4 @@ Thumbs.db
 /enterprise-llm-chat/test-results/
 /enterprise-llm-chat/.env
 /enterprise-llm-chat/deploy.zip
+/test-results/.last-run.json

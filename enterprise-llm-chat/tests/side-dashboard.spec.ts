@@ -45,4 +45,12 @@ test.describe('Side Dashboard', () => {
     await page.getByTestId('logout-button').click();
     await expect(page).toHaveURL(/.*\/login/);
   });
+
+  test('should open a conversation when a conversation is clicked', async ({ page }: { page: Page }) => {
+    await openDashboard(page);
+    await page.getByTestId('conversation-card').first().click();
+    await expect(page.getByTestId('conversation-loading-spinner')).toBeVisible({ timeout: 60000 });
+    await expect(page.getByTestId('conversation-loading-spinner')).not.toBeVisible({ timeout: 60000 });
+    await expect(page.getByTestId('conversation-container')).toBeVisible({ timeout: 60000 });    
+  });
 }); 

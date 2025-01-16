@@ -120,6 +120,7 @@ export class SideDashboardComponent implements OnInit {
   onChatClick(conversationId: string) {
     if (conversationId) {
       console.log(`Navigating to conversation with ID: ${conversationId}`);
+      this.router.navigate(['/chat'], { queryParams: { id: conversationId } });
     }
   }
 

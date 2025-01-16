@@ -11,7 +11,10 @@
     "build:dev": "ng build --configuration=development",
     "watch": "ng build --watch --configuration development",
     "watch:dev": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "playwright": "npx playwright test",
+    "e2e": "npx playwright test tests/",
+    "playwright:ui": "npx playwright test --ui"
   },
   "private": true,
   "dependencies": {
