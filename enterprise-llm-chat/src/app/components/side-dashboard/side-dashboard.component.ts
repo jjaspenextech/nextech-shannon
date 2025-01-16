@@ -38,6 +38,7 @@ export class SideDashboardComponent implements OnInit {
   @Output() openPanel = new EventEmitter<void>();
   userInitials: string = '';
   recentChats: Conversation[] = [];
+  isLoadingRecentChats: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -58,13 +59,16 @@ export class SideDashboardComponent implements OnInit {
   }
 
   loadRecentChats(username: string) {
+    this.isLoadingRecentChats = true;
     this.conversationApiService.getConversations(username).subscribe(
       (chats: Conversation[]) => {
         this.recentChats = chats.sort((a, b) => new Date(b.updated_at || '').getTime() 
           - new Date(a.updated_at || '').getTime()).slice(0, 6);
+        this.isLoadingRecentChats = false;
       },
       error => {
         console.error('Error loading recent chats:', error);
+        this.isLoadingRecentChats = false;
       }
     );
   }

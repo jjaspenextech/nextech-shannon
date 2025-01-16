@@ -170,7 +170,7 @@
 
 /* Override Tailwind prose styles for code blocks */
 .message-content pre code,
-.message-content :where(code):not(:where([class~=not-prose], [class~=not-prose] *)) {
+.message-content :not(:where([class~=not-prose], [class~=not-prose] *)) {
   color: inherit !important;
   font-weight: normal;
 }

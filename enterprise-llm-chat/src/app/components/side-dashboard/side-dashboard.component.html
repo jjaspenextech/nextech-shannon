@@ -22,6 +22,9 @@
       <div class="section">
         <h3 class="section-title">Recent Chats</h3>
         <div class="chat-list">
+          <div *ngIf="isLoadingRecentChats" class="loading-spinner-container">
+            <mat-spinner diameter="40" data-testid="side-dashboard-conversation-loading-spinner"></mat-spinner>
+          </div>
           <app-conversation-card
             *ngFor="let chat of recentChats"
             [conversation]="chat"

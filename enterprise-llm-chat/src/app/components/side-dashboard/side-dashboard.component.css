@@ -112,3 +112,7 @@ button {
 .dashboard-title.clickable {
   @apply cursor-pointer hover:text-[var(--color-text-secondary)] transition-colors duration-200;
 }
+
+::ng-deep .loading-spinner-container .mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--color-spinner) !important;
+} 
