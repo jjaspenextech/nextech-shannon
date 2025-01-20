@@ -13,16 +13,27 @@ export class MessagesService {
 
   async processFilesToContexts(files: FileList | null): Promise<ContextResult[]> {
     const contexts: ContextResult[] = [];
+    const textFileExtensions = [
+      'txt',
+      'md',
+      'csv',
+      'json',
+      'xml',
+      'pdf',
+      'doc',
+    ]
     if (files && files.length > 0) {
       const filesArray = Array.from(files);
       for (const file of filesArray) {
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const name = file.name.split('.').slice(0, -1).join('.');
         try {
           if (file.type.startsWith('image/')) {
             const base64Content = await this.readFileAsBase64(file);
             contexts.push(this.createFileContext(base64Content, 'image'));
-          } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+          } else if (file.type === 'text/plain' || textFileExtensions.includes(extension || '')) {
             const content = await this.readFileContent(file);
-            contexts.push(this.createFileContext(content, 'text'));
+            contexts.push(this.createFileContext(content, `text:${name}`));
           }
         } catch (error) {
           console.error('Error reading file:', error);
