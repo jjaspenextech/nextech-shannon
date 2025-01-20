@@ -48,6 +48,14 @@
               <i class="fas fa-file-alt"></i> {{ context.type }}
             </span>
           </div>
+          <div *ngIf="message.role === 'assistant' && isLast" class="message-actions">
+            <button mat-icon-button (click)="copyToClipboard(message.content)">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button mat-icon-button (click)="saveToFile(message.content)">
+              <mat-icon>save</mat-icon>
+            </button>
+          </div>
         </div>
       </ng-container>
     </div>

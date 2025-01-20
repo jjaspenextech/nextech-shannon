@@ -364,4 +364,30 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.isSaving = false;
     }
   }
+
+  copyToClipboard(content: string | undefined) {
+    if (content) {
+      navigator.clipboard.writeText(content).then(() => {
+        console.log('Content copied to clipboard');
+      }).catch(err => {
+        console.error('Could not copy text: ', err);
+      });
+    } else {
+      console.warn('No content to copy');
+    }
+  }
+
+  saveToFile(content: string | undefined) {
+    if (content) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'message.txt';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.warn('No content to save');
+    }
+  }
 }
